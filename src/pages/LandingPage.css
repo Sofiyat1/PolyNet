@@ -1,0 +1,16 @@
+/* Outer card container for the whole landing page */
+.landing-page-card {
+  margin: 10px; /* space from edges */
+  border-radius: 15px; /* rounded corners */
+  overflow: hidden; /* keep children inside rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* soft shadow */
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+  background: transparent;
+}
+
+/* Optional: make Onboarding take full width inside the card */
+.landing-page-card > .onboarding-container {
+  border-radius: 0 0 20px 20px; /* match card rounding at bottom */
+}

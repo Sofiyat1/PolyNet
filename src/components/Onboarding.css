@@ -1,0 +1,78 @@
+/* Container */
+.onboarding-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  color: green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Track slides horizontally */
+.onboarding-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
+}
+
+/* Each slide */
+.onboarding-slide {
+  flex: 0 0 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  align-items: center;
+  text-align: center;
+  padding: 180px 20px 40px 20px;
+  box-sizing: border-box;
+  gap: 25px; 
+}
+
+/* Slide image */
+.slide-image {
+  height: 55vh;          /* make it tall */
+  width: 90%;           /* stop width bullying */
+  max-width: 420px;       /* remove ceiling */
+  object-fit: contain;   /* no cropping */
+  border-radius: 12px;
+}
+
+/* Titles & text */
+.onboarding-slide h1 {
+  font-size: 1.8rem; 
+  margin: 0; 
+  max-width: 85%;       
+  word-wrap: break-word;
+  line-height: 1.2;    
+}
+
+.onboarding-slide p {
+  font-size: 1.2rem;
+  max-width: 80%;
+  margin: 0; 
+}
+
+/* Button */
+.onboarding-btn {
+  padding: 12px 25px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.onboarding-btn:hover {
+  background-color: #0056b3;
+}
+
+.last-slide {
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}

@@ -1,5 +1,5 @@
 import "./Navbar.css";
-import logo from "../assets/polynetLogo.jpg";
+import logo from "../assets/transLogo.png";
 import { FiSettings, FiMenu } from "react-icons/fi";
 import { NavLink, Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";

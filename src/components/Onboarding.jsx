@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import "./Onboarding.css";
-import slide1 from "../assets/slide1.jpg";
-import slide2 from "../assets/slide2.jpg";
-import slide3 from "../assets/slide3.jpg";
+import slide1 from "../assets/slide1.png";
+import slide2 from "../assets/slide2.png";
+import slide3 from "../assets/slide3.png";
 import slide4 from "../assets/slide4.jpg";
 import slide5 from "../assets/slide5.jpg";
 
@@ -10,30 +10,34 @@ const slides = [
   {
     title: "One Profile. Two Realities.",
     image: slide1,
-    background: "linear-gradient(to right, #999999 50%, #0f1f3d 50%)",
+    background: "linear-gradient(to right, #838b96 50%, #242c74 50%)",
+    textColor: "#f3f3f3",
   },
   {
     title: "Social Networking, Re-Architected.",
     text: "Privacy-first by design.",
     image: slide2,
     background: "#dbdada",
+    textColor: "#000",
   },
   {
     title: "Connect Freely. Share Selectively.",
-    text: "You decide what’s visible.",
     image: slide3,
     background: "#dbdada",
+    textColor: "#000",
   },
   {
     title: "Take Back Your Digital Identity.",
     text: "Take back control online.",
     image: slide4,
-    background: "#0f1f3d",
+    background: "#041122",
+    textColor: "#f3f3f3",
   },
   {
     title: "Your Circle. Your Terms.",
     text: "No noise. No pressure.",
     background: slide5,
+    textColor: "#f3f3f3",
   },
 ];
 
@@ -58,18 +62,19 @@ function Onboarding() {
           <div
             key={index}
             className={`onboarding-slide ${index === slides.length - 1 ? "last-slide" : ""}`}
-            style={
-              slide.background
+            style={{
+              ...(slide.background
                 ? slide.background.startsWith("linear-gradient") ||
                   slide.background.startsWith("#")
-                  ? { background: slide.background } // gradient or solid color
+                  ? { background: slide.background }
                   : {
                       backgroundImage: `url(${slide.background})`,
                       backgroundSize: "cover",
-                      backgroundPosition: "top",
-                    } // image
-                : {}
-            }
+                      backgroundPosition: "center",
+                    }
+                : {}),
+              color: slide.textColor || "#0f1f3d",
+            }}
           >
             <h1>{slide.title}</h1>
             {slide.image && (

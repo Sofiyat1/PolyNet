@@ -10,7 +10,7 @@
   left: 0;
   right: 0;
   z-index: 99;
-  color: green;
+  color: #179c65;
   margin-top: 20px;
 }
 
@@ -32,7 +32,7 @@
 }
 
 .sub-navbar-item {
-  color: green;
+  color: #179c65;
   padding: 8px;
   border-radius: 8px;
   display: flex;
@@ -41,7 +41,7 @@
 }
 
 .sub-navbar-item.active {
-  color: #012041;
+  color: #242c74;
   background: rgba(255, 255, 255, 0.12);
   pointer-events: none; /* can't click current page */
 }

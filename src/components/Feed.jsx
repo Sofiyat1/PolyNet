@@ -1,17 +1,15 @@
 import PostCard from "./postcard";
-import './Feed.css';
+import "./Feed.css";
 
 function Feed() {
   const samplePosts = [
-    { user: 'Alice', content: 'Hello world!' },
-    { user: 'Bob', content: 'Loving this mobile app!' },
-    { user: 'Charlie', content: 'Check out my new post.' },
+    { user: "Alice", content: "Hello world!" },
+    { user: "Bob", content: "Loving this mobile app!" },
+    { user: "Charlie", content: "Check out my new post." },
   ];
 
   // Repeat the posts 10 times to simulate endless feed
-  const posts = Array(10)
-    .fill(samplePosts)
-    .flat(); // flatten nested arrays into one
+  const posts = Array(10).fill(samplePosts).flat(); // flatten nested arrays into one
 
   return (
     <div className="feed-container">
@@ -26,6 +24,5 @@ function Feed() {
     </div>
   );
 }
-
 
 export default Feed;

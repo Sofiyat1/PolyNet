@@ -10,5 +10,6 @@ export default defineConfig({
     strictPort: true,
     // allow ngrok host
     allowedHosts: ['cecal-subaxially-shonna.ngrok-free.dev']
-  }
+  },
+  base: '/PolyNet/'
 })

@@ -1,4 +1,4 @@
-import PostCard from "./postcard";
+import PostCard from "./PostCard";
 import "./Feed.css";
 
 function Feed() {

@@ -9,12 +9,14 @@ import Notification from "./pages/Notification";
 
 import AppLayout from "./layouts/AppLayout";
 import "./App.css";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <Routes>
       {/* Onboarding / Landing */}
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<LandingPage />} /> 
+      <Route path="/login" element={<Login />} /> 
 
       {/* App pages */}
       <Route element={<AppLayout />}>

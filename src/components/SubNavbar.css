@@ -4,14 +4,15 @@
   align-items: center;
   padding: 10px 12px;
   background-color: #fff;
-  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
   position: fixed;
-  top: 70px;
+  bottom: 0;
+  top: auto;
   left: 0;
   right: 0;
   z-index: 99;
   color: #179c65;
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 .sub-navbar-left,
@@ -64,4 +65,8 @@
   outline: none;
   font-size: 16px;
   width: 100%;
+}
+
+.content {
+  padding-bottom: 70px;
 }

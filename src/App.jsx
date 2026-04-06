@@ -5,6 +5,7 @@ import Homepage from "./pages/Homepage";
 import Network from "./pages/Network";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import Notification from "./pages/Notificatoin";
 
 import AppLayout from "./layouts/AppLayout";
 import "./App.css";
@@ -21,6 +22,7 @@ function App() {
         <Route path="/network" element={<Network />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/notification" element={<Notification />} />
       </Route>
     </Routes>
   );

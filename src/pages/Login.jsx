@@ -1,6 +1,13 @@
 import "./Login.css";
 import loginImage from "../assets/login.png";
+
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useState } from "react";
 const Login = () => {
+  let [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   return (
     <div className="loginGen">
       <div className="imgDiv">
@@ -13,11 +20,16 @@ const Login = () => {
         </div>
         <div>
           <label htmlFor="">Password</label>
-          <input
-            type="password"
-            placeholder="Password"
-            className="inputBackground"
-          />
+          <div className="input-wrap">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              className="inputBackground"
+            />
+            <div className="eye-icon" onClick={togglePasswordVisibility}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </div>
+          </div>
         </div>
         <div className="btn">
           <button className="LogInBtn">Login</button>

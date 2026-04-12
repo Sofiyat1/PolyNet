@@ -31,7 +31,7 @@ label {
 }
 
 .inputBackground {
-  background-color: rgba(128, 128, 128, 0.178);
+  background-color: rgba(128, 128, 128, 0.062);
   border: 0;
   outline: 0;
   width: 100%;
@@ -39,6 +39,8 @@ label {
   padding: 10px;
   font-size: 15px;
   color: black;
+  /* Ensure the input doesn't hide text behind the icon */
+  padding-right: 45px;
 }
 
 .forgot {
@@ -53,6 +55,25 @@ button {
   width: 100%;
 }
 
-.CreateAcc{
-    margin-top: 30px;
+.CreateAcc {
+  margin-top: 30px;
+}
+
+.input-wrap {
+  position: relative;
+  width: 100%; /* Ensure it fills the form width */
+}
+
+.eye-icon {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+  color: #666; /* Greyish color for the icon */
+  font-size: 1.2rem; /* Adjust icon size */
+  transition: color 0.3s ease;
+}
+
+.eye-icon:hover {
+  color: #242c74; /* Changes color to your button theme on hover */
 }

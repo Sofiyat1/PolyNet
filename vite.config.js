@@ -9,7 +9,7 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     // allow ngrok host
-    allowedHosts: ['cecal-subaxially-shonna.ngrok-free.dev']
+    allowedHosts: ['carpellary-cecilia-exuberantly.ngrok-free.dev']
   },
   base: '/'
 })

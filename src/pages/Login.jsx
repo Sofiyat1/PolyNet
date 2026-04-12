@@ -1,20 +1,28 @@
+import "./Login.css";
+import loginImage from "../assets/login.png";
 const Login = () => {
   return (
-    <div>
-      <div>
-        <img src="Logotranspa.png" alt="" />
+    <div className="loginGen">
+      <div className="imgDiv">
+        <img src={loginImage} alt="" />
       </div>
-      <form action="">
+      <form action="" className="formDiv">
         <div>
           <label htmlFor="">Email</label>
-          <input type="email" placeholder="Email" />
+          <input type="email" placeholder="Email" className="inputBackground" />
         </div>
         <div>
           <label htmlFor="">Password</label>
-          <input type="password" placeholder="Password" />
+          <input
+            type="password"
+            placeholder="Password"
+            className="inputBackground"
+          />
         </div>
-        <button className="LogInBtn">Login</button>
-        <p>Forgot Password?</p>
+        <div className="btn">
+          <button className="LogInBtn">Login</button>
+          <p className="forgot">Forgot Password?</p>
+        </div>
         <button className="CreateAcc">Create Account</button>
       </form>
     </div>

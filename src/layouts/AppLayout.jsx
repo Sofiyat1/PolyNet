@@ -8,7 +8,7 @@ function AppLayout() {
     <div className="app-layout">
       <Navbar />
 
-      <main className="content">
+      <main className="layout-body">
         <Outlet />
       </main>
 

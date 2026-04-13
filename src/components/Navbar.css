@@ -1,39 +1,48 @@
 .navbar {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 18px;
   width: 100%;
+  padding: 10px 18px;
+  position: sticky;
+  top: 0;
   z-index: 1000;
-  transition: background-color 0.3s ease;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .navbar.app {
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: #041122; /* dull navy */
+  background-color: #041122;
   color: #fff;
+}
+
+.navbar.landing {
+  position: absolute;
+  background: transparent;
+  color: #fff;
+  padding: 20px 40px;
 }
 
 .navbar-left {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  margin-left: -20px;
+  flex-shrink: 0;
+  min-width: fit-content;
 }
 
 .navbar-logo {
-  width: auto;
   height: 50px;
-  object-fit: contain;
+  width: auto;
+  display: block;
 }
 
 .navbar-name {
   font-weight: bold;
   font-size: 16px;
+  white-space: nowrap;
   color: green;
 }
 
@@ -41,41 +50,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: inherit;
+  flex-shrink: 0;
 }
 
 .navbar-item {
-  color: inherit;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px;
   border-radius: 8px;
+  color: inherit;
 }
 
 .navbar-item.active {
-  color: red; /* active link color */
+  color: red;
   pointer-events: none;
 }
 
-.navbar.navbar-transparent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: transparent;
-  z-index: 1000; 
-  margin: 0;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 20px 40px;
-}
-
 .hamburger-menu {
-  position: absolute; 
-  top: 70px;
-  right: 40px;
-  background-color: rgba(255, 255, 255, 0.9);
+  position: absolute;
+  top: 100%;
+  right: 18px;
+  background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(6px);
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -83,13 +79,12 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1100; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1100;
   opacity: 0;
   transform: translateY(-10px);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+  transition: all 0.3s ease;
+  min-width: 140px;
 }
 
 .hamburger-menu.show {
@@ -101,12 +96,6 @@
   text-decoration: none;
   color: #333;
   font-weight: 500;
-  transition: color 0.2s;
-}
-
-.hamburger-menu a:hover {
-  color: #007bff;
-  cursor: pointer;
 }
 
 .navbar-right .hamburger-icon {

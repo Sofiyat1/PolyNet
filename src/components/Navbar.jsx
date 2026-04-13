@@ -1,6 +1,7 @@
 import "./Navbar.css";
 import logo from "../assets/logo.png";
 import { FiSettings, FiMenu } from "react-icons/fi";
+import { FaCog } from "react-icons/fa";
 import { NavLink, Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 
@@ -26,7 +27,8 @@ function Navbar({ variant = "app" }) {
   }, []);
 
   return (
-    <nav ref={navRef}
+    <nav
+      ref={navRef}
       className={`navbar ${variant === "landing" ? "navbar-transparent" : "app"}`}
     >
       <div className="navbar-left">
@@ -47,13 +49,15 @@ function Navbar({ variant = "app" }) {
               isActive ? "navbar-item active" : "navbar-item"
             }
           >
-            <FiSettings size={24} />
+            {({ isActive }) =>
+              isActive ? <FaCog size={32} /> : <FiSettings size={30} />
+            }
           </NavLink>
         )}
       </div>
 
       {variant === "landing" && open && (
-        <div ref={menuRef}  className={`hamburger-menu ${open ? "show" : ""}`}>
+        <div ref={menuRef} className={`hamburger-menu ${open ? "show" : ""}`}>
           <Link to="/login" onClick={() => setOpen(false)}>
             Login
           </Link>

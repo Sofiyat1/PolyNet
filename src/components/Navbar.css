@@ -15,7 +15,6 @@
   top: 0;
   left: 0;
   right: 0;
-  background-color: #041122; /* dull navy */
   color: #fff;
 }
 
@@ -35,7 +34,7 @@
 
 .navbar-name {
   font-weight: bold;
-  font-size: 16px;
+  font-size: 20px;
   color: green;
 }
 
@@ -53,11 +52,13 @@
   justify-content: center;
   padding: 8px;
   border-radius: 8px;
+  color: #179c65;
 }
 
 .navbar-item.active {
-  color: red; /* active link color */
+  color: #242c74; 
   pointer-events: none;
+  border: none;
 }
 
 .navbar.navbar-transparent {

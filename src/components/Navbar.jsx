@@ -5,8 +5,9 @@ import { FaCog } from "react-icons/fa";
 import { NavLink, Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 
-function Navbar({ variant = "app" }) {
+function Navbar({ variant = "app", scrollRef }) {
   const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(true);
   const menuRef = useRef(null);
   const navRef = useRef(null);
 
@@ -26,10 +27,35 @@ function Navbar({ variant = "app" }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  //Scroll-aware effect
+  useEffect(() => {
+    const scrollEl = scrollRef?.current;
+
+    if (!scrollEl) return;
+
+    let lastScrollY = 0;
+
+    const handleScroll = () => {
+      const currentScrollY = scrollEl.scrollTop;
+
+      if (currentScrollY > lastScrollY + 5) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
+    scrollEl.addEventListener("scroll", handleScroll);
+
+    return () => scrollEl.removeEventListener("scroll", handleScroll);
+  }, [scrollRef]);
+
   return (
     <nav
       ref={navRef}
-      className={`navbar ${variant === "landing" ? "navbar-transparent" : "app"}`}
+      className={`navbar ${visible ? "show" : "hide"} ${variant === "landing" ? "navbar-transparent" : "app"}`}
     >
       <div className="navbar-left">
         <img src={logo} alt="Logo" className="navbar-logo" />

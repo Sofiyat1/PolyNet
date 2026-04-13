@@ -7,7 +7,20 @@
   z-index: 1000;
   box-sizing: border-box;
   flex-shrink: 0;
-  transition: background-color 0.3s ease;
+  transition: transform 0.25s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #041122;
+}
+
+.navbar.hide {
+  transform: translateY(-100%);
+}
+
+.navbar.show {
+  transform: translateY(0);
 }
 
 .navbar.app {
@@ -15,7 +28,6 @@
   top: 0;
   left: 0;
   right: 0;
-  color: #fff;
 }
 
 .navbar-left {
@@ -56,7 +68,7 @@
 }
 
 .navbar-item.active {
-  color: #242c74; 
+  color: #242c74;
   pointer-events: none;
   border: none;
 }
@@ -67,7 +79,7 @@
   left: 0;
   right: 0;
   background-color: transparent;
-  z-index: 1000; 
+  z-index: 1000;
   margin: 0;
   border-radius: 0;
   box-shadow: none;
@@ -75,7 +87,7 @@
 }
 
 .hamburger-menu {
-  position: absolute; 
+  position: absolute;
   top: 70px;
   right: 40px;
   background-color: rgba(255, 255, 255, 0.9);
@@ -87,7 +99,7 @@
   flex-direction: column;
   gap: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1100; 
+  z-index: 1100;
   opacity: 0;
   transform: translateY(-10px);
   transition:

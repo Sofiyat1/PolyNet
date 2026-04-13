@@ -22,7 +22,7 @@ function SubNavbar() {
           }
         >
           {({ isActive }) =>
-            isActive ? <HiHome size={32} /> : <HiOutlineHome size={30} />
+            isActive ? <HiHome size={30} /> : <HiOutlineHome size={30} />
           }
         </NavLink>
 
@@ -33,14 +33,14 @@ function SubNavbar() {
           }
         >
           {({ isActive }) =>
-            isActive ? <HiUserGroup size={32} /> : <HiOutlineUserGroup size={30} />
+            isActive ? <HiUserGroup size={30} /> : <HiOutlineUserGroup size={30} />
           }
         </NavLink>
       </div>
 
       {/* Center search */}
       <div className="sub-navbar-center">
-        <FiSearch size={22} />
+        <FiSearch size={17} />
         <input
           type="text"
           placeholder="Search..."
@@ -58,7 +58,7 @@ function SubNavbar() {
           }
         >
           {({ isActive }) =>
-            isActive ? <HiBell size={32} /> : <HiOutlineBell size={30} />
+            isActive ? <HiBell size={30} /> : <HiOutlineBell size={30} />
           }
         </NavLink>
         <NavLink
@@ -68,7 +68,7 @@ function SubNavbar() {
           }
         >
           {({ isActive }) =>
-            isActive ? <HiUser size={32} /> : <HiOutlineUser size={30} />
+            isActive ? <HiUser size={30} /> : <HiOutlineUser size={30} />
           }
         </NavLink>
       </div>

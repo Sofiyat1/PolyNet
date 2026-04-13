@@ -45,6 +45,7 @@
   color: #242c74;
   background: rgba(255, 255, 255, 0.12);
   pointer-events: none; /* can't click current page */
+  border: none;
 }
 
 /* Center search bar */

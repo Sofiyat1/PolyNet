@@ -57,10 +57,12 @@ function Navbar({ variant = "app", scrollRef }) {
       ref={navRef}
       className={`navbar ${visible ? "show" : "hide"} ${variant === "landing" ? "navbar-transparent" : "app"}`}
     >
-      <div className="navbar-left">
+      <NavLink
+      to="/homepage"
+       className="navbar-left">
         <img src={logo} alt="Logo" className="navbar-logo" />
         <span className="navbar-name">PolyNet</span>
-      </div>
+      </NavLink>
       <div className="navbar-right">
         {variant === "landing" ? (
           <FiMenu
@@ -76,7 +78,7 @@ function Navbar({ variant = "app", scrollRef }) {
             }
           >
             {({ isActive }) =>
-              isActive ? <FaCog size={32} /> : <FiSettings size={30} />
+              isActive ? <FaCog size={25} /> : <FiSettings size={25} />
             }
           </NavLink>
         )}

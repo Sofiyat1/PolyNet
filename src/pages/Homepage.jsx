@@ -1,11 +1,11 @@
 
 import Feed from "../components/Feed";
 
-function Homepage(){
+function HomePage(){
  return (
     <>  
       <Feed />
     </>
   );
 }
-export default Homepage
+export default HomePage

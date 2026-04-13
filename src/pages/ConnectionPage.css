@@ -1,0 +1,80 @@
+.connection-page {
+  padding: 16px;
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: Arial;
+  background: #fff;
+  color: #111;
+}
+
+.request-card,
+.connection-card {
+  border: 1px solid #e5e5e5;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+}
+
+/* ACCESS LABEL */
+.decoy {
+  color: #b45309;
+  font-weight: 700;
+}
+
+.standard {
+  color: #166534;
+  font-weight: 700;
+}
+
+/* BUTTON GROUP */
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* subtle link button */
+.link-btn {
+  background: none;
+  color: #2563eb;
+  padding: 0;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 320px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.active {
+  border: 2px solid #000;
+}

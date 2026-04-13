@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage";
-import Homepage from "./pages/Homepage";
-import Network from "./pages/Network";
+import HomePage from "./pages/Homepage";
+import ConnectionPage from "./pages/ConnectionPage"
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Notification from "./pages/Notification";
@@ -20,8 +20,8 @@ function App() {
 
       {/* App pages */}
       <Route element={<AppLayout />}>
-        <Route path="/homepage" element={<Homepage />} />
-        <Route path="/network" element={<Network />} />
+        <Route path="/homepage" element={<HomePage />} />
+        <Route path="/connectionpage" element={<ConnectionPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/notification" element={<Notification />} />

@@ -5,9 +5,8 @@ import { HiOutlineHome, HiHome } from "react-icons/hi";
 import { HiOutlineUserGroup, HiUserGroup } from "react-icons/hi";
 import { HiOutlineBell, HiBell } from "react-icons/hi";
 import { HiOutlineUser, HiUser } from "react-icons/hi";
-import { FiHome, FiUsers, FiSearch } from "react-icons/fi";
-import { FaHome, FaUsers, FaUser, FaUserCircle } from "react-icons/fa";
-import { FiBell } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
+
 
 function SubNavbar() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,7 +27,7 @@ function SubNavbar() {
         </NavLink>
 
         <NavLink
-          to="/network"
+          to="/connectionpage"
           className={({ isActive }) =>
             isActive ? "sub-navbar-item active" : "sub-navbar-item"
           }

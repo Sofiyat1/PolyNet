@@ -1,14 +1,19 @@
 import {
   FiUser,
   FiShield,
+  FiSlash,
   FiEye,
   FiUsers,
   FiLock,
   FiMoon,
   FiLogOut,
+  FiEdit2,
+  FiMinusCircle,
+  FiEdit3,
 } from "react-icons/fi";
 
 import "./Settings.css";
+import { FaUserEdit } from "react-icons/fa";
 
 function Settings() {
   return (
@@ -23,13 +28,13 @@ function Settings() {
         <div className="settings-list">
 
           <div className="settings-item">
-            <FiUser />
-            <span>True Profile</span>
+            <FiEdit3 />
+            <span>Edit True Profile</span>
           </div>
 
           <div className="settings-item">
-            <FiShield />
-            <span>Decoy Profile</span>
+            <FiEdit2 />
+            <span>Edit Decoy Profile</span>
           </div>
 
         </div>
@@ -66,7 +71,7 @@ function Settings() {
           </div>
 
           <div className="settings-item">
-            <FiShield />
+            <FiSlash />
             <span>Blocked Users</span>
           </div>
 

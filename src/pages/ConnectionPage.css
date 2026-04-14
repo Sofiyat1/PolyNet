@@ -145,7 +145,14 @@
 }
 
 .btn-group button {
-  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-icon {
+  font-size: 14px;
 }
 
 button {

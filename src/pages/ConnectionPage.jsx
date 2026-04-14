@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { FiX, FiSearch } from "react-icons/fi";
+import { FiX, FiSearch, FiShield, FiCheckCircle } from "react-icons/fi";
 import "./ConnectionPage.css";
+import { FaShieldAlt, FaTimesCircle, FaUserCheck } from "react-icons/fa";
 
 function ConnectionPage() {
   const [requests, setRequests] = useState([
@@ -76,6 +77,7 @@ function ConnectionPage() {
                 className="btn-decoy"
                 onClick={() => handleAccept(req, "decoy")}
               >
+                <FaShieldAlt className="btn-icon" />
                 Decoy
               </button>
 
@@ -83,10 +85,12 @@ function ConnectionPage() {
                 className="btn-standard"
                 onClick={() => handleAccept(req, "standard")}
               >
+                <FaUserCheck className="btn-icon" />
                 Standard
               </button>
 
               <button className="reject" onClick={() => handleReject(req.id)}>
+                <FaTimesCircle className="btn-icon" />
                 Reject
               </button>
             </div>

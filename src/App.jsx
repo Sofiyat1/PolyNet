@@ -12,6 +12,7 @@ import "./App.css";
 import Login from "./pages/Login";
 import AddPostPage from "./pages/AddPostPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+      <Route path="/about" element={<AboutPage />} />
 
       {/* App pages */}
       <Route element={<AppLayout />}>

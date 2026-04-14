@@ -8,11 +8,11 @@ import { HiOutlineUser, HiUser } from "react-icons/hi";
 import { FiSearch } from "react-icons/fi";
 
 
-function SubNavbar() {
+function SubNavbar({ visible }) {
   const [searchTerm, setSearchTerm] = useState("");
 
   return (
-    <div className="sub-navbar">
+    <div className={`sub-navbar ${visible ? "" : "hide"}`}>
       {/* Left icons */}
       <div className="sub-navbar-left">
         <NavLink

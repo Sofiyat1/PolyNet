@@ -11,6 +11,7 @@ import AppLayout from "./layouts/AppLayout";
 import "./App.css";
 import Login from "./pages/Login";
 import AddPostPage from "./pages/AddPostPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       {/* Onboarding / Landing */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/privacypolicy" element={<PrivacyPolicy />} />
 
       {/* App pages */}
       <Route element={<AppLayout />}>

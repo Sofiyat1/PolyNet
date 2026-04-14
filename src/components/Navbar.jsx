@@ -95,7 +95,7 @@ function Navbar({ variant = "app", scrollRef }) {
           <Link to="/about" onClick={() => setOpen(false)}>
             About
           </Link>
-          <Link to="/privacy" onClick={() => setOpen(false)}>
+          <Link to="/privacypolicy" onClick={() => setOpen(false)}>
             Privacy Policy
           </Link>
         </div>

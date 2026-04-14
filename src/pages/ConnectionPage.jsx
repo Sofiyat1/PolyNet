@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FiX, FiSearch } from "react-icons/fi";
 import "./ConnectionPage.css";
 
 function ConnectionPage() {
@@ -12,136 +13,152 @@ function ConnectionPage() {
     { id: 4, name: "David", access: "decoy" },
   ]);
 
-  // modal state
-  const [activeChangeUser, setActiveChangeUser] = useState(null);
+  const [activeUser, setActiveUser] = useState(null);
   const [selectedAccess, setSelectedAccess] = useState(null);
 
-  // accept request
-  const handleAccept = (request, accessLevel) => {
-    const newConnection = {
-      id: request.id,
-      name: request.name,
-      access: accessLevel,
-    };
+  const requestCount = requests.length;
+  const networkCount = connections.length;
 
-    setConnections((prev) => [...prev, newConnection]);
-    setRequests((prev) => prev.filter((r) => r.id !== request.id));
+  const handleAccept = (req, access) => {
+    setConnections((prev) => [...prev, { id: req.id, name: req.name, access }]);
+
+    setRequests((prev) => prev.filter((r) => r.id !== req.id));
   };
 
-  // reject request
   const handleReject = (id) => {
     setRequests((prev) => prev.filter((r) => r.id !== id));
   };
 
-  // open modal
-  const openChangeModal = (connection) => {
-    setActiveChangeUser(connection);
-    setSelectedAccess(connection.access);
+  const openModal = (conn) => {
+    setActiveUser(conn);
+    setSelectedAccess(conn.access);
   };
 
-  // confirm change
   const confirmChange = () => {
     setConnections((prev) =>
       prev.map((c) =>
-        c.id === activeChangeUser.id
-          ? { ...c, access: selectedAccess }
-          : c
-      )
+        c.id === activeUser.id ? { ...c, access: selectedAccess } : c,
+      ),
     );
 
-    setActiveChangeUser(null);
+    setActiveUser(null);
     setSelectedAccess(null);
   };
 
   return (
     <div className="connection-page">
+      {/* HEADER */}
+      <div className="connection-header">
+        <h2>Connections</h2>
+        {/*<FiSearch
+          className="search-icon"
+          onClick={() => console.log("open search")}
+        />*/}
+      </div>
 
       {/* REQUESTS */}
-      <h2>Incoming Requests</h2>
+      <section className="section">
+        <h3>Incoming Requests ({requestCount}) </h3>
 
-      {requests.map((req) => (
-        <div key={req.id} className="request-card">
-          <p><b>{req.name}</b></p>
-          <p>{req.message}</p>
+        {requests.map((req) => (
+          <div key={req.id} className="request-card">
+            <div className="row">
+              <div className="avatar" />
 
-          <div className="btn-group">
-            <button onClick={() => handleAccept(req, "decoy")}>
-              Accept as Decoy
-            </button>
+              <div className="text-block">
+                <p className="name">{req.name}</p>
+                <p className="msg">{req.message}</p>
+              </div>
+            </div>
 
-            <button onClick={() => handleAccept(req, "standard")}>
-              Accept as Standard
-            </button>
+            <div className="btn-group">
+              <button
+                className="btn-decoy"
+                onClick={() => handleAccept(req, "decoy")}
+              >
+                Decoy
+              </button>
 
-            <button onClick={() => handleReject(req.id)}>
-              Reject
-            </button>
+              <button
+                className="btn-standard"
+                onClick={() => handleAccept(req, "standard")}
+              >
+                Standard
+              </button>
+
+              <button className="reject" onClick={() => handleReject(req.id)}>
+                Reject
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </section>
 
       {/* CONNECTIONS */}
-      <h2 style={{ marginTop: "30px" }}>Connections</h2>
+      <section className="section">
+        <h3>Your Network ({networkCount})</h3>
 
-      {connections.map((conn) => (
-        <div key={conn.id} className="connection-card">
-          <p><b>{conn.name}</b></p>
+        {connections.map((conn) => (
+          <div key={conn.id} className="connection-row">
+            <div className="row">
+              <div className="avatar" />
 
-          <p>
-            Access:{" "}
-            <span className={conn.access}>
-              {conn.access.toUpperCase()}
-            </span>
-          </p>
+              <div className="text-block">
+                <div className="name-wrapper">
+                  <p className="name">{conn.name}</p>
 
-          {/* subtle action */}
-          <button
-            className="link-btn"
-            onClick={() => openChangeModal(conn)}
-          >
-            Change access
-          </button>
-        </div>
-      ))}
+                  <span className={`badge-sup ${conn.access}`}>
+                    {conn.access === "decoy" ? "DE" : "ST"}
+                  </span>
+                </div>
+
+                <span className="change-link" onClick={() => openModal(conn)}>
+                  Change access
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </section>
 
       {/* MODAL */}
-      {activeChangeUser && (
-        <div className="modal-overlay">
-          <div className="modal">
+      {activeUser && (
+        <div className="modal-overlay" onClick={() => setActiveUser(null)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            {/* FLOATING AVATAR */}
+            <div className="modal-avatar">
+              <div className="avatar" />
+            </div>
 
-            <h3>Change Access</h3>
-            <p>{activeChangeUser.name}</p>
+            {/* TITLE */}
+            <h3 className="modal-title">Change Access: {activeUser.name}</h3>
 
+            {/* BUTTONS */}
             <div className="btn-group">
               <button
                 className={selectedAccess === "decoy" ? "active" : ""}
                 onClick={() => setSelectedAccess("decoy")}
               >
-                Decoy
+                Decoy Access
               </button>
 
               <button
                 className={selectedAccess === "standard" ? "active" : ""}
                 onClick={() => setSelectedAccess("standard")}
               >
-                Standard
+                Standard Access
               </button>
             </div>
 
+            {/* CONFIRM */}
             <div className="modal-actions">
-              <button onClick={() => setActiveChangeUser(null)}>
-                Cancel
-              </button>
-
-              <button onClick={confirmChange}>
+              <button className="confirm-btn" onClick={confirmChange}>
                 Confirm
               </button>
             </div>
-
           </div>
         </div>
       )}
-
     </div>
   );
 }

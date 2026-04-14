@@ -19,11 +19,12 @@
   padding: 0;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
-  overflow-x: hidden; 
-  background: #ffffff;
+  overflow-x: hidden;
+  background: #f3f3f3;
   color: #111;
 }
 

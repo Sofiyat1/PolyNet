@@ -58,7 +58,7 @@ function Navbar({ variant = "app", scrollRef }) {
       className={`navbar ${visible ? "show" : "hide"} ${variant === "landing" ? "navbar-transparent" : "app"}`}
     >
       <NavLink
-      to="/homepage"
+      to="/"
        className="navbar-left">
         <img src={logo} alt="Logo" className="navbar-logo" />
         <span className="navbar-name">PolyNet</span>

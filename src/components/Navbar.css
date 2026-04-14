@@ -38,6 +38,10 @@
   gap: 2px;
 }
 
+.navbar-left.active{
+  border: none;
+}
+
 .navbar-logo {
   width: auto;
   height: 30px;

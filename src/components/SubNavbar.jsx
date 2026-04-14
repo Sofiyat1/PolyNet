@@ -1,14 +1,12 @@
 import "./SubNavbar.css";
-//import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { HiOutlineHome, HiHome } from "react-icons/hi";
 import { HiOutlineUserGroup, HiUserGroup } from "react-icons/hi";
 import { HiOutlineBell, HiBell } from "react-icons/hi";
 import { HiOutlineUser, HiUser } from "react-icons/hi";
-import { FiSearch, FiPlus } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 
 function SubNavbar({ visible }) {
-  //const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <div className={`sub-navbar ${visible ? "" : "hide"}`}>
@@ -39,14 +37,6 @@ function SubNavbar({ visible }) {
           }
         </NavLink>
 
-        {/* Center search */}
-        {/*<FiSearch size={17} />
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />*/}
         <NavLink to="/addpostpage" className="post-btn">
           <FiPlus size={32} />
         </NavLink>

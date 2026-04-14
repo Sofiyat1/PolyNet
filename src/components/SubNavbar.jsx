@@ -1,20 +1,18 @@
 import "./SubNavbar.css";
-import { useState } from "react";
+//import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { HiOutlineHome, HiHome } from "react-icons/hi";
 import { HiOutlineUserGroup, HiUserGroup } from "react-icons/hi";
 import { HiOutlineBell, HiBell } from "react-icons/hi";
 import { HiOutlineUser, HiUser } from "react-icons/hi";
-import { FiSearch } from "react-icons/fi";
-
+import { FiSearch, FiPlus } from "react-icons/fi";
 
 function SubNavbar({ visible }) {
-  const [searchTerm, setSearchTerm] = useState("");
+  //const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <div className={`sub-navbar ${visible ? "" : "hide"}`}>
-      {/* Left icons */}
-      <div className="sub-navbar-left">
+      <div className="sub-navbar-icons">
         <NavLink
           to="/homepage"
           className={({ isActive }) =>
@@ -33,24 +31,26 @@ function SubNavbar({ visible }) {
           }
         >
           {({ isActive }) =>
-            isActive ? <HiUserGroup size={30} /> : <HiOutlineUserGroup size={30} />
+            isActive ? (
+              <HiUserGroup size={30} />
+            ) : (
+              <HiOutlineUserGroup size={30} />
+            )
           }
         </NavLink>
-      </div>
 
-      {/* Center search */}
-      <div className="sub-navbar-center">
-        <FiSearch size={17} />
+        {/* Center search */}
+        {/*<FiSearch size={17} />
         <input
           type="text"
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
+        />*/}
+        <NavLink to="/addpostpage" className="post-btn">
+          <FiPlus size={32} />
+        </NavLink>
 
-      {/* Right user icon */}
-      <div className="sub-navbar-right">
         <NavLink
           to="/notification"
           className={({ isActive }) =>

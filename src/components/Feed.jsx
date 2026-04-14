@@ -1,5 +1,6 @@
 import PostCard from "./PostCard";
 import "./Feed.css";
+import { FiSearch } from "react-icons/fi";
 
 function Feed() {
   const samplePosts = [
@@ -13,6 +14,17 @@ function Feed() {
 
   return (
     <div className="feed-container">
+      {/* SEARCH BAR */}
+      <div className="feed-search">
+        <div className="feed-search-wrapper">
+          <FiSearch size={18} className="search-icon" />
+          <input
+            type="text"
+            placeholder="Search people, posts..."
+            className="feed-search-input"
+          />
+        </div>
+      </div>
       {posts.map((post, index) => (
         <PostCard
           key={index}

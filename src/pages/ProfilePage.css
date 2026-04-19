@@ -98,14 +98,14 @@
 
 .toggle-center {
   width: 70px;
-  height: 75px;
+  height: 78px;
   display: flex;
   background: transparent;
   align-items: center;
   justify-content: center;
   z-index: 2;
   position: relative;
-  top: -8px; 
+  top: -7px; 
   border-radius: 50%;
   background: #fff;
 }

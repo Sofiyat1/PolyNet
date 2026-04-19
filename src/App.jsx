@@ -6,6 +6,7 @@ import ConnectionPage from "./pages/ConnectionPage";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Notification from "./pages/Notification";
+import ProfilePage from "./pages/ProfilePage"
 
 import AppLayout from "./layouts/AppLayout";
 import "./App.css";
@@ -27,7 +28,7 @@ function App() {
       <Route element={<AppLayout />}>
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/connectionpage" element={<ConnectionPage />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profilepage" element={<ProfilePage />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/notification" element={<Notification />} />
         <Route path="/addpostpage" element={<AddPostPage />} />

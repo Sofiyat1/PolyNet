@@ -1,0 +1,201 @@
+.profile-page {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 20px;
+}
+
+/* TOGGLE WRAPPER */
+.identity-toggle {
+  display: flex;
+  justify-content: center;
+}
+
+/* TOGGLE PILL */
+.toggle-pill {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: stretch; 
+  height: 64px;
+  padding: 0 4px; 
+  border-radius: 30px;
+  background: #c3c3c3;
+  cursor: pointer;
+  overflow: visible;
+  width: 100%;
+  background: linear-gradient(#c3c3c3, #bdbdbd);
+
+  box-shadow:
+    inset 0 2px 3px rgba(0, 0, 0, 0.12),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.25);
+
+}
+
+/* FULL ACTIVE HALF BACKGROUND */
+.toggle-pill::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  border-radius: 999px;
+  transition: transform 0.3s ease;
+  z-index: 0;
+}
+
+/* DECOY = LEFT (ACTIVE) */
+.toggle-pill.decoy::before {
+  left: 0;
+  background: #179c65;
+  transform: translateX(0);
+}
+
+/* STANDARD = RIGHT (ACTIVE) */
+.toggle-pill.standard::before {
+  left: 0;
+  background: #179c65;
+  transform: translateX(100%);
+}
+
+/* LABELS */
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px; 
+  font-size: 14px;
+  z-index: 1;
+  transition: color 0.3s ease;
+  line-height: 1;
+  padding: 0 10px;
+  font-size: 1.2rem;
+}
+
+/* ACTIVE TEXT = DECOY (LEFT) */
+.toggle-pill.decoy .left,
+.toggle-pill.standard .right {
+  color: white;
+}
+
+/* INACTIVE TEXT */
+.toggle-pill.decoy .right,
+.toggle-pill.standard .left {
+  color: #666;
+}
+
+/* CENTER */
+.toggle-center::before {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 70%;
+
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+}
+
+.toggle-center {
+  width: 70px;
+  height: 75px;
+  display: flex;
+  background: transparent;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  position: relative;
+  top: -8px; 
+  border-radius: 50%;
+  background: #fff;
+}
+
+/* LOGO */
+.knob-logo {
+  width: 62px;
+  height: 56px;
+  object-fit: contain;
+}
+
+/* ANIMATION */
+.profile-content {
+  transition: all 0.2s ease;
+}
+
+.fade-out {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* HEADER */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #ddd;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.name-row h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+/* BADGES */
+.badge {
+  font-size: 18px;
+}
+
+.badge.standard {
+  color: #179c65;
+}
+
+.badge.decoy {
+  color: #b45309;
+}
+
+/* BIO */
+.bio {
+  font-size: 13px;
+  color: #666;
+}
+
+/* POSTS */
+.profile-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-posts h3 {
+  font-size: 14px;
+  margin: 0;
+}
+
+.post-card {
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}

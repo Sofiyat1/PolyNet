@@ -52,7 +52,7 @@ function SubNavbar({ visible }) {
           }
         </NavLink>
         <NavLink
-          to="/profile"
+          to="/profilepage"
           className={({ isActive }) =>
             isActive ? "sub-navbar-item active" : "sub-navbar-item"
           }

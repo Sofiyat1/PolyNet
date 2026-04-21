@@ -1,6 +1,5 @@
-/* Container */
 .onboarding-container {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   overflow: hidden;
   position: relative;
@@ -9,7 +8,6 @@
   align-items: center;
 }
 
-/* Track slides horizontally */
 .onboarding-track {
   display: flex;
   transition: transform 0.5s ease-in-out;
@@ -30,12 +28,11 @@
   gap: 25px; 
 }
 
-/* Slide image */
 .slide-image {
-  height: 55vh;          /* make it tall */
-  width: 90%;           /* stop width bullying */
-  max-width: 420px;       /* remove ceiling */
-  object-fit: contain;   /* no cropping */
+  height: 55vh;          
+  width: 90%;           
+  max-width: 420px;       
+  object-fit: contain;   
   border-radius: 12px;
 }
 
@@ -54,7 +51,6 @@
   margin: 0; 
 }
 
-/* Button */
 .onboarding-btn {
   padding: 12px 25px;
   font-size: 1rem;

@@ -1,11 +1,13 @@
 import "./Navbar.css";
-import logo from "../assets/transLogo.png";
+import logo from "../assets/logo.png";
 import { FiSettings, FiMenu } from "react-icons/fi";
+import { FaCog } from "react-icons/fa";
 import { NavLink, Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 
-function Navbar({ variant = "app" }) {
+function Navbar({ variant = "app", scrollRef }) {
   const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(true);
   const menuRef = useRef(null);
   const navRef = useRef(null);
 
@@ -25,14 +27,42 @@ function Navbar({ variant = "app" }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  //Scroll-aware effect
+  useEffect(() => {
+    const scrollEl = scrollRef?.current;
+
+    if (!scrollEl) return;
+
+    let lastScrollY = 0;
+
+    const handleScroll = () => {
+      const currentScrollY = scrollEl.scrollTop;
+
+      if (currentScrollY > lastScrollY + 5) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
+    scrollEl.addEventListener("scroll", handleScroll);
+
+    return () => scrollEl.removeEventListener("scroll", handleScroll);
+  }, [scrollRef]);
+
   return (
-    <nav ref={navRef}
-      className={`navbar ${variant === "landing" ? "navbar-transparent" : "app"}`}
+    <nav
+      ref={navRef}
+      className={`navbar ${visible ? "show" : "hide"} ${variant === "landing" ? "navbar-transparent" : "app"}`}
     >
-      <div className="navbar-left">
+      <NavLink
+      to="/"
+       className="navbar-left">
         <img src={logo} alt="Logo" className="navbar-logo" />
         <span className="navbar-name">PolyNet</span>
-      </div>
+      </NavLink>
       <div className="navbar-right">
         {variant === "landing" ? (
           <FiMenu
@@ -47,13 +77,15 @@ function Navbar({ variant = "app" }) {
               isActive ? "navbar-item active" : "navbar-item"
             }
           >
-            <FiSettings size={24} />
+            {({ isActive }) =>
+              isActive ? <FaCog size={25} /> : <FiSettings size={25} />
+            }
           </NavLink>
         )}
       </div>
 
       {variant === "landing" && open && (
-        <div ref={menuRef}  className={`hamburger-menu ${open ? "show" : ""}`}>
+        <div ref={menuRef} className={`hamburger-menu ${open ? "show" : ""}`}>
           <Link to="/login" onClick={() => setOpen(false)}>
             Login
           </Link>
@@ -63,7 +95,7 @@ function Navbar({ variant = "app" }) {
           <Link to="/about" onClick={() => setOpen(false)}>
             About
           </Link>
-          <Link to="/privacy" onClick={() => setOpen(false)}>
+          <Link to="/privacypolicy" onClick={() => setOpen(false)}>
             Privacy Policy
           </Link>
         </div>

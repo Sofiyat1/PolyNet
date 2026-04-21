@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./Onboarding.css";
 import slide1 from "../assets/slide1.png";
 import slide2 from "../assets/slide2.png";
@@ -43,6 +45,7 @@ const slides = [
 
 function Onboarding() {
   const [current, setCurrent] = useState(0);
+  const navigate = useNavigate();
 
   // auto-slide every 4 seconds
   useEffect(() => {
@@ -86,7 +89,12 @@ function Onboarding() {
             )}
             {slide.text && <p>{slide.text}</p>}
             {index === slides.length - 3 && (
-              <button className="onboarding-btn">Get Started</button>
+              <button
+                className="onboarding-btn"
+                onClick={() => navigate("/signup")}
+              >
+                Get Started
+              </button>
             )}
           </div>
         ))}

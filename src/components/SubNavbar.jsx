@@ -1,21 +1,16 @@
 import "./SubNavbar.css";
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { HiOutlineHome, HiHome } from "react-icons/hi";
 import { HiOutlineUserGroup, HiUserGroup } from "react-icons/hi";
 import { HiOutlineBell, HiBell } from "react-icons/hi";
 import { HiOutlineUser, HiUser } from "react-icons/hi";
-import { FiHome, FiUsers, FiSearch } from "react-icons/fi";
-import { FaHome, FaUsers, FaUser, FaUserCircle } from "react-icons/fa";
-import { FiBell } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 
-function SubNavbar() {
-  const [searchTerm, setSearchTerm] = useState("");
+function SubNavbar({ visible }) {
 
   return (
-    <div className="sub-navbar">
-      {/* Left icons */}
-      <div className="sub-navbar-left">
+    <div className={`sub-navbar ${visible ? "" : "hide"}`}>
+      <div className="sub-navbar-icons">
         <NavLink
           to="/homepage"
           className={({ isActive }) =>
@@ -23,35 +18,29 @@ function SubNavbar() {
           }
         >
           {({ isActive }) =>
-            isActive ? <HiHome size={24} /> : <HiOutlineHome size={24} />
+            isActive ? <HiHome size={30} /> : <HiOutlineHome size={30} />
           }
         </NavLink>
 
         <NavLink
-          to="/network"
+          to="/connectionpage"
           className={({ isActive }) =>
             isActive ? "sub-navbar-item active" : "sub-navbar-item"
           }
         >
           {({ isActive }) =>
-            isActive ? <HiUserGroup size={24} /> : <HiOutlineUserGroup size={24} />
+            isActive ? (
+              <HiUserGroup size={30} />
+            ) : (
+              <HiOutlineUserGroup size={30} />
+            )
           }
         </NavLink>
-      </div>
 
-      {/* Center search */}
-      <div className="sub-navbar-center">
-        <FiSearch size={18} />
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
+        <NavLink to="/addpostpage" className="post-btn">
+          <FiPlus size={32} />
+        </NavLink>
 
-      {/* Right user icon */}
-      <div className="sub-navbar-right">
         <NavLink
           to="/notification"
           className={({ isActive }) =>
@@ -59,17 +48,17 @@ function SubNavbar() {
           }
         >
           {({ isActive }) =>
-            isActive ? <HiBell size={24} /> : <HiOutlineBell size={24} />
+            isActive ? <HiBell size={30} /> : <HiOutlineBell size={30} />
           }
         </NavLink>
         <NavLink
-          to="/profile"
+          to="/profilepage"
           className={({ isActive }) =>
             isActive ? "sub-navbar-item active" : "sub-navbar-item"
           }
         >
           {({ isActive }) =>
-            isActive ? <HiUser size={24} /> : <HiOutlineUser size={24} />
+            isActive ? <HiUser size={30} /> : <HiOutlineUser size={30} />
           }
         </NavLink>
       </div>

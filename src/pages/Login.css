@@ -5,29 +5,37 @@
   border-radius: 8px;
   font-weight: 600;
 }
-.imgDiv {
-  width: 50%;
-  display: flex;
-  justify-content: center;
-}
-img {
-  width: 100%;
-}
 .loginGen {
   display: flex;
-  justify-content: center;
-  height: 70vh;
+  height: 100vh;
+  width: 100%;
+  gap: 50px;
   flex-direction: column;
   align-items: center;
 }
 
-.formDiv {
+.formGen {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
 }
+
+.imgDiv {
+  width: 100%;
+  text-align: center;
+  margin-top: 50px;
+}
+.imgLogo {
+  width: 80px;
+}
+.LogoText {
+  font-weight: bolder;
+  font-size: 30px;
+}
+
 label {
   color: black;
+  font-weight: bold;
 }
 
 .inputBackground {
@@ -45,18 +53,21 @@ label {
 
 .forgot {
   color: black;
-  font-size: 13px;
+  font-size: 14px;
   text-align: center;
 }
 
 button {
   background-color: #242c74;
   color: white;
+  font-size: 15px;
+  padding: 13px;
+  font-weight: bold;
   width: 100%;
 }
 
 .CreateAcc {
-  margin-top: 30px;
+  margin-top: 60px;
 }
 
 .input-wrap {

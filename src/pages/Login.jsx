@@ -1,5 +1,5 @@
 import "./Login.css";
-import loginImage from "../assets/login.png";
+import loginImage from "../assets/logo.png";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
@@ -11,10 +11,10 @@ const Login = () => {
   return (
     <div className="loginGen">
       <div className="imgDiv">
-        <img src={loginImage} alt="" />
+        <img src={loginImage} alt="" className="imgLogo" /> <span className="LogoText">PolyNet</span>
       </div>
-      <form action="" className="formDiv">
-        <div>
+      <form action="" className="formGen">
+        <div className="formDiv">
           <label htmlFor="">Email</label>
           <input type="email" placeholder="Email" className="inputBackground" />
         </div>
@@ -31,11 +31,11 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <div className="btn">
+        <div className="btnLogin btn">
           <button className="LogInBtn">Login</button>
           <p className="forgot">Forgot Password?</p>
         </div>
-        <button className="CreateAcc">Create Account</button>
+        <button className="CreateAcc btn">Create Account</button>
       </form>
     </div>
   );

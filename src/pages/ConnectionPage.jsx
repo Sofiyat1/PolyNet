@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FiShield, FiCheckCircle } from "react-icons/fi";
+import { FiLock, FiGlobe, FiXCircle } from "react-icons/fi";
 import "./ConnectionPage.css";
 import { FaShieldAlt, FaTimesCircle, FaUserCheck } from "react-icons/fa";
 
@@ -73,7 +73,7 @@ function ConnectionPage() {
                 className="btn-decoy"
                 onClick={() => handleAccept(req, "decoy")}
               >
-                <FaShieldAlt className="btn-icon" />
+                <FiLock className="btn-icon" />
                 <div className="btn-text">
                   <span>Decoy</span>
                   <small>Sees only your decoy posts</small>
@@ -84,7 +84,7 @@ function ConnectionPage() {
                 className="btn-standard"
                 onClick={() => handleAccept(req, "standard")}
               >
-                <FaUserCheck className="btn-icon" />
+                <FiGlobe className="btn-icon" />
                 <div className="btn-text">
                   <span>Standard</span>
                   <small>Sees only your standard posts</small>
@@ -92,7 +92,7 @@ function ConnectionPage() {
               </button>
 
               <button className="reject" onClick={() => handleReject(req.id)}>
-                <FaTimesCircle className="btn-icon" />
+                <FiXCircle className="btn-icon" />
                 Reject
               </button>
             </div>

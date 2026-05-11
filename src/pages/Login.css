@@ -17,7 +17,7 @@
 .formGen {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
 }
 
 .imgDiv {
@@ -26,7 +26,7 @@
   margin-top: 50px;
 }
 .imgLogo {
-  width: 80px;
+  width: 60px;
 }
 .LogoText {
   font-weight: bolder;
@@ -67,7 +67,7 @@ button {
 }
 
 .CreateAcc {
-  margin-top: 60px;
+  margin-top: 140px;
 }
 
 .input-wrap {

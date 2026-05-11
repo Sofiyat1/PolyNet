@@ -1,20 +1,25 @@
 import { useRef, useState } from "react";
-import {
-  FiImage,
-  FiVideo,
-  FiX,
-  FiLock,
-  FiGlobe,
-} from "react-icons/fi";
+import { FiImage, FiVideo, FiX, FiLock, FiGlobe } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+
 import "./AddPostPage.css";
+import usePosts from "../hooks/usePosts";
 
 function AddPostPage() {
+  const navigate = useNavigate();
   const [postText, setPostText] = useState("");
-  const [selectedIdentity, setSelectedIdentity] = useState("standard");
   const [mediaFiles, setMediaFiles] = useState([]);
+
+  const [showIdentityModal, setShowIdentityModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const [pendingIdentity, setPendingIdentity] = useState("");
+
+  const { addPost } = usePosts();
 
   const fileInputRef = useRef(null);
 
+  /* MEDIA SELECT */
   const handleMediaSelect = (e) => {
     const files = Array.from(e.target.files);
 
@@ -27,18 +32,44 @@ function AddPostPage() {
     setMediaFiles((prev) => [...prev, ...mappedFiles]);
   };
 
+  /* REMOVE MEDIA */
   const removeMedia = (index) => {
     setMediaFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = () => {
-    console.log({
-      text: postText,
-      identity: selectedIdentity,
-      media: mediaFiles,
-    });
+  /* OPEN MODAL 1 */
+  const openIdentityModal = () => {
+    if (!postText.trim() && mediaFiles.length === 0) {
+      alert("Your post is empty.");
+      return;
+    }
 
-    alert("Post submitted successfully");
+    setShowIdentityModal(true);
+  };
+
+  /* FINAL SUBMIT */
+  const handleFinalSubmit = () => {
+    const newPost = {
+      id: Date.now(),
+      user: "John Doe",
+      identity: pendingIdentity,
+      content: postText,
+      media: mediaFiles,
+    };
+
+    addPost(newPost);
+
+    /* RESET EVERYTHING */
+    setPostText("");
+    setMediaFiles([]);
+    setPendingIdentity("");
+    setShowConfirmModal(false);
+    setShowIdentityModal(false);
+
+    // go home
+    setTimeout(() => {
+      navigate("/homepage");
+    }, 800);
   };
 
   return (
@@ -48,30 +79,20 @@ function AddPostPage() {
         <h2>Create Post</h2>
       </div>
 
-      {/* USER BLOCK */}
+      {/* USER CARD */}
       <div className="post-user-card">
         <div className="avatar" />
-
         <div className="user-info">
           <p className="username">John Doe</p>
-
           <div className="identity-preview">
-            {selectedIdentity === "standard" ? (
-              <>
-                <FiGlobe className="identity-icon standard" />
-                <span>Posting as Standard</span>
-              </>
-            ) : (
-              <>
-                <FiLock className="identity-icon decoy" />
-                <span>Posting as Decoy</span>
-              </>
-            )}
+            <span className="identity-warning">
+              Identity will be chosen before publishing
+            </span>
           </div>
         </div>
       </div>
 
-      {/* TEXT INPUT */}
+      {/* TEXTAREA */}
       <textarea
         className="post-textarea"
         placeholder="What's on your mind?"
@@ -101,7 +122,7 @@ function AddPostPage() {
         </div>
       )}
 
-      {/* MEDIA ACTIONS */}
+      {/* MEDIA BUTTONS */}
       <div className="media-actions">
         <button onClick={() => fileInputRef.current.click()}>
           <FiImage />
@@ -123,49 +144,89 @@ function AddPostPage() {
         />
       </div>
 
-      {/* IDENTITY SECTION */}
-      <div className="identity-section">
-        <p className="identity-title">Post As</p>
-
-        <div className="identity-toggle-group">
-          <button
-            className={`identity-btn decoy ${
-              selectedIdentity === "decoy" ? "active" : ""
-            }`}
-            onClick={() => setSelectedIdentity("decoy")}
-          >
-            <FiLock />
-            Decoy
-          </button>
-
-          <button
-            className={`identity-btn standard ${
-              selectedIdentity === "standard" ? "active" : ""
-            }`}
-            onClick={() => setSelectedIdentity("standard")}
-          >
-            <FiGlobe />
-            Standard
-          </button>
-        </div>
-
-        <div className="visibility-card">
-          {selectedIdentity === "standard" ? (
-            <p>
-              This post will only be visible to your standard connections.
-            </p>
-          ) : (
-            <p>
-              This post will only be visible to your decoy connections.
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* SUBMIT */}
-      <button className="publish-btn" onClick={handleSubmit}>
+      {/* PUBLISH BUTTON */}
+      <button className="publish-btn" onClick={openIdentityModal}>
         Publish Post
       </button>
+
+      {/* MODAL 1: IDENTITY */}
+      {showIdentityModal && (
+        <div
+          className="modal-overlay"
+          onClick={() => {
+            setShowIdentityModal(false);
+            setPendingIdentity("");
+          }}
+        >
+          <div className="identity-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Choose Posting Identity</h3>
+
+            <small>
+              This determines who can see this post.
+            </small>
+
+            <div className="identity-choice-group">
+              <button
+                className="identity-choice decoy"
+                onClick={() => {
+                  setPendingIdentity("decoy");
+                  setShowIdentityModal(false);
+                  setShowConfirmModal(true);
+                }}
+              >
+                <span className="choice-icon">
+                  <FiLock />
+                </span>
+
+                <span className="choice-text">Post as Decoy</span>
+              </button>
+
+              <button
+                className="identity-choice standard"
+                onClick={() => {
+                  setPendingIdentity("standard");
+                  setShowIdentityModal(false);
+                  setShowConfirmModal(true);
+                }}
+              >
+                <span className="choice-icon">
+                  <FiGlobe />
+                </span>
+
+                <span className="choice-text">Post as Standard</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 2: CONFIRMATION */}
+      {showConfirmModal && (
+        <div
+          className="modal-overlay"
+          onClick={() => {
+            setShowConfirmModal(false);
+            setPendingIdentity("");
+          }}
+        >
+          <div className="identity-modal" onClick={(e) => e.stopPropagation()}>
+            <p className="confirm-text">
+              Confirm that you're posting as{" "}
+              <span className={`identity-highlight ${pendingIdentity}`}>
+                {pendingIdentity.toUpperCase()}
+              </span>
+            </p>
+
+            <small>
+              This action determines which connections can view this post.
+            </small>
+
+            <button className="final-confirm-btn" onClick={handleFinalSubmit}>
+              Confirm & Publish
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/Homepage";
 import ConnectionPage from "./pages/ConnectionPage";
-import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Notification from "./pages/Notification";
 import ProfilePage from "./pages/ProfilePage"

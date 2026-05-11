@@ -1,37 +1,126 @@
 .post-card {
-  background-color: #c3c3c3;
-  border-radius: 12px;
-  padding: 16px;
-  width: 100%;
-  min-height: 120px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-  color: #000;
+  background: #fff;
+  border-radius: 18px;
+  padding: 14px;
+  margin-bottom: 16px;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
+/* HEADER */
 .post-header {
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  gap: 12px;
+}
+
+/* PROFILE IMAGE */
+.post-profile-pic,
+.post-profile-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+
+  flex-shrink: 0;
 }
 
 .post-profile-pic {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #8a8a8a;
+  object-fit: cover;
+}
+
+/* DEFAULT ICON */
+.post-profile-icon {
+  background: #f1f1f1;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 10px;
+
+  color: #666;
 }
 
+/* USER INFO */
+.post-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+/* USERNAME */
 .post-user {
-  font-weight: bold;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
 }
 
+/* IDENTITY BADGE */
+.post-identity {
+  font-size: 11px;
+  margin-top: 4px;
+
+  width: fit-content;
+
+  padding: 3px 9px;
+  border-radius: 999px;
+
+  font-weight: 500;
+}
+
+.post-identity.standard {
+  background: rgba(23, 156, 101, 0.12);
+  color: #179c65;
+}
+
+.post-identity.decoy {
+  background: rgba(195, 195, 195, 0.2);
+  color: #666;
+}
+
+/* POST TEXT */
 .post-content {
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.5;
+  color: #222;
+
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* MEDIA WRAPPER */
+.post-media {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  margin-top: 4px;
+}
+
+/* MEDIA ITEM */
+.post-media-item {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+/* IMAGE / VIDEO */
+.post-image,
+.post-video {
+  width: 100%;
+  max-height: 450px;
+
+  object-fit: cover;
+
+  border-radius: 16px;
+
+  display: block;
+
+  background: #eee;
+}
+
+/* VIDEO */
+.post-video {
+  outline: none;
 }

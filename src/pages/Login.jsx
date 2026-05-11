@@ -6,8 +6,11 @@ import { useContext } from "react";
 import { FirstContext } from "./context/context";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   let { showPassword, togglePasswordVisibility } = useContext(FirstContext)
+
+  let navigate = useNavigate()
 
   // form validation
   let formik = useFormik({
@@ -23,6 +26,7 @@ const Login = () => {
     onSubmit: values => {
       console.log(values);
 
+      navigate('/homepage')
     }
   })
   return (
@@ -55,7 +59,7 @@ const Login = () => {
           </div>
         </div>
         <div className="btnLogin btn">
-          <button className="LogInBtn" type="submit">Login</button>
+          <button className="LogInBtn" type="submit" >Login</button>
           <p className="forgot">Forgot Password?</p>
         </div>
         <button className="CreateAcc btn">Create Account</button>

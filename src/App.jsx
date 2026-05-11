@@ -14,26 +14,29 @@ import Login from "./pages/Login";
 import AddPostPage from "./pages/AddPostPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AboutPage from "./pages/AboutPage";
+import Wrapper from "./pages/context/Wrapper";
 
 function App() {
   return (
-    <Routes>
-      {/* Onboarding / Landing */}
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-      <Route path="/about" element={<AboutPage />} />
+    <Wrapper>
+      <Routes>
+        {/* Onboarding / Landing */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+        <Route path="/about" element={<AboutPage />} />
 
-      {/* App pages */}
-      <Route element={<AppLayout />}>
-        <Route path="/homepage" element={<HomePage />} />
-        <Route path="/connectionpage" element={<ConnectionPage />} />
-        <Route path="/profilepage" element={<ProfilePage />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/notification" element={<Notification />} />
-        <Route path="/addpostpage" element={<AddPostPage />} />
-      </Route>
-    </Routes>
+        {/* App pages */}
+        <Route element={<AppLayout />}>
+          <Route path="/homepage" element={<HomePage />} />
+          <Route path="/connectionpage" element={<ConnectionPage />} />
+          <Route path="/profilepage" element={<ProfilePage />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/notification" element={<Notification />} />
+          <Route path="/addpostpage" element={<AddPostPage />} />
+        </Route>
+      </Routes>
+    </Wrapper>
   );
 }
 

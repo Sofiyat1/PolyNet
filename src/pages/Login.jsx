@@ -2,12 +2,10 @@ import "./Login.css";
 import loginImage from "../assets/logo.png";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { FirstContext } from "./context/context";
 const Login = () => {
-  let [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  let { showPassword, togglePasswordVisibility } = useContext(FirstContext)
   return (
     <div className="loginGen">
       <div className="imgDiv">

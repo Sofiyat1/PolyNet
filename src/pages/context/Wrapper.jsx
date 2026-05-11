@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FirstContext } from "./context";
 
 const Wrapper = ({ children }) => {
@@ -5,10 +6,12 @@ const Wrapper = ({ children }) => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
+  
     return (
-        <FirstContext.Provider value={{showPassword, togglePasswordVisibility} }>
+        <FirstContext.Provider value={{ showPassword, togglePasswordVisibility }}>
             <div>
-                {...children}
+                {children}
             </div>
         </FirstContext.Provider>
     )

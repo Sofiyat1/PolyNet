@@ -88,3 +88,10 @@ button {
 .eye-icon:hover {
   color: #242c74; /* Changes color to your button theme on hover */
 }
+
+
+/* error login */
+
+.error{
+  color: red;
+}

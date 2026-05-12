@@ -1,7 +1,7 @@
 import "./Login.css";
 import loginImage from "../assets/logo.png";
 
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
 import { useContext } from "react";
 import { FirstContext } from "./context/context";
 import { useFormik } from "formik";
@@ -33,21 +33,26 @@ const Login = () => {
     <div className="loginGen">
       <div className="imgDiv">
         <img src={loginImage} alt="" className="imgLogo" /> <span className="LogoText">PolyNet</span>
+        <p>Architecting secure community connections.</p>
       </div>
       <form action="" className="formGen" onSubmit={formik.handleSubmit}>
         <div className="formDiv">
           <label htmlFor="">Email</label>
-          <input type="email" placeholder="Email" name='email' className="inputBackground" onChange={formik.handleChange} />
+          <input type="email" placeholder="name@gmail.com" name='email' className="inputBackground" onChange={formik.handleChange} />
           {formik.touched.email && formik.errors.email && (
             <p className="error">{formik.errors.email}</p>
           )}
         </div>
         <div>
-          <label htmlFor="">Password</label>
+          <div className="">
+            <label htmlFor="">Password</label>
+            <p>Forgot password?</p>
+          </div>
+
           <div className="input-wrap">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Password" name='password'
+              placeholder="******" name='password'
               className="inputBackground" onChange={formik.handleChange}
             />
             {formik.touched.password && formik.errors && (
@@ -59,10 +64,10 @@ const Login = () => {
           </div>
         </div>
         <div className="btnLogin btn">
-          <button className="LogInBtn" type="submit" >Login</button>
-          <p className="forgot">Forgot Password?</p>
+          <button className="LogInBtn" type="submit" >Sign in to account <FaArrowRight /> </button>
+          {/* <p className="forgot">Forgot Password?</p> */}
         </div>
-        <button className="CreateAcc btn">Create Account</button>
+        <button className="CreateAcc signup">Create Account</button>
       </form>
     </div>
   );

@@ -1,33 +1,45 @@
 import "./Navbar.css";
 import logo from "../assets/logo.png";
-import { FiSettings, FiMenu } from "react-icons/fi";
+
+import { FiSettings, FiMenu, FiShield } from "react-icons/fi";
 import { FaCog } from "react-icons/fa";
+
 import { NavLink, Link } from "react-router-dom";
-import { useState, useRef, useEffect } from "react";
+
+import { useState, useRef, useEffect, useContext } from "react";
+
+import { ViewerContext } from "../context/ViewerContext";
 
 function Navbar({ variant = "app", scrollRef }) {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [showSimMenu, setShowSimMenu] = useState(false);
+
   const menuRef = useRef(null);
   const navRef = useRef(null);
+
+  const { setViewer } = useContext(ViewerContext);
 
   // Close menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (
         menuRef.current &&
-        !menuRef.current.contains(event.target) && // menu itself
+        !menuRef.current.contains(event.target) &&
         navRef.current &&
-        !navRef.current.contains(event.target) // navbar container
+        !navRef.current.contains(event.target)
       ) {
         setOpen(false);
+        setShowSimMenu(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  //Scroll-aware effect
+  // Scroll-aware effect
   useEffect(() => {
     const scrollEl = scrollRef?.current;
 
@@ -55,15 +67,62 @@ function Navbar({ variant = "app", scrollRef }) {
   return (
     <nav
       ref={navRef}
-      className={`navbar ${visible ? "show" : "hide"} ${variant === "landing" ? "navbar-transparent" : "app"}`}
+      className={`navbar ${
+        visible ? "show" : "hide"
+      } ${variant === "landing" ? "navbar-transparent" : "app"}`}
     >
-      <NavLink
-      to="/"
-       className="navbar-left">
+      {/* LEFT */}
+      <NavLink to="/" className="navbar-left">
         <img src={logo} alt="Logo" className="navbar-logo" />
+
         <span className="navbar-name">PolyNet</span>
       </NavLink>
+
+      {/* RIGHT */}
       <div className="navbar-right">
+        {/* SIMULATION TOOL */}
+        {variant !== "landing" && (
+          <div className="sim-wrapper">
+            <FiShield
+              size={20}
+              className="sim-icon"
+              onClick={() => setShowSimMenu((prev) => !prev)}
+            />
+
+            {showSimMenu && (
+              <div className="sim-menu">
+                <button
+                  onClick={() => {
+                    setViewer("bob");
+                    setShowSimMenu(false);
+                  }}
+                >
+                  View as Bob (Decoy)
+                </button>
+
+                <button
+                  onClick={() => {
+                    setViewer("alice");
+                    setShowSimMenu(false);
+                  }}
+                >
+                  View as Alice (Standard)
+                </button>
+
+                <button
+                  onClick={() => {
+                    setViewer(null);
+                    setShowSimMenu(false);
+                  }}
+                >
+                  Exit Viewer Mode
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* LANDING MENU */}
         {variant === "landing" ? (
           <FiMenu
             size={24}
@@ -84,17 +143,21 @@ function Navbar({ variant = "app", scrollRef }) {
         )}
       </div>
 
+      {/* LANDING DROPDOWN */}
       {variant === "landing" && open && (
         <div ref={menuRef} className={`hamburger-menu ${open ? "show" : ""}`}>
           <Link to="/login" onClick={() => setOpen(false)}>
             Login
           </Link>
+
           <Link to="/signup" onClick={() => setOpen(false)}>
             Sign Up
           </Link>
+
           <Link to="/about" onClick={() => setOpen(false)}>
             About
           </Link>
+
           <Link to="/privacypolicy" onClick={() => setOpen(false)}>
             Privacy Policy
           </Link>

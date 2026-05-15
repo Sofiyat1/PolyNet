@@ -6,13 +6,16 @@ import "./index.css";
 import App from "./App.jsx";
 
 import PostProvider from "./providers/PostProvider.jsx";
+import ViewerProvider from "./providers/ViewerProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <PostProvider>
-      <BrowserRouter basename="/">
-        <App />
-      </BrowserRouter>
-    </PostProvider>
-  </StrictMode>,
+      <ViewerProvider>
+        <PostProvider>
+        <BrowserRouter basename="/">
+          <App />
+        </BrowserRouter>
+        </PostProvider>
+      </ViewerProvider>
+  </StrictMode>
 );

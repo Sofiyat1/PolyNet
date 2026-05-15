@@ -7,15 +7,18 @@ import App from "./App.jsx";
 
 import PostProvider from "./providers/PostProvider.jsx";
 import ViewerProvider from "./providers/ViewerProvider.jsx";
+import ConnectionProvider from "./providers/ConnectionProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <ConnectionProvider>
       <ViewerProvider>
         <PostProvider>
-        <BrowserRouter basename="/">
-          <App />
-        </BrowserRouter>
+          <BrowserRouter basename="/">
+            <App />
+          </BrowserRouter>
         </PostProvider>
       </ViewerProvider>
-  </StrictMode>
+    </ConnectionProvider>
+  </StrictMode>,
 );

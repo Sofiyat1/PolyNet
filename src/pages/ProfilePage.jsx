@@ -46,12 +46,13 @@ function ProfilePage() {
     },
   };
 
-  const current = profileData[mode];
+const activeMode = isViewerMode ? viewer.access : mode;
 
+const current = profileData[activeMode];
   // viewer-aware filtering
   const visiblePosts = isViewerMode
     ? posts.filter((post) => post.identity === viewer.access)
-    : posts.filter((post) => post.identity === mode);
+    : posts.filter((post) => post.identity === activeMode);
 
   return (
     <div className="profile-page">
@@ -73,14 +74,14 @@ function ProfilePage() {
       {/* PROFILE CONTENT */}
       <div className={`profile-content ${animating ? "fade-out" : "fade-in"}`}>
         {/* HERO */}
-        <div className={`profile-hero ${mode}`}>
+        <div className={`profile-hero ${activeMode}`}>
           <div className="hero-avatar" />
 
           <div className="hero-info">
             <div className="hero-name-row">
               <h2>{current.name}</h2>
 
-              {mode === "standard" ? (
+              {activeMode === "standard" ? (
                 <MdVerifiedUser className="hero-badge standard" />
               ) : (
                 <FiShield className="hero-badge decoy" />
@@ -91,7 +92,7 @@ function ProfilePage() {
 
             <p className="hero-bio">{current.bio}</p>
 
-            <div className={`identity-chip ${mode}`}>{current.badge}</div>
+            <div className={`identity-chip ${activeMode}`}>{current.badge}</div>
           </div>
         </div>
 

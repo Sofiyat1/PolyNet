@@ -106,3 +106,39 @@
   opacity: 0.8;
 }
 
+.enter-app {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.enter-app-btn {
+  padding: 12px 25px;
+  font-size: 1rem;
+  background-color: #179c65;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.enter-app-btn:hover {
+  background-color: #148a59; 
+  transform: translateY(-1px);
+}
+
+.enter-app-btn:active {
+  transform: translateY(0px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.enter-app-hint {
+  text-align: center;
+  opacity: 0.6;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}

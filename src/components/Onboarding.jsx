@@ -91,6 +91,14 @@ function Onboarding() {
             {index === slides.length - 3 && (
               <button
                 className="onboarding-btn"
+                onClick={() => navigate("/identityguide")}
+              >
+                Learn How Privacy Works
+              </button>
+            )}
+            {index === slides.length - 1 && (
+              <button
+                className="onboarding-btn"
                 onClick={() => navigate("/signup")}
               >
                 Get Started

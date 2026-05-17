@@ -1,10 +1,11 @@
 import "./IdentityGuidePage.css";
-
 import { FiShield, FiUsers, FiEye, FiLock } from "react-icons/fi";
 
 import { MdVerifiedUser } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 function IdentityGuidePage() {
+  const navigate = useNavigate();
   return (
     <div className="identity-guide-page">
       {/* HERO */}
@@ -115,6 +116,14 @@ function IdentityGuidePage() {
             access levels.
           </p>
         </div>
+
+        <div className="enter-app">
+          <button className="enter-app-btn" onClick={() => navigate("/signup")}>
+            Enter App
+          </button>
+          <p className="enter-app-hint">Ready to continue?</p>
+        </div>
+
       </section>
     </div>
   );

@@ -5,7 +5,7 @@ import HomePage from "./pages/Homepage";
 import ConnectionPage from "./pages/ConnectionPage";
 import Settings from "./pages/Settings";
 import Notification from "./pages/Notification";
-import ProfilePage from "./pages/ProfilePage"
+import ProfilePage from "./pages/ProfilePage";
 
 import AppLayout from "./layouts/AppLayout";
 import "./App.css";
@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import AddPostPage from "./pages/AddPostPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AboutPage from "./pages/AboutPage";
+import IdentityGuidePage from "./pages/IdentityGuidePage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/identityguide" element={<IdentityGuidePage />} />
 
       {/* App pages */}
       <Route element={<AppLayout />}>

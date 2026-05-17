@@ -160,6 +160,9 @@ function Navbar({ variant = "app", scrollRef }) {
           <Link to="/privacypolicy" onClick={() => setOpen(false)}>
             Privacy Policy
           </Link>
+          <Link to="/identityguide" onClick={() => setOpen(false)}>
+            Identity & Visibility
+          </Link>
         </div>
       )}
     </nav>

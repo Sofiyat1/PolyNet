@@ -20,18 +20,15 @@
   padding: 0;
 }
 
+/* FORCE CONSISTENT BACKGROUND ACROSS ALL BROWSERS */
 html,
-body {
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-  background: #f3f3f3;
-  color: #111;
-}
-
+body,
 #root {
   height: 100%;
   width: 100%;
+  background-color: #ffffff;
+  color: #111;
+  overflow-x: hidden;
 }
 
 a {

@@ -6,6 +6,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  inset: 0;
 }
 
 .onboarding-track {
@@ -67,8 +69,13 @@
   transform: translateY(-1px);
 }
 
-.last-slide {
+/*.last-slide {
   background-size: cover;
   background-position: center;
   min-height: 100vh;
-}
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+}*/

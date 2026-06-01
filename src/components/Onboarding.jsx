@@ -6,7 +6,7 @@ import slide1 from "../assets/slide1.png";
 import slide2 from "../assets/slide2.png";
 import slide3 from "../assets/slide3.png";
 import slide4 from "../assets/slide4.jpg";
-import slide5 from "../assets/slide5.jpg";
+import slide5 from "../assets/slide5.png";
 
 const slides = [
   {
@@ -29,18 +29,16 @@ const slides = [
     textColor: "#000",
   },
   {
+    background: slide5,
+    textColor: "#f3f3f3",
+  },
+    {
     title: "Take Back Your Digital Identity.",
     text: "Take back control online.",
     image: slide4,
     background: "#041122",
     textColor: "#f3f3f3",
-  },
-  {
-    title: "Your Circle. Your Terms.",
-    text: "No noise. No pressure.",
-    background: slide5,
-    textColor: "#f3f3f3",
-  },
+  }
 ];
 
 function Onboarding() {
@@ -73,7 +71,7 @@ function Onboarding() {
                   : {
                       backgroundImage: `url(${slide.background})`,
                       backgroundSize: "cover",
-                      backgroundPosition: "center",
+                      backgroundPosition: "75% center",
                     }
                 : {}),
               color: slide.textColor || "#0f1f3d",

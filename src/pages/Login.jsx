@@ -33,7 +33,6 @@ const Login = () => {
     <div className="loginGen">
       <div className="imgDiv">
         <img src={loginImage} alt="" className="imgLogo" /> <span className="LogoText">PolyNet</span>
-        <p>Architecting secure community connections.</p>
       </div>
       <form action="" className="formGen" onSubmit={formik.handleSubmit}>
         <div className="formDiv">
@@ -46,7 +45,7 @@ const Login = () => {
         <div>
           <div className="">
             <label htmlFor="">Password</label>
-            <p>Forgot password?</p>
+            {/* <p>Forgot password?</p> */}
           </div>
 
           <div className="input-wrap">
@@ -64,10 +63,10 @@ const Login = () => {
           </div>
         </div>
         <div className="btnLogin btn">
-          <button className="LogInBtn" type="submit" >Sign in to account <FaArrowRight /> </button>
-          {/* <p className="forgot">Forgot Password?</p> */}
+          <button className="LogInBtn" type="submit" >Log in </button>
+          <p className="forgot">Forgot Password?</p>
         </div>
-        <button className="CreateAcc signup">Create Account</button>
+        <button className="CreateAcc signup" onClick={()=>navigate('/signup')}>Create Account</button>
       </form>
     </div>
   );

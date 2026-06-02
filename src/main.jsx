@@ -8,17 +8,20 @@ import App from "./App.jsx";
 import PostProvider from "./providers/PostProvider.jsx";
 import ViewerProvider from "./providers/ViewerProvider.jsx";
 import ConnectionProvider from "./providers/ConnectionProvider.jsx";
+import NotificationProvider from "./providers/NotificationProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ConnectionProvider>
-      <ViewerProvider>
-        <PostProvider>
-          <BrowserRouter basename="/">
-            <App />
-          </BrowserRouter>
-        </PostProvider>
-      </ViewerProvider>
-    </ConnectionProvider>
+    <NotificationProvider>
+      <ConnectionProvider>
+        <ViewerProvider>
+          <PostProvider>
+            <BrowserRouter basename="/">
+              <App />
+            </BrowserRouter>
+          </PostProvider>
+        </ViewerProvider>
+      </ConnectionProvider>
+    </NotificationProvider>
   </StrictMode>,
 );

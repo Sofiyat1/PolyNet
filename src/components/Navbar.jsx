@@ -10,6 +10,8 @@ import { useState, useRef, useEffect, useContext } from "react";
 import { ViewerContext } from "../context/ViewerContext";
 import { ConnectionContext } from "../context/ConnectionContext";
 
+import { NotificationContext } from "../context/NotificationContext";
+
 function Navbar({ variant = "app", scrollRef }) {
   const [open, setOpen] = useState(false);
   const [showSimMenu, setShowSimMenu] = useState(false);
@@ -37,10 +39,20 @@ function Navbar({ variant = "app", scrollRef }) {
   }, []);
 
   // VIEWER MODE
-  const setViewerMode = (conn) => {
-    setViewer(conn);
-    setShowSimMenu(false);
-  };
+const { addNotification } =
+  useContext(NotificationContext);
+
+const setViewerMode = (conn) => {
+  setViewer(conn);
+
+  addNotification({
+    type: "viewer",
+    message: `Viewing as ${conn.name}`,
+    visibility: "owner",
+  });
+
+  setShowSimMenu(false);
+};
 
   const exitViewer = () => {
     setViewer(null);

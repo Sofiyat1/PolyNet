@@ -3,17 +3,16 @@ import { FiLock, FiGlobe, FiXCircle } from "react-icons/fi";
 import "./ConnectionPage.css";
 
 import { ConnectionContext } from "../context/ConnectionContext";
+import { NotificationContext } from "../context/NotificationContext";
 
 function ConnectionPage() {
-  const {
-    connections,
-    setConnections,
-    requests,
-    setRequests,
-  } = useContext(ConnectionContext);
+  const { connections, setConnections, requests, setRequests } =
+    useContext(ConnectionContext);
 
   const [activeUser, setActiveUser] = useState(null);
   const [selectedAccess, setSelectedAccess] = useState(null);
+
+  const { addNotification } = useContext(NotificationContext);
 
   const requestCount = requests.length;
   const networkCount = connections.length;
@@ -22,19 +21,25 @@ function ConnectionPage() {
   const handleAccept = (req, access) => {
     setConnections((prev) => [
       ...prev,
-      { id: req.id, name: req.name, access },
+      {
+        id: req.id,
+        name: req.name,
+        access,
+      },
     ]);
 
-    setRequests((prev) =>
-      prev.filter((r) => r.id !== req.id)
-    );
+    setRequests((prev) => prev.filter((r) => r.id !== req.id));
+
+    addNotification({
+      type: "connection",
+      message: `${req.name} was added as a ${access} connection`,
+      visibility: "owner",
+    });
   };
 
   // REJECT REQUEST
   const handleReject = (id) => {
-    setRequests((prev) =>
-      prev.filter((r) => r.id !== id)
-    );
+    setRequests((prev) => prev.filter((r) => r.id !== id));
   };
 
   // OPEN MODAL
@@ -48,10 +53,19 @@ function ConnectionPage() {
     setConnections((prev) =>
       prev.map((c) =>
         c.id === activeUser.id
-          ? { ...c, access: selectedAccess }
-          : c
-      )
+          ? {
+              ...c,
+              access: selectedAccess,
+            }
+          : c,
+      ),
     );
+
+    addNotification({
+      type: "access",
+      message: `${activeUser.name} switched to ${selectedAccess} access`,
+      visibility: "owner",
+    });
 
     setActiveUser(null);
     setSelectedAccess(null);
@@ -59,7 +73,6 @@ function ConnectionPage() {
 
   return (
     <div className="connection-page">
-
       {/* HEADER */}
       <div className="connection-header">
         <h2>Connections</h2>
@@ -71,7 +84,6 @@ function ConnectionPage() {
 
         {requests.map((req) => (
           <div key={req.id} className="request-card">
-
             <div className="row">
               <div className="avatar" />
 
@@ -82,7 +94,6 @@ function ConnectionPage() {
             </div>
 
             <div className="btn-group">
-
               <button
                 className="btn-decoy"
                 onClick={() => handleAccept(req, "decoy")}
@@ -99,14 +110,10 @@ function ConnectionPage() {
                 Standard
               </button>
 
-              <button
-                className="reject"
-                onClick={() => handleReject(req.id)}
-              >
+              <button className="reject" onClick={() => handleReject(req.id)}>
                 <FiXCircle />
                 Reject
               </button>
-
             </div>
           </div>
         ))}
@@ -118,18 +125,14 @@ function ConnectionPage() {
 
         {connections.map((conn) => (
           <div key={conn.id} className="connection-row">
-
             <div className="row">
               <div className="avatar" />
 
               <div className="text-block">
-
                 <div className="name-row">
                   <p className="name">{conn.name}</p>
 
-                  <span className={`badge ${conn.access}`}>
-                    {conn.access}
-                  </span>
+                  <span className={`badge ${conn.access}`}>{conn.access}</span>
                 </div>
 
                 <p className="access-info">
@@ -138,13 +141,9 @@ function ConnectionPage() {
                     : "Sees only standard posts"}
                 </p>
 
-                <span
-                  className="change-link"
-                  onClick={() => openModal(conn)}
-                >
+                <span className="change-link" onClick={() => openModal(conn)}>
                   Change access
                 </span>
-
               </div>
             </div>
           </div>
@@ -153,52 +152,29 @@ function ConnectionPage() {
 
       {/* MODAL */}
       {activeUser && (
-        <div
-          className="modal-overlay"
-          onClick={() => setActiveUser(null)}
-        >
-          <div
-            className="modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-
-            <h3>
-              Change Access: {activeUser.name}
-            </h3>
+        <div className="modal-overlay" onClick={() => setActiveUser(null)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Change Access: {activeUser.name}</h3>
 
             <div className="btn-group">
-
               <button
-                className={
-                  selectedAccess === "decoy"
-                    ? "active"
-                    : ""
-                }
+                className={selectedAccess === "decoy" ? "active" : ""}
                 onClick={() => setSelectedAccess("decoy")}
               >
                 Decoy
               </button>
 
               <button
-                className={
-                  selectedAccess === "standard"
-                    ? "active"
-                    : ""
-                }
+                className={selectedAccess === "standard" ? "active" : ""}
                 onClick={() => setSelectedAccess("standard")}
               >
                 Standard
               </button>
-
             </div>
 
-            <button
-              className="confirm-btn"
-              onClick={confirmChange}
-            >
+            <button className="confirm-btn" onClick={confirmChange}>
               Confirm
             </button>
-
           </div>
         </div>
       )}

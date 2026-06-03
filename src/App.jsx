@@ -19,6 +19,7 @@ import Gender from "./pages/Gender";
 import Name from "./pages/Name";
 import Birthday from "./pages/Birthday";
 import MobileNumber from "./pages/MobileNumber";
+import Password from "./pages/Password";
 
 function App() {
   return (
@@ -28,9 +29,10 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />}>
-          <Route path="name" element={<Name />}></Route>
+          <Route index element={<Name />}></Route>
           <Route path="gender" element={<Gender />}></Route>
           <Route path="birthday" element={<Birthday />}></Route>
+          <Route path="password" element={<Password />}></Route>
           <Route path="mobilenumber" element={<MobileNumber />}></Route>
         </Route>
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />

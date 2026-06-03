@@ -1,10 +1,11 @@
 import { FaArrowLeft } from "react-icons/fa";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 const SignUp = () => {
+    const navigate = useNavigate();
     return (
         <div>
-            <FaArrowLeft/>
-            <Outlet/>
+            <FaArrowLeft onClick={() => navigate(-1)} />
+            <Outlet />
             <p>Find my account</p>
         </div>
     )

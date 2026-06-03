@@ -5,7 +5,7 @@ const MobileNumber = () => {
             <p>Enter the mobile number where you can be contacted. No one will see this on your profile.</p>
             <input type="text" name="" id="" placeholder="Mobile number" />
             <p>You may receive SMS notifications from us.</p>
-            <button onClick={ }>Next</button>
+            <button type="submit">Next</button>
         </div>
     )
 }

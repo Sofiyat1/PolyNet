@@ -66,7 +66,7 @@ const Login = () => {
           <button className="LogInBtn" type="submit" >Log in </button>
           <p className="forgot">Forgot Password?</p>
         </div>
-        <button className="CreateAcc signup" onClick={()=>navigate('/signup')}>Create Account</button>
+        <button type="submit" className="CreateAcc signup" onClick={() => navigate('/signup')}>Create Account</button>
       </form>
     </div>
   );

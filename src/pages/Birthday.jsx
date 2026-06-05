@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 const Birthday = () => {
     const navigate = useNavigate();
     const formik = useFormik({
-        initialValues:{
+        initialValues: {
             birthday: ""
         },
-        onSubmit: values=>{
+        onSubmit: values => {
             console.log(values);
-            
+            navigate("/signup/password")
         }
     })
     return (
@@ -19,9 +19,9 @@ const Birthday = () => {
             <form action="" onSubmit={formik.handleSubmit}>
                 <div className="">
                     <label htmlFor="">Birthday (13 years old)</label>
-                    <input type="date" name="birthday" id="" />
+                    <input type="date" name="birthday" id="" onChange={formik.handleChange} value={formik.values.birthday} />
                 </div>
-                <button type="submit" onClick={() => navigate("/signup/password")}>Next</button>
+                <button type="submit">Next</button>
             </form>
         </div>
     )

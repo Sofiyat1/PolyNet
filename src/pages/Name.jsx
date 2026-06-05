@@ -10,7 +10,7 @@ const Name = () => {
         },
         onSubmit: value => {
             console.log(value);
-
+            navigate('/signup/gender')
         }
     })
     return (
@@ -18,9 +18,9 @@ const Name = () => {
             <h1>What's your name?</h1>
             <p>Enter the name you use in real life.</p>
             <form onSubmit={formik.handleSubmit}>
-                <input type="text" placeholder="First name" name="firstname" onChange={formik.handleChange} />
-                <input type="text" placeholder="Last name" name="lastname" id="" onChange={formik.handleChange} />
-                <button type="submit" onClick={() => navigate('/signup/gender')}>Next</button>
+                <input type="text" placeholder="First name" name="firstname" onChange={formik.handleChange} value={formik.values.firstname} />
+                <input type="text" placeholder="Last name" name="lastname" id="" onChange={formik.handleChange} value={formik.values.lastname} />
+                <button type="submit">Next</button>
 
             </form>
         </div>

@@ -20,7 +20,9 @@ const Login = () => {
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Email must be a valid email format").required("Email is required"),
-      password: Yup.string().required('Password is required').min(6, 'Password must be a minimum of 6 characters')
+      password: Yup.string().required('Password is required').min(6, "Password must be at least 6 characters long")
+        .matches(/[a-zA-Z]/, "Password must include at least one letter")
+        .matches(/[0-9!@#$%^&*]/, "Password must include at least one number or special character")
     })
     ,
     onSubmit: values => {
@@ -54,7 +56,7 @@ const Login = () => {
               placeholder="******" name='password'
               className="inputBackground" onChange={formik.handleChange}
             />
-            {formik.touched.password && formik.errors && (
+            {formik.touched.password && formik.errors.password && (
               <p className="error">{formik.errors.password}</p>
             )}
             <div className="eye-icon" onClick={togglePasswordVisibility}>

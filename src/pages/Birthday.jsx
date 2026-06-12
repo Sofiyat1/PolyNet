@@ -17,7 +17,7 @@ const Birthday = () => {
         }
     })
     return (
-        <div className="birthday-page">
+        <div className="signup-step">
             <h1>What's your birthday?</h1>
             <p>Choose your date of birth. You can always make this private later. <span>Why do I need to provide my birthday?</span></p>
             <form onSubmit={formik.handleSubmit} className="signup-form">

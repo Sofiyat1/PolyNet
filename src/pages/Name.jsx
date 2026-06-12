@@ -21,7 +21,7 @@ const Name = () => {
     })
 
     return (
-        <div className="name-page">
+        <div className="signup-step">
             <h1>What's your name?</h1>
             <p>Enter the name you use in real life.</p>
             <form onSubmit={formik.handleSubmit} className="signup-form">
@@ -30,7 +30,7 @@ const Name = () => {
                 {formik.touched.firstname && formik.errors.firstname && (
                     <p className="signup-errors">{formik.errors.firstname}</p>
                 )}
-                <input type="text" placeholder="Last name" name="lastname" id="" onChange={formik.handleChange} value={formik.values.lastname} className="signup-input"
+                <input type="text" placeholder="Last name" name="lastname" id="" onChange={formik.handleChange} value={formik.values.lastname} className="signup-input" onBlur={formik.handleBlur}
                 />
                 {formik.touched.lastname && formik.errors.lastname && (
                     <p className="signup-errors"> {formik.errors.lastname}</p>

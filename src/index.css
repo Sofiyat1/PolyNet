@@ -78,9 +78,7 @@ button {
 
 .signup-step p {
   font-size: 1rem;
-  color: #6b7280;
   line-height: 1.5;
-  margin-bottom: 32px;
 }
 
 .signup-form {
@@ -166,8 +164,9 @@ button {
 
 /* signup errors */
 .signup-errors {
-  color: red;
-  font-size: 0.875rem;
-  margin-top: -16px;
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: -8px;
   margin-bottom: 4px;
+  font-weight: 500;
 }

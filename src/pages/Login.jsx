@@ -1,15 +1,14 @@
 import "./Login.css";
 import loginImage from "../assets/logo.png";
-
-import { FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
-import { useContext } from "react";
+import { useState, useContext } from "react";
+import { FaEye, FaEyeSlash,FaSpinner } from "react-icons/fa";
 import { FirstContext } from "./context/context";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
   let { showPassword, togglePasswordVisibility } = useContext(FirstContext)
-
   let navigate = useNavigate()
 
   // form validation
@@ -25,21 +24,41 @@ const Login = () => {
         .matches(/[0-9!@#$%^&*]/, "Password must include at least one number or special character")
     })
     ,
-    onSubmit: values => {
-      console.log(values);
+    onSubmit: async (values) => {
+      setIsLoading(true);
 
-      navigate('/homepage')
+      try {
+        console.log(values);
+
+        // simulate request or API call
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        navigate("/homepage");
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
   })
   return (
     <div className="loginGen">
-      <div className="imgDiv">
-        <img src={loginImage} alt="" className="imgLogo" /> <span className="LogoText">PolyNet</span>
+
+      <div className="topSection">
+        <div className="imgDiv">
+          <img src={loginImage} className="imgLogo" />
+          <span className="LogoText">PolyNet</span>
+        </div>
+
+        <div className="welcomeText">
+          <h2>Welcome Back</h2>
+          <p>Sign in to continue</p>
+        </div>
       </div>
       <form action="" className="formGen" onSubmit={formik.handleSubmit}>
         <div className="formDiv">
-          <label htmlFor="">Email</label>
-          <input type="email" placeholder="name@gmail.com" name='email' className="inputBackground" onChange={formik.handleChange} />
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="name@gmail.com" name='email' className="inputBackground" onChange={formik.handleChange} />
           {formik.touched.email && formik.errors.email && (
             <p className="error">{formik.errors.email}</p>
           )}
@@ -53,8 +72,8 @@ const Login = () => {
           <div className="input-wrap">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="******" name='password'
-              className="inputBackground" onChange={formik.handleChange}
+              placeholder="Enter your password" name='password' onBlur={formik.handleBlur}
+              className="inputBackground" onChange={formik.handleChange} id="password"
             />
             {formik.touched.password && formik.errors.password && (
               <p className="error">{formik.errors.password}</p>
@@ -65,10 +84,13 @@ const Login = () => {
           </div>
         </div>
         <div className="btnLogin btn">
-          <button className="LogInBtn" type="submit" >Log in </button>
-          <p className="forgot">Forgot Password?</p>
+          <button className="LogInBtn" type="submit" disabled={isLoading} >  {isLoading ? <FaSpinner/> : "Log in"}
+          </button>
+          <p className="forgot" onClick={() => navigate('/forgot-password')}>
+            Forgot Password?
+          </p>
         </div>
-        <button type="submit" className="CreateAcc signup" onClick={() => navigate('/signup')}>Create Account</button>
+        <button type="button" className="CreateAcc signup" onClick={() => navigate('/signup')}>Create Account</button>
       </form>
     </div>
   );

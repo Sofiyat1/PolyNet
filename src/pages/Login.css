@@ -5,14 +5,11 @@
 }
 
 .loginGen {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-  width: 100%;
-  padding: 40px 20px;
-  gap: 40px;
+  padding: 30px 20px;
 }
 
 .formGen {
@@ -20,24 +17,50 @@
   max-width: 400px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+}
+
+/* control spacing manually */
+.formDiv {
+  margin-bottom: 18px;
+}
+
+/* groups logo + welcome text only */
+.topSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
 }
 
 .imgDiv {
-  width: 100%;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .imgLogo {
-  width: 60px;
-  height: 60px;
+  width: 50px; /* adjust as needed */
+  height: 50px;
   object-fit: contain;
 }
 
 .LogoText {
-  font-weight: 700;
   font-size: 28px;
-  margin-left: 8px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.welcomeText p {
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+}
+
+.input-wrap {
+  margin-top: 8px;
+  margin-bottom: 18px;
 }
 
 label {
@@ -67,9 +90,21 @@ label {
 }
 .forgot {
   text-align: center;
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
-  margin-top: 6px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.forgot:hover {
+  color: #242c74;
+}
+
+.btnLogin {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 button {
@@ -123,7 +158,6 @@ button {
   background-color: #242c74;
   color: white;
 }
-
 
 @media (max-width: 768px) {
   .loginGen {

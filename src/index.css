@@ -115,6 +115,110 @@ button {
   cursor: pointer;
 }
 
+/* mobile page */
+.mobile-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.mobile-page h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.mobile-page p {
+  font-size: 1rem;
+  color: #6b7280;
+  text-align: center;
+  max-width: 420px;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.mobile-form {
+  width: 100%;
+  max-width: 520px; /* matches signup-layout */
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mobile-note {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-top: -6px;
+  text-align: left;
+}
+
+/* phone wrapper */
+.phone-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  height: 52px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  transition: 0.2s ease;
+}
+
+/* focus effect when typing inside */
+.phone-wrapper:focus-within {
+  border-color: #242c74;
+  box-shadow: 0 0 0 3px rgba(36, 44, 116, 0.15);
+}
+
+.country-code {
+  padding: 0 14px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: #f3f4f6;
+  color: #111;
+  font-weight: 600;
+  font-size: 14px;
+  border-right: 1px solid #e5e7eb;
+}
+
+/* actual input */
+.phone-wrapper input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding: 0 14px;
+  font-size: 1rem;
+  background: transparent;
+}
+
+/* placeholder styling */
+.phone-wrapper input::placeholder {
+  color: #9ca3af;
+}
+
+/* mobile spacing consistency */
+.mobile-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.mobile-note {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  text-align: center;
+  max-width: 400px;
+}
+
 /* Tablet */
 @media (max-width: 768px) {
   .signup-layout {

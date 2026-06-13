@@ -16,13 +16,35 @@ const Birthday = () => {
             navigate("/signup/password")
         }
     })
+
+    const calculateAge = (dob) => {
+        if (!dob) return "";
+
+        const birthDate = new Date(dob);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        const dayDiff = today.getDate() - birthDate.getDate();
+
+        // adjust if birthday hasn't occurred yet this year
+        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+            age--;
+        }
+        return age;
+    };
+
+    // 2. derive age from formik value
+    const age = calculateAge(formik.values.birthday);
     return (
         <div className="signup-step">
             <h1>What's your birthday?</h1>
             <p>Choose your date of birth. You can always make this private later. <span>Why do I need to provide my birthday?</span></p>
             <form onSubmit={formik.handleSubmit} className="signup-form">
                 <div className="birthday-field">
-                    <label htmlFor="birthday">Birthday (13 years old)</label>
+                    <label htmlFor="birthday">  Birthday {age ? `(${age} years old)` : ""}
+                    </label>
 
                     <input
                         type="date"

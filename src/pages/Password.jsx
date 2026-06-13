@@ -24,15 +24,12 @@ const Password = () => {
     return (
         <div className="password-page">
             <h1>Create a password</h1>
-
             <p>
                 Create a password with at least 6 letters or numbers. It should be something others can't guess.
             </p>
-
             <form onSubmit={formik.handleSubmit} className="password-form">
                 <div className="password-field">
                     <label htmlFor="password">Password</label>
-
                     <div className="password-input-wrapper">
                         <input
                             type={showPassword ? "text" : "password"}
@@ -42,7 +39,6 @@ const Password = () => {
                             onChange={formik.handleChange}
                             value={formik.values.password} className="signup-input"
                         />
-
                         <span
                             className="eye-icon"
                             onClick={() => setShowPassword(!showPassword)}

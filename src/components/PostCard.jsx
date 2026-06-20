@@ -1,13 +1,26 @@
 import "./PostCard.css";
-import { FiUser } from "react-icons/fi";
+import { useState } from "react";
+import {
+  FiUser,
+  FiHeart,
+  FiMessageCircle,
+  FiRepeat,
+  FiShare2,
+  FiStar,
+} from "react-icons/fi";
+import { FaHeart, FaStar } from "react-icons/fa";
 
-function PostCard({
-  user,
-  content,
-  profilePic,
-  media = [],
-  identity,
-}) {
+function PostCard({ user, content, profilePic, media = [], identity }) {
+  const [liked, setLiked] = useState(false);
+  const [starred, setStarred] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [reposted, setReposted] = useState(false);
+
+  const toggleLike = () => {
+    setLiked((prev) => !prev);
+    setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
+  };
+
   return (
     <div className="post-card">
       {/* HEADER */}
@@ -33,7 +46,7 @@ function PostCard({
         </div>
       </div>
 
-      {/* TEXT */}
+      {/* CONTENT */}
       <div className="post-content">{content}</div>
 
       {/* MEDIA */}
@@ -42,22 +55,58 @@ function PostCard({
           {media.map((item, index) => (
             <div key={index} className="post-media-item">
               {item.type.startsWith("image") ? (
-                <img
-                  src={item.preview}
-                  alt="post media"
-                  className="post-image"
-                />
+                <img src={item.preview} className="post-image" />
               ) : (
-                <video
-                  src={item.preview}
-                  controls
-                  className="post-video"
-                />
+                <video src={item.preview} controls className="post-video" />
               )}
             </div>
           ))}
         </div>
       )}
+
+      {/* ACTIONS */}
+      <div className="post-actions">
+        {/* LIKE */}
+        <button className="action-btn like-btn" onClick={toggleLike}>
+          {liked ? <FaHeart className="liked" /> : <FiHeart />}
+
+          <span>{likeCount}</span>
+        </button>
+
+        {/* COMMENT */}
+        <button className="action-btn">
+          <FiMessageCircle />
+          <span>Comment</span>
+        </button>
+
+        {/* REPOST */}
+        <button
+          className={`action-btn repost-btn ${reposted ? "active-repost" : ""}`}
+          onClick={() => setReposted((p) => !p)}
+        >
+          <span className="icon-wrapper">
+            <FiRepeat />
+            {reposted && <span className="repost-badge">✓</span>}
+          </span>
+
+          <span>Repost</span>
+        </button>
+
+        {/* SHARE */}
+        <button className="action-btn">
+          <FiShare2 />
+          <span>Share</span>
+        </button>
+
+        {/* STAR */}
+        <button
+          className={`action-btn save-btn ${starred ? "active-save" : ""}`}
+          onClick={() => setStarred((prev) => !prev)}
+        >
+          {starred ? <FaStar /> : <FiStar />}
+          <span>Save</span>
+        </button>
+      </div>
     </div>
   );
 }

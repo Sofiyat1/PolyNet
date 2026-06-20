@@ -5,7 +5,7 @@ import HomePage from "./pages/Homepage";
 import ConnectionPage from "./pages/ConnectionPage";
 import Settings from "./pages/Settings";
 import Notification from "./pages/Notification";
-import ProfilePage from "./pages/ProfilePage"
+import ProfilePage from "./pages/ProfilePage";
 
 import AppLayout from "./layouts/AppLayout";
 import "./App.css";
@@ -13,6 +13,9 @@ import Login from "./pages/Login";
 import AddPostPage from "./pages/AddPostPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AboutPage from "./pages/AboutPage";
+
+import IdentityGuidePage from "./pages/IdentityGuidePage";
+
 import Wrapper from "./pages/context/Wrapper";
 import SignUp from "./pages/Signup";
 import Gender from "./pages/Gender";
@@ -29,14 +32,14 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />}>
-          <Route index element={<Name />}></Route>
-          <Route path="gender" element={<Gender />}></Route>
-          <Route path="birthday" element={<Birthday />}></Route>
-          <Route path="password" element={<Password />}></Route>
-          <Route path="mobilenumber" element={<MobileNumber />}></Route>
-        </Route>
-        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-        <Route path="/about" element={<AboutPage />} />
+           <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/identityguide" element={<IdentityGuidePage />} />
+          <Route index element={<Name />} />
+          <Route path="gender" element={<Gender />} />
+          <Route path="birthday" element={<Birthday />} /> 
+          <Route path="password" element={<Password />} />
+          <Route path="mobilenumber" element={<MobileNumber />} />
 
         {/* App pages */}
         <Route element={<AppLayout />}>

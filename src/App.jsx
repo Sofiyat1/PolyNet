@@ -26,20 +26,23 @@ import Password from "./pages/Password";
 
 function App() {
   return (
-    <Wrapper>
       <Routes>
         {/* Onboarding / Landing */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+
            <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/identityguide" element={<IdentityGuidePage />} />
+            <Wrapper>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
           <Route index element={<Name />} />
           <Route path="gender" element={<Gender />} />
           <Route path="birthday" element={<Birthday />} /> 
           <Route path="password" element={<Password />} />
           <Route path="mobilenumber" element={<MobileNumber />} />
+                  </Wrapper>
+
 
         {/* App pages */}
         <Route element={<AppLayout />}>
@@ -51,7 +54,6 @@ function App() {
           <Route path="/addpostpage" element={<AddPostPage />} />
         </Route>
       </Routes>
-    </Wrapper>
   );
 }
 

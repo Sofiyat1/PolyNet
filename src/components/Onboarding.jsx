@@ -4,16 +4,17 @@ import { useNavigate } from "react-router-dom";
 import "./Onboarding.css";
 import slide1 from "../assets/slide1.png";
 import slide2 from "../assets/slide2.png";
-import slide3 from "../assets/slide3.png";
+import slide3 from "../assets/slide33.png";
 import slide4 from "../assets/slide4.jpg";
 import slide5 from "../assets/slide5.png";
 
 const slides = [
   {
     title: "One Profile. Two Realities.",
+    text: "Take back control online.",
     image: slide1,
-    background: "linear-gradient(to right, #838b96 50%, #242c74 50%)",
-    textColor: "#f3f3f3",
+    background: "#dbdada",//"linear-gradient(to right, #838b96 50%, #242c74 50%)",
+    textColor: "#000",
   },
   {
     title: "Social Networking, Re-Architected.",
@@ -34,7 +35,6 @@ const slides = [
   },
   {
     title: "Take Back Your Digital Identity.",
-    text: "Take back control online.",
     image: slide4,
     background: "#041122",
     textColor: "#f3f3f3",

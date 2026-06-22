@@ -26,14 +26,8 @@ import Password from "./pages/Password";
 
 function App() {
   return (
-      <Routes>
-        {/* Onboarding / Landing */}
-        <Route path="/" element={<LandingPage />} />
-
-           <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/identityguide" element={<IdentityGuidePage />} />
-            <Wrapper>
+    <Wrapper>
+              <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
           <Route index element={<Name />} />
@@ -41,7 +35,16 @@ function App() {
           <Route path="birthday" element={<Birthday />} /> 
           <Route path="password" element={<Password />} />
           <Route path="mobilenumber" element={<MobileNumber />} />
-                  </Wrapper>
+                
+              </Routes>  
+    </Wrapper>
+      <Routes>
+        {/* Onboarding / Landing */}
+        <Route path="/" element={<LandingPage />} />
+
+           <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/identityguide" element={<IdentityGuidePage />} />
 
 
         {/* App pages */}

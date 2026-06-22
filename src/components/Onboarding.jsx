@@ -11,7 +11,7 @@ import slide5 from "../assets/slide5.png";
 const slides = [
   {
     title: "One Profile. Two Realities.",
-    text: "Take back control online.",
+    //text: "Take back control online.",
     image: slide1,
     background: "#dbdada",//"linear-gradient(to right, #838b96 50%, #242c74 50%)",
     textColor: "#000",

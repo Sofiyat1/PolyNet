@@ -31,7 +31,7 @@ function App() {
         {/* Onboarding / Landing */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />}>
+        <Route path="/signup" element={<SignUp />} />
            <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/identityguide" element={<IdentityGuidePage />} />

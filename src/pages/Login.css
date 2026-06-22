@@ -1,0 +1,186 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.loginGen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+}
+
+.formGen {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* control spacing manually */
+.formDiv {
+  margin-bottom: 18px;
+}
+
+/* groups logo + welcome text only */
+.topSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.imgDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.imgLogo {
+  width: 50px; /* adjust as needed */
+  height: 50px;
+  object-fit: contain;
+}
+
+.LogoText {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.welcomeText p {
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+}
+
+.input-wrap {
+  margin-top: 8px;
+  margin-bottom: 18px;
+}
+
+label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.inputBackground {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  font-size: 15px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  outline: none;
+
+  background-color: #f9fafb;
+  transition: 0.2s ease;
+}
+
+.inputBackground:focus {
+  border-color: #242c74;
+  box-shadow: 0 0 0 3px rgba(36, 44, 116, 0.15);
+}
+.forgot {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.forgot:hover {
+  color: #242c74;
+}
+
+.btnLogin {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+button {
+  width: 100%;
+  height: 48px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.signup {
+  background-color: transparent;
+  color: #242c74;
+  border: 1px solid #242c74;
+}
+
+.CreateAcc {
+  margin-top: 100px;
+}
+
+.input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6b7280;
+  font-size: 18px;
+}
+
+.eye-icon:hover {
+  color: #242c74;
+}
+
+/* error login */
+
+.error {
+  color: #dc2626;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.LogInBtn {
+  background-color: #242c74;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .loginGen {
+    padding: 30px 16px;
+  }
+
+  .formGen {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .LogoText {
+    font-size: 22px;
+  }
+
+  .inputBackground {
+    height: 44px;
+    font-size: 14px;
+  }
+
+  button {
+    height: 44px;
+    font-size: 14px;
+  }
+}

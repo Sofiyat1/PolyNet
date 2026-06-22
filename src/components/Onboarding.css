@@ -62,8 +62,10 @@
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.2s;
-  width: fit-content;
-  display: inline-block;
+  width: 80%;
+  max-width: 320px;
+  min-width: 200px;
+  text-align: center;
 }
 
 .onboarding-btn:hover {

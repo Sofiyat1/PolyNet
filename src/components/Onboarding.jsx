@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Onboarding.css";
@@ -32,29 +32,80 @@ const slides = [
     background: slide5,
     textColor: "#f3f3f3",
   },
-    {
+  {
     title: "Take Back Your Digital Identity.",
     text: "Take back control online.",
     image: slide4,
     background: "#041122",
     textColor: "#f3f3f3",
-  }
+  },
 ];
 
 function Onboarding() {
   const [current, setCurrent] = useState(0);
   const navigate = useNavigate();
 
-  // auto-slide every 4 seconds
+  const timerRef = useRef(null);
+  const isInteracting = useRef(false);
+
+  const startAutoSlide = () => {
+    stopAutoSlide();
+
+    timerRef.current = setInterval(() => {
+      if (!isInteracting.current) {
+        setCurrent((prev) => (prev + 1) % slides.length);
+      }
+    }, 3000); // smooth onboarding speed
+  };
+
+  const stopAutoSlide = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
   useEffect(() => {
-    const timer = setInterval(() => {
+    startAutoSlide();
+    return () => stopAutoSlide();
+  }, 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  []);
+
+  // swipe helpers
+  const startX = useRef(0);
+  const endX = useRef(0);
+
+  const handleTouchStart = (e) => {
+    isInteracting.current = true;
+    startX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    endX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = startX.current - endX.current;
+
+    if (diff > 50) {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
+    } else if (diff < -50) {
+      setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    }
+
+    setTimeout(() => {
+      isInteracting.current = false;
+    }, 1000);
+  };
 
   return (
-    <div className="onboarding-container">
+    <div
+      className="onboarding-container"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <div
         className="onboarding-track"
         style={{ transform: `translateX(-${current * 100}vw)` }}
@@ -62,7 +113,9 @@ function Onboarding() {
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`onboarding-slide ${index === slides.length - 1 ? "last-slide" : ""}`}
+            className={`onboarding-slide ${
+              index === slides.length - 1 ? "last-slide" : ""
+            }`}
             style={{
               ...(slide.background
                 ? slide.background.startsWith("linear-gradient") ||
@@ -78,6 +131,7 @@ function Onboarding() {
             }}
           >
             <h1>{slide.title}</h1>
+
             {slide.image && (
               <img
                 src={slide.image}
@@ -85,7 +139,9 @@ function Onboarding() {
                 className="slide-image"
               />
             )}
+
             {slide.text && <p>{slide.text}</p>}
+
             {index === slides.length - 3 && (
               <button
                 className="onboarding-btn"
@@ -94,6 +150,7 @@ function Onboarding() {
                 Learn How Privacy Works
               </button>
             )}
+
             {index === slides.length - 1 && (
               <button
                 className="onboarding-btn"

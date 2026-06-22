@@ -9,14 +9,15 @@ import ProfilePage from "./pages/ProfilePage";
 
 import AppLayout from "./layouts/AppLayout";
 import "./App.css";
+
 import Login from "./pages/Login";
 import AddPostPage from "./pages/AddPostPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AboutPage from "./pages/AboutPage";
-
 import IdentityGuidePage from "./pages/IdentityGuidePage";
 
 import Wrapper from "./pages/context/Wrapper";
+
 import SignUp from "./pages/Signup";
 import Gender from "./pages/Gender";
 import Name from "./pages/Name";
@@ -26,25 +27,30 @@ import Password from "./pages/Password";
 
 function App() {
   return (
+    <Wrapper>
       <Routes>
-        {/* Onboarding / Landing */}
+
+        {/* Landing page */}
         <Route path="/" element={<LandingPage />} />
 
-           <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/identityguide" element={<IdentityGuidePage />} />
-            <Wrapper>
+        {/* Auth */}
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+
+        {/* Signup flow */}
+        <Route path="/signup">
           <Route index element={<Name />} />
           <Route path="gender" element={<Gender />} />
-          <Route path="birthday" element={<Birthday />} /> 
+          <Route path="birthday" element={<Birthday />} />
           <Route path="password" element={<Password />} />
           <Route path="mobilenumber" element={<MobileNumber />} />
-                  </Wrapper>
+        </Route>
 
+        {/* Static pages */}
+        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/identityguide" element={<IdentityGuidePage />} />
 
-        {/* App pages */}
+        {/* App layout routes */}
         <Route element={<AppLayout />}>
           <Route path="/homepage" element={<HomePage />} />
           <Route path="/connectionpage" element={<ConnectionPage />} />
@@ -53,7 +59,9 @@ function App() {
           <Route path="/notification" element={<Notification />} />
           <Route path="/addpostpage" element={<AddPostPage />} />
         </Route>
+
       </Routes>
+    </Wrapper>
   );
 }
 

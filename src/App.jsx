@@ -38,7 +38,7 @@ function App() {
 
         {/* Signup flow */}
         <Route path="/signup">
-          <Route index element={<SignUp />} />
+
           <Route path="name" element={<Name />} />
           <Route path="gender" element={<Gender />} />
           <Route path="birthday" element={<Birthday />} />

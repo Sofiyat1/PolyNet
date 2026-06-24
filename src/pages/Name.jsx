@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { SignUpContext } from "./context/context";
+
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
@@ -5,6 +8,9 @@ import '/src/index.css';
 
 const Name = () => {
     const navigate = useNavigate();
+    const { signupData, setSignupData } = useContext(SignUpContext);
+    // console.log(signupData);
+
     let formik = useFormik({
         initialValues: {
             firstname: '',
@@ -14,9 +20,14 @@ const Name = () => {
             firstname: Yup.string().min(4, "First name must be at least 4 characters").required("Enter your firstname"),
             lastname: Yup.string().required("Enter your lastname").min(4, "Last name must be at least 4 characters")
         }),
-        onSubmit: value => {
-            console.log(value);
-            navigate('/signup/gender')
+        onSubmit: (values) => {
+            setSignupData({
+                ...signupData,
+                firstname: values.firstname,
+                lastname: values.lastname,
+            });
+
+            navigate("/signup/gender");
         }
     })
 

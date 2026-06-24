@@ -1,18 +1,29 @@
 import { useState } from "react";
-import { FirstContext } from "./context";
+import { FirstContext, SignUpContext } from "./context";
 
 const Wrapper = ({ children }) => {
     let [showPassword, setShowPassword] = useState(false);
+    const [signupData, setSignupData] = useState({
+        firstname: "",
+        lastname: "",
+        gender: "",
+        birthday: "",
+        mobilenumber: "",
+        email: "",
+    });
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
-  
+
     return (
-        <FirstContext.Provider value={{ showPassword, togglePasswordVisibility }}>
-            <div>
+        <FirstContext.Provider
+            value={{
+                showPassword, togglePasswordVisibility
+            }}>
+            <SignUpContext.Provider value={{signupData,setSignupData}}>
                 {children}
-            </div>
+            </SignUpContext.Provider>
         </FirstContext.Provider>
     )
 }

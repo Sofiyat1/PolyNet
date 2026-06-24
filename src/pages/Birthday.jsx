@@ -1,9 +1,15 @@
+import { useContext } from "react";
+import { SignUpContext } from "./context/context";
+
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import '/src/index.css';
 import * as Yup from 'yup';
 const Birthday = () => {
     const navigate = useNavigate();
+    const { signupData, setSignupData } = useContext(SignUpContext);
+    // console.log(signupData);
+
     const formik = useFormik({
         initialValues: {
             birthday: ""
@@ -12,8 +18,11 @@ const Birthday = () => {
             birthday: Yup.string().required('Select your birth date')
         }),
         onSubmit: values => {
-            console.log(values);
-            navigate("/signup/password")
+            setSignupData({
+                ...signupData,
+                birthday: values.birthday
+            })
+            navigate("/signup/mobilenumber")
         }
     })
 
@@ -40,7 +49,7 @@ const Birthday = () => {
     return (
         <div className="signup-step">
             <h1>What's your birthday?</h1>
-            <p>Choose your date of birth. You can always make this private later. <span>Why do I need to provide my birthday?</span></p>
+            <p>Choose your date of birth. You can always make this private later. </p>
             <form onSubmit={formik.handleSubmit} className="signup-form">
                 <div className="birthday-field">
                     <label htmlFor="birthday">  Birthday {age ? `(${age} years old)` : ""}

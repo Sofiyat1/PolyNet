@@ -1,9 +1,13 @@
+import { useContext } from "react";
+import { SignUpContext } from "./context/context";
+
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import '/src/index.css';
 import * as Yup from 'yup';
 const MobileNumber = () => {
     const navigate = useNavigate();
+    const { signupData, setSignupData } = useContext(SignUpContext)
     const formik = useFormik({
         initialValues: {
             mobilenumber: ''
@@ -11,11 +15,18 @@ const MobileNumber = () => {
         validationSchema: Yup.object({
             mobilenumber: Yup.string()
                 .required("Enter your mobile number")
-                .matches(/^[0-9]{10,11}$/, "Enter a valid Nigerian phone number")
+                .matches(
+                    /^(0?[7-9][0-1][0-9]{8})$/,
+                    "Enter a valid Nigerian phone number"
+                )
         })
         ,
         onSubmit: values => {
-            console.log(values);
+            setSignupData({
+                ...signupData,
+                mobilenumber: values.mobilenumber
+            })
+            navigate("/signup/email");
         }
     })
     return (
@@ -26,19 +37,26 @@ const MobileNumber = () => {
                 <div className="phone-wrapper">
                     <span className="country-code">+234</span>
                     <input
-                        type="text"
+                        type="tel"
                         name="mobilenumber"
                         placeholder="8012345678"
                         value={formik.values.mobilenumber}
+                        onBlur={formik.handleBlur}
                         onChange={(e) => {
-                            const value = e.target.value.replace(/[^0-9]/g, "");
+                            const value = e.target.value.replace(/\D/g, "")
+                                .slice(0, 11);
                             formik.setFieldValue("mobilenumber", value);
                         }}
                     />
+
                 </div>
-                <p className="mobile-note">
-                    You may receive SMS notifications from us.
-                </p>
+                {formik.touched.mobilenumber &&
+                    formik.errors.mobilenumber && (
+                        <p className="mobile-error">
+                            {formik.errors.mobilenumber}
+                        </p>
+                    )}
+
                 <button type="submit" className="signup-button">Next</button>
             </form>
         </div>

@@ -15,20 +15,21 @@ import AddPostPage from "./pages/AddPostPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AboutPage from "./pages/AboutPage";
 import IdentityGuidePage from "./pages/IdentityGuidePage";
-
+import VerifyEmail from "./pages/VerifyEmail";
 import Wrapper from "./pages/context/Wrapper";
 
-import SignUp from "./pages/Signup";
+import SignUp from "./pages/SignUp";
 import Gender from "./pages/Gender";
 import Name from "./pages/Name";
 import Birthday from "./pages/Birthday";
 import MobileNumber from "./pages/MobileNumber";
 import Password from "./pages/Password";
+import Email from "./pages/Email";
 
 function App() {
   console.log(supabase);
   return (
-    
+
     <Wrapper>
       <Routes>
 
@@ -39,12 +40,13 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         {/* Signup flow */}
-        <Route path="/signup">
+        <Route path="/signup" element={<SignUp />}>
           <Route index element={<Name />} />
           <Route path="gender" element={<Gender />} />
           <Route path="birthday" element={<Birthday />} />
-          <Route path="password" element={<Password />} />
           <Route path="mobilenumber" element={<MobileNumber />} />
+          <Route path="email" element={<Email />} />
+          <Route path="password" element={<Password />} />
         </Route>
 
         {/* Static pages */}
@@ -62,6 +64,8 @@ function App() {
           <Route path="/addpostpage" element={<AddPostPage />} />
         </Route>
 
+        {/* verify Email */}
+        <Route path="/verify-email" element={<VerifyEmail />} />
       </Routes>
     </Wrapper>
   );

@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-
+import { supabase } from "./lib/supabase";
 import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/Homepage";
 import ConnectionPage from "./pages/ConnectionPage";
@@ -22,7 +22,9 @@ import MobileNumber from "./pages/MobileNumber";
 import Password from "./pages/Password";
 
 function App() {
+  console.log(supabase);
   return (
+    
     <Wrapper>
       <Routes>
         {/* Onboarding / Landing */}

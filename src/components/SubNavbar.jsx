@@ -1,13 +1,18 @@
 import "./SubNavbar.css";
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
 import { HiOutlineHome, HiHome } from "react-icons/hi";
 import { HiOutlineUserGroup, HiUserGroup } from "react-icons/hi";
 import { HiOutlineBell, HiBell } from "react-icons/hi";
 import { HiOutlineUser, HiUser } from "react-icons/hi";
 import { FiPlus } from "react-icons/fi";
 
-function SubNavbar({ visible }) {
+import { NotificationContext } from "../context/NotificationContext";
 
+function SubNavbar({ visible }) {
+  const { notifications } = useContext(NotificationContext);
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
   return (
     <div className={`sub-navbar ${visible ? "" : "hide"}`}>
       <div className="sub-navbar-icons">
@@ -47,10 +52,19 @@ function SubNavbar({ visible }) {
             isActive ? "sub-navbar-item active" : "sub-navbar-item"
           }
         >
-          {({ isActive }) =>
-            isActive ? <HiBell size={30} /> : <HiOutlineBell size={30} />
-          }
+          {({ isActive }) => (
+            <div className="notif-icon-wrapper">
+              {isActive ? <HiBell size={30} /> : <HiOutlineBell size={30} />}
+
+              {unreadCount > 0 && (
+                <span className="notif-badge">
+                  {unreadCount > 9 ? "9+" : unreadCount}
+                </span>
+              )}
+            </div>
+          )}
         </NavLink>
+
         <NavLink
           to="/profilepage"
           className={({ isActive }) =>

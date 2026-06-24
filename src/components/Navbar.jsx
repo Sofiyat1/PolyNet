@@ -1,73 +1,146 @@
 import "./Navbar.css";
 import logo from "../assets/logo.png";
-import { FiSettings, FiMenu } from "react-icons/fi";
+
+import { FiSettings, FiMenu, FiShield } from "react-icons/fi";
 import { FaCog } from "react-icons/fa";
+
 import { NavLink, Link } from "react-router-dom";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
+
+import { ViewerContext } from "../context/ViewerContext";
+import { ConnectionContext } from "../context/ConnectionContext";
+
+import { NotificationContext } from "../context/NotificationContext";
 
 function Navbar({ variant = "app", scrollRef }) {
   const [open, setOpen] = useState(false);
+  const [showSimMenu, setShowSimMenu] = useState(false);
   const [visible, setVisible] = useState(true);
+
   const menuRef = useRef(null);
+  const simRef = useRef(null);
   const navRef = useRef(null);
 
-  // Close menu when clicking outside
+  const { viewer, setViewer } = useContext(ViewerContext);
+  const { connections } = useContext(ConnectionContext);
+
+  // CLOSE ON OUTSIDE CLICK (FIXED)
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target) && // menu itself
-        navRef.current &&
-        !navRef.current.contains(event.target) // navbar container
-      ) {
-        setOpen(false);
-      }
+    function handleClickOutside(e) {
+      const clickedSim = simRef.current?.contains(e.target);
+      const clickedMenu = menuRef.current?.contains(e.target);
+
+      if (!clickedSim) setShowSimMenu(false);
+      if (!clickedMenu) setOpen(false);
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  //Scroll-aware effect
+  // VIEWER MODE
+const { addNotification } =
+  useContext(NotificationContext);
+
+const setViewerMode = (conn) => {
+  setViewer(conn);
+
+  addNotification({
+    type: "viewer",
+    message: `Viewing as ${conn.name}`,
+    visibility: "owner",
+  });
+
+  setShowSimMenu(false);
+};
+
+  const exitViewer = () => {
+    setViewer(null);
+    setShowSimMenu(false);
+  };
+
+  // SCROLL HIDE/SHOW
   useEffect(() => {
-    const scrollEl = scrollRef?.current;
+    const el = scrollRef?.current;
+    if (!el) return;
 
-    if (!scrollEl) return;
-
-    let lastScrollY = 0;
+    let last = 0;
 
     const handleScroll = () => {
-      const currentScrollY = scrollEl.scrollTop;
+      const current = el.scrollTop;
 
-      if (currentScrollY > lastScrollY + 5) {
+      if (current > last + 5) {
         setVisible(false);
       } else {
         setVisible(true);
       }
 
-      lastScrollY = currentScrollY;
+      last = current;
     };
 
-    scrollEl.addEventListener("scroll", handleScroll);
-
-    return () => scrollEl.removeEventListener("scroll", handleScroll);
+    el.addEventListener("scroll", handleScroll);
+    return () => el.removeEventListener("scroll", handleScroll);
   }, [scrollRef]);
 
   return (
     <nav
       ref={navRef}
-      className={`navbar ${visible ? "show" : "hide"} ${variant === "landing" ? "navbar-transparent" : "app"}`}
+      className={`navbar ${visible ? "show" : "hide"} ${
+        variant === "landing" ? "navbar-transparent" : "app"
+      }`}
     >
-      <NavLink
-      to="/"
-       className="navbar-left">
+      {/* LEFT */}
+      <NavLink to="/" className="navbar-left">
         <img src={logo} alt="Logo" className="navbar-logo" />
         <span className="navbar-name">PolyNet</span>
       </NavLink>
+
+      {/* RIGHT */}
       <div className="navbar-right">
+        {/* SIMULATION TOOL */}
+        {variant !== "landing" && (
+          <div className="sim-wrapper" ref={simRef}>
+            <FiShield
+              size={20}
+              className="sim-icon"
+              onClick={() => setShowSimMenu((p) => !p)}
+            />
+
+            {showSimMenu && (
+              <div className="sim-menu">
+                <div className="sim-title">
+                  {viewer
+                    ? `Viewing as ${viewer.name} (${viewer.access})`
+                    : "Owner Mode"}
+                </div>
+
+                {connections?.filter((c) => c.id !== viewer?.id)?.length ? (
+                  connections
+                    .filter((c) => c.id !== viewer?.id)
+                    .map((conn) => (
+                      <button key={conn.id} onClick={() => setViewerMode(conn)}>
+                        {conn.name} ({conn.access})
+                      </button>
+                    ))
+                ) : (
+                  <div className="empty-state">No other connections</div>
+                )}
+
+                {viewer && (
+                  <button className="exit-btn" onClick={exitViewer}>
+                    Exit Viewer Mode
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* SETTINGS / MENU */}
         {variant === "landing" ? (
           <FiMenu
             size={24}
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpen((p) => !p)}
             className="hamburger-icon"
           />
         ) : (
@@ -84,6 +157,7 @@ function Navbar({ variant = "app", scrollRef }) {
         )}
       </div>
 
+      {/* LANDING MENU */}
       {variant === "landing" && open && (
         <div ref={menuRef} className={`hamburger-menu ${open ? "show" : ""}`}>
           <Link to="/login" onClick={() => setOpen(false)}>
@@ -97,6 +171,9 @@ function Navbar({ variant = "app", scrollRef }) {
           </Link>
           <Link to="/privacypolicy" onClick={() => setOpen(false)}>
             Privacy Policy
+          </Link>
+          <Link to="/identityguide" onClick={() => setOpen(false)}>
+            Identity & Visibility
           </Link>
         </div>
       )}

@@ -1,0 +1,144 @@
+.identity-guide-page {
+  padding: 30px 18px 10px 18px;
+  background: #f7f7f8;
+  color: #111;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* HERO */
+.guide-hero {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.guide-hero h1 {
+  font-size: 2rem;
+  margin-bottom: 2px;
+  font-weight: 700;
+}
+
+.guide-hero p {
+  opacity: 0.75;
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+/* SECTIONS */
+.guide-section {
+  margin-bottom: 70px;
+}
+
+.guide-section h2 {
+  font-size: 1.6rem;
+  margin-bottom: 13px;
+  font-weight: 600;
+}
+
+/* GRIDS */
+.identity-grid,
+.flow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* CARDS */
+.identity-card,
+.flow-card,
+.simulation-card {
+  background: #ffffff;
+  border: 1px solid #e8e8ee;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* ICONS */
+.card-icon,
+.flow-icon {
+  width: 28px;
+  height: 25px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  color: #179c65;
+}
+
+.card-icon.standard {
+  background: rgba(0, 140, 255, 0.12);
+}
+
+/* TEXT */
+.identity-card h3,
+.flow-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.identity-card p,
+.flow-card p,
+.simulation-card p {
+  opacity: 0.75;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 13px;
+}
+
+/* LISTS */
+.identity-card ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+}
+
+.identity-card li {
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+
+.enter-app {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.enter-app-btn {
+  padding: 12px 25px;
+  font-size: 1rem;
+  background-color: #179c65;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.enter-app-btn:hover {
+  background-color: #148a59; 
+  transform: translateY(-1px);
+}
+
+.enter-app-btn:active {
+  transform: translateY(0px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.enter-app-hint {
+  text-align: center;
+  opacity: 0.6;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}

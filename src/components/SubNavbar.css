@@ -102,3 +102,32 @@
   padding-bottom: 70px;
 }
 */
+
+.notif-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notif-badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+
+  background: #ff3b30;
+  color: white;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+
+  border-radius: 999px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

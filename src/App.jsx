@@ -25,6 +25,7 @@ import Birthday from "./pages/Birthday";
 import MobileNumber from "./pages/MobileNumber";
 import Password from "./pages/Password";
 import Email from "./pages/Email";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 function App() {
   console.log(supabase);
@@ -55,7 +56,13 @@ function App() {
         <Route path="/identityguide" element={<IdentityGuidePage />} />
 
         {/* App layout routes */}
-        <Route element={<AppLayout />}>
+        <Route
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/homepage" element={<HomePage />} />
           <Route path="/connectionpage" element={<ConnectionPage />} />
           <Route path="/profilepage" element={<ProfilePage />} />
@@ -63,7 +70,6 @@ function App() {
           <Route path="/notification" element={<Notification />} />
           <Route path="/addpostpage" element={<AddPostPage />} />
         </Route>
-
         {/* verify Email */}
         <Route path="/verify-email" element={<VerifyEmail />} />
       </Routes>

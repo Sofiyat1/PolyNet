@@ -30,50 +30,39 @@ const Password = () => {
                 ...signupData,
                 password: values.password,
             };
+            console.log(finalData);
 
             setSignupData(finalData);
 
-            // console.log(finalData);
+            console.log("signupData:", signupData);
+            console.log("finalData:", finalData);
 
+            console.log("firstname:", finalData.firstname);
+            console.log("lastname:", finalData.lastname);
+            console.log("gender:", finalData.gender);
+            console.log("birthday:", finalData.birthday);
+            console.log("mobilenumber:", finalData.mobilenumber);
+            // console.log(finalData);
             const { data, error } = await supabase.auth.signUp({
                 email: finalData.email,
                 password: finalData.password,
-            });
-
-            if (error) {
-                console.log(error.message);
-                return;
-            }
-
-            const user = data?.user;
-
-            if (!user) {
-                console.log("User was not created");
-                return;
-            }
-
-
-            const userId = user.id;
-
-            const { error: profileError } =
-                await supabase
-                    .from("Profiles")
-                    .insert({
-                        id: userId,
+                options: {
+                    emailRedirectTo: "http://localhost:5173/login",
+                    data: {
                         firstname: finalData.firstname,
                         lastname: finalData.lastname,
                         gender: finalData.gender,
                         birthday: finalData.birthday,
                         mobilenumber: finalData.mobilenumber,
-                    });
-
-            if (profileError) {
-                console.log("Profile Error:", profileError.message);
+                    },
+                },
+            });
+            console.log("Returned user:", data.user);
+            console.log("User metadata:", data.user?.user_metadata);
+            if (error) {
+                console.log(error.message);
                 return;
             }
-
-            console.log("User created:", data);
-
             navigate("/verify-email");
         }
     })

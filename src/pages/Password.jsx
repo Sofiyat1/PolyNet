@@ -38,11 +38,15 @@ const Password = () => {
 
                 setSignupData(finalData);
 
+                // 👇 Add it here
+                console.log("VITE_APP_URL:", import.meta.env.VITE_APP_URL);
+
+
                 const { data, error } = await supabase.auth.signUp({
                     email: finalData.email,
                     password: finalData.password,
                     options: {
-                        emailRedirectTo: "http://localhost:5173/login",
+                        emailRedirectTo: `${import.meta.env.VITE_APP_URL}/login`,
                         data: {
                             firstname: finalData.firstname,
                             lastname: finalData.lastname,
@@ -58,12 +62,18 @@ const Password = () => {
 
                 if (error) {
                     console.log(error.message);
+                    alert(error.message)
                     return;
                 }
 
                 navigate("/verify-email");
 
-            } finally {
+            }
+            catch {
+                console.error(err)
+                alert(error.message)
+            }
+            finally {
                 setLoading(false);
             }
         }

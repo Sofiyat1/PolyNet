@@ -11,6 +11,7 @@ import '/src/pages/Password.css';
 import * as Yup from 'yup';
 const Password = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { signupData, setSignupData } = useContext(SignUpContext);
 
     const navigate = useNavigate();
@@ -26,44 +27,45 @@ const Password = () => {
                 .matches(/[0-9]/, "Password must contain at least one number")
         }),
         onSubmit: async (values) => {
-            const finalData = {
-                ...signupData,
-                password: values.password,
-            };
-            console.log(finalData);
+            if (loading) return; // prevent double submit
+            setLoading(true);
 
-            setSignupData(finalData);
+            try {
+                const finalData = {
+                    ...signupData,
+                    password: values.password,
+                };
 
-            console.log("signupData:", signupData);
-            console.log("finalData:", finalData);
+                setSignupData(finalData);
 
-            console.log("firstname:", finalData.firstname);
-            console.log("lastname:", finalData.lastname);
-            console.log("gender:", finalData.gender);
-            console.log("birthday:", finalData.birthday);
-            console.log("mobilenumber:", finalData.mobilenumber);
-            // console.log(finalData);
-            const { data, error } = await supabase.auth.signUp({
-                email: finalData.email,
-                password: finalData.password,
-                options: {
-                    emailRedirectTo: "http://localhost:5173/login",
-                    data: {
-                        firstname: finalData.firstname,
-                        lastname: finalData.lastname,
-                        gender: finalData.gender,
-                        birthday: finalData.birthday,
-                        mobilenumber: finalData.mobilenumber,
+                const { data, error } = await supabase.auth.signUp({
+                    email: finalData.email,
+                    password: finalData.password,
+                    options: {
+                        emailRedirectTo: "http://localhost:5173/login",
+                        data: {
+                            firstname: finalData.firstname,
+                            lastname: finalData.lastname,
+                            gender: finalData.gender,
+                            birthday: finalData.birthday,
+                            mobilenumber: finalData.mobilenumber,
+                        },
                     },
-                },
-            });
-            console.log("Returned user:", data.user);
-            console.log("User metadata:", data.user?.user_metadata);
-            if (error) {
-                console.log(error.message);
-                return;
+                });
+
+                console.log("Returned user:", data?.user);
+                console.log("User metadata:", data?.user?.user_metadata);
+
+                if (error) {
+                    console.log(error.message);
+                    return;
+                }
+
+                navigate("/verify-email");
+
+            } finally {
+                setLoading(false);
             }
-            navigate("/verify-email");
         }
     })
     return (
@@ -105,8 +107,9 @@ const Password = () => {
                     </label>
                 </div>
 
-                <button type="submit" className="signup-button">Sign Up</button>
-            </form>
+                <button type="submit" className="signup-button" disabled={loading}>
+                    {loading ? "Creating account..." : "Sign Up"}
+                </button>            </form>
         </div>
     )
 }

@@ -18,9 +18,12 @@ const Login = () => {
         data: { session },
       } = await supabase.auth.getSession();
 
-      if (session) {
-        navigate("/homepage");
-      }
+      console.log("Session:", session);
+
+      // if (session) {
+      //   console.log("Redirecting...");
+      //   navigate("/homepage");
+      // }
     };
 
     checkUser();

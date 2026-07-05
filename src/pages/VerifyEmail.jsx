@@ -1,16 +1,36 @@
+import { MdMarkEmailRead } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import '../pages/VerifyEmail.css';
 const VerifyEmail = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="signup-step">
-      <h1>Verify your email</h1>
+    <div className="verify-email-container">
+      <div className="verify-email-card">
+        <div className="verify-icon">
+          <MdMarkEmailRead />
+        </div>
 
-      <p>
-        We've sent a verification link to your email address.
-        Please check your inbox and click the link to activate your account.
-      </p>
+        <h1>Verify your email</h1>
 
-      <p>
-        If you don't see it, check your spam folder.
-      </p>
+        <p className="verify-text">
+          We've sent a verification link to your email address.
+          Please check your inbox and click the link to activate your
+          PolyNet account.
+        </p>
+
+        <p className="spam-text">
+          If you don't see it, check your <strong>Spam</strong> or{" "}
+          <strong>Promotions</strong> folder.
+        </p>
+
+        <button
+          className="back-btn"
+          onClick={() => navigate("/login")}
+        >
+          Back to Login
+        </button>
+      </div>
     </div>
   );
 };

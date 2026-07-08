@@ -32,10 +32,11 @@ function Settings() {
             <span> Edit True Profile</span>
           </Link>
 
-          <div className="settings-item">
+
+          <Link className="settings-item settings-link" to='/edit-decoy-profile'>
             <FiEdit2 />
             <span>Edit Decoy Profile</span>
-          </div>
+          </Link>
 
         </div>
       </section>

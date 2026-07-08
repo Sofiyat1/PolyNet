@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FiImage, FiVideo, FiX, FiLock, FiGlobe } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-
+import { supabase } from "../lib/supabase";
 import "./AddPostPage.css";
 import usePosts from "../hooks/usePosts";
 
@@ -9,7 +9,27 @@ function AddPostPage() {
   const navigate = useNavigate();
   const [postText, setPostText] = useState("");
   const [mediaFiles, setMediaFiles] = useState([]);
+  const [profile, setProfile] = useState(null)
 
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  async function getProfile() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return;
+
+    const { data } = await supabase
+      .from("Profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    setProfile(data);
+  }
   const [showIdentityModal, setShowIdentityModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -21,6 +41,7 @@ function AddPostPage() {
 
   /* MEDIA SELECT */
   const handleMediaSelect = (e) => {
+
     const files = Array.from(e.target.files);
 
     const mappedFiles = files.map((file) => ({
@@ -51,10 +72,24 @@ function AddPostPage() {
   const handleFinalSubmit = () => {
     const newPost = {
       id: Date.now(),
-      user: "John Doe",
       identity: pendingIdentity,
       content: postText,
       media: mediaFiles,
+
+      user:
+        pendingIdentity === "standard"
+          ? `${profile.firstname} ${profile.lastname}`
+          : profile.decoy_name,
+
+      username:
+        pendingIdentity === "standard"
+          ? profile.username
+          : profile.decoy_username,
+
+      avatar:
+        pendingIdentity === "standard"
+          ? profile.avatar_url
+          : profile.decoy_avatar_url,
     };
 
     addPost(newPost);
@@ -71,6 +106,14 @@ function AddPostPage() {
       navigate("/homepage");
     }, 800);
   };
+  if (!profile) {
+    return (
+      <div className="add-post-page">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
 
   return (
     <div className="add-post-page">
@@ -81,14 +124,27 @@ function AddPostPage() {
 
       {/* USER CARD */}
       <div className="post-user-card">
-        <div className="avatar" />
-        <div className="user-info">
-          <p className="username">John Doe</p>
-          <div className="identity-preview">
-            <span className="identity-warning">
-              Identity will be chosen before publishing
+        <div className="avatar">
+          {profile?.avatar_url ? (
+            <img src={profile.avatar_url} alt="Profile" />
+          ) : (
+            <span>
+              {(
+                (profile?.firstname?.charAt(0) || "") +
+                (profile?.lastname?.charAt(0) || "")
+              ).toUpperCase()}
             </span>
-          </div>
+          )}
+        </div>
+
+        <div className="user-info">
+          <p className="username">
+            {profile?.firstname} {profile?.lastname}
+          </p>
+
+          <span className="identity-warning">
+            Identity will be chosen before publishing
+          </span>
         </div>
       </div>
 

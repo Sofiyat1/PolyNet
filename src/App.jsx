@@ -27,6 +27,7 @@ import Password from "./pages/Password";
 import Email from "./pages/Email";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import EditTrueProfile from "./pages/EditTrueProfile";
+import EditDecoyProfile from "./pages/EditDecoyProfile";
 
 function App() {
   console.log(supabase);
@@ -70,7 +71,8 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/notification" element={<Notification />} />
           <Route path="/addpostpage" element={<AddPostPage />} />
-          <Route path="edit-profile" element={<EditTrueProfile/>}/>
+          <Route path="edit-profile" element={<EditTrueProfile />} />
+          <Route path="edit-decoy-profile" element={<EditDecoyProfile />} />
         </Route>
         {/* verify Email */}
         <Route path="/verify-email" element={<VerifyEmail />} />

@@ -56,20 +56,7 @@ function ProfilePage() {
     }, 180);
   };
 
-  // const profileData = {
-  //   standard: {
-  //     name: "John Doe",
-  //     username: "@johndoe",
-  //     bio: "Building real connections.",
-  //     badge: "Verified Identity",
-  //   },
-  //   decoy: {
-  //     name: "Anonymous",
-  //     username: "@shadow",
-  //     bio: "Just passing through.",
-  //     badge: "Protected Identity",
-  //   },
-  // };
+
 
   const activeMode = isViewerMode ? viewer.access : mode;
 
@@ -84,11 +71,13 @@ function ProfilePage() {
         badge: "Verified Identity",
       }
       : {
-        name: "Anonymous",
-        username: "@shadow",
-        bio: "Just passing through.",
+        name: profile?.decoy_name || "Anonymous",
+        username: profile?.decoy_username
+          ? `@${profile.decoy_username}`
+          : "@anonymous",
+        bio: profile?.decoy_bio || "Protected identity.",
         badge: "Protected Identity",
-      };  // viewer-aware filtering
+      }  // viewer-aware filtering
   const visiblePosts = isViewerMode
     ? posts.filter((post) => post.identity === viewer.access)
     : posts.filter((post) => post.identity === activeMode);
@@ -122,15 +111,25 @@ function ProfilePage() {
         {/* HERO */}
         <div className={`profile-hero ${activeMode}`}>
           <div className="hero-avatar">
-            {profile?.avatar_url ? (
-              <img src={profile.avatar_url} alt="Profile" />
+            {activeMode === "standard" ? (
+              profile?.avatar_url ? (
+                <img src={profile.avatar_url} alt="Profile" />
+              ) : (
+                <span className="avatar-letter">
+                  {(
+                    (profile?.firstname?.charAt(0) || "") +
+                    (profile?.lastname?.charAt(0) || "")
+                  ).toUpperCase()}
+                </span>
+              )
             ) : (
-              <span className="avatar-letter">
-                {(
-                  (profile?.firstname?.charAt(0) || "") +
-                  (profile?.lastname?.charAt(0) || "")
-                ).toUpperCase()}
-              </span>
+              profile?.decoy_avatar_url ? (
+                <img src={profile.decoy_avatar_url} alt="Decoy Profile" />
+              ) : (
+                <span className="avatar-letter">
+                  {(profile?.decoy_name?.charAt(0) || "A").toUpperCase()}
+                </span>
+              )
             )}
           </div>
 
@@ -190,6 +189,9 @@ function ProfilePage() {
                   user={post.user}
                   content={post.content}
                   media={post.media}
+                  avatar={post.avatar}
+                  username={post.username}
+                  identity={post.identity}
                 />
               ))
           )}

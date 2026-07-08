@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useNavigate } from "react-router-dom";
+import './EditTrueProfile.css';
 const EditTrueProfile = () => {
     const navigate = useNavigate();
     const [profile, setProfile] = useState({
@@ -50,15 +51,18 @@ const EditTrueProfile = () => {
                 data: { user },
             } = await supabase.auth.getUser();
 
-            if (!user) return;
+            if (!user) {
+                alert("You need to log in again.");
+                return
+            };
 
             const { error } = await supabase
                 .from("Profiles")
                 .update({
-                    firstname: profile.firstname,
-                    lastname: profile.lastname,
-                    username: profile.username,
-                    bio: profile.bio,
+                    firstname: profile.firstname.trim(),
+                    lastname: profile.lastname.trim(),
+                    username: profile.username.trim(),
+                    bio: profile.bio.trim(),
                 })
                 .eq("id", user.id);
 
@@ -72,6 +76,7 @@ const EditTrueProfile = () => {
             navigate("/profilepage");
         } catch (err) {
             console.log(err);
+            alert("Something went wrong. Please try again.");
         }
         finally {
             setLoading(false)
@@ -80,43 +85,71 @@ const EditTrueProfile = () => {
     };
 
     return (
-        <div>
-            <h1>Edit True Profile</h1>
+        <div className="edit-profile-page">
+            <div className="edit-profile-card">
+                <h1>Edit True Profile</h1>
+                <p className="edit-subtitle">
+                    Update your public profile information.
+                </p>
 
-            <label>First Name</label>
-            <input
-                type="text"
-                name="firstname"
-                value={profile.firstname}
-                onChange={handleChange}
-            />
+                <div className="form-group">
+                    <label htmlFor="firstname">First Name</label>
+                    <input
+                        id="firstname"
+                        type="text"
+                        name="firstname"
+                        value={profile.firstname}
+                        onChange={handleChange}
+                        disabled={loading}
+                    />
+                </div>
 
-            <label>Last Name</label>
-            <input
-                type="text"
-                name="lastname"
-                value={profile.lastname}
-                onChange={handleChange}
-            />
+                <div className="form-group">
+                    <label htmlFor="lastname">Last Name</label>
+                    <input
+                        id="lastname"
+                        type="text"
+                        name="lastname"
+                        value={profile.lastname}
+                        onChange={handleChange}
+                        disabled={loading}
+                    />
+                </div>
 
-            <label>Username</label>
-            <input
-                type="text"
-                name="username"
-                value={profile.username || ""}
-                onChange={handleChange}
+                <div className="form-group">
+                    <label htmlFor="username">Username</label>
+                    <input
+                        id="username"
+                        type="text"
+                        name="username"
+                        placeholder="@username"
+                        value={profile.username || ""}
+                        onChange={handleChange}
+                        disabled={loading}
+                    />
+                </div>
 
-            />
+                <div className="form-group">
+                    <label htmlFor="bio">Bio</label>
+                    <textarea
+                        id="bio"
+                        name="bio"
+                        rows="5"
+                        placeholder="Tell people a little about yourself..."
+                        value={profile.bio || ""}
+                        onChange={handleChange}
+                        disabled={loading}
+                    />
+                </div>
 
-            <label>Bio</label>
-            <textarea
-                name="bio"
-                value={profile.bio || ""}
-                onChange={handleChange}
-
-            />
-
-            <button onClick={handleSave} disabled={loading} >{loading ? 'Saving...' : 'Save Changes'}</button>
+                <button
+                    className="save-btn"
+                    onClick={handleSave}
+                    disabled={loading}
+                >
+                    {loading ? "Saving..." : "Save Changes"}
+                </button>
+            </div>
         </div>
     );
 }

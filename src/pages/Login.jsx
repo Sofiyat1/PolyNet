@@ -54,7 +54,19 @@ const Login = () => {
         });
 
         if (error) {
-          setLoginError(error.message);
+          switch (error.message) {
+            case "Invalid login credentials":
+              setLoginError("Incorrect email or password.");
+              break;
+
+            case "Email not confirmed":
+              setLoginError("Please verify your email before logging in.");
+              break;
+
+            default:
+              setLoginError("Unable to sign in. Please try again.");
+          }
+
           return;
         }
 
@@ -72,9 +84,7 @@ const Login = () => {
   })
   return (
     <div className="loginGen">
-      {loginError && (
-        <p className="error">{loginError}</p>
-      )}
+
       <div className="topSection">
         <div className="imgDiv">
           <img src={loginImage} className="imgLogo" />
@@ -90,7 +100,7 @@ const Login = () => {
         <div className="formDiv">
           <label htmlFor="email">Email</label>
           <input type="email" id="email" placeholder="name@gmail.com" name='email' onBlur={formik.handleBlur}
-            className="inputBackground" onChange={formik.handleChange} value={formik.values.email}
+            className="inputBackground" onChange={(e) => { setLoginError(''); formik.handleChange(e) }} value={formik.values.email}
           />
           {formik.touched.email && formik.errors.email && (
             <p className="error">{formik.errors.email}</p>
@@ -106,11 +116,22 @@ const Login = () => {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password" name='password' onBlur={formik.handleBlur}
-              className="inputBackground" onChange={formik.handleChange} id="password" value={formik.values.password}
+              className={`inputBackground ${loginError ? "input-error" : ""
+                }`} onChange={(e) => {
+                  setLoginError('');
+                  formik.handleChange(e)
+                }} id="password" value={formik.values.password}
             />
+            {/* formik vaidation error */}
             {formik.touched.password && formik.errors.password && (
               <p className="error">{formik.errors.password}</p>
             )}
+
+            {/* Supabase login error */}
+            {!formik.errors.password && loginError && (
+              <p className="error">{loginError}</p>
+            )}
+
             <div className="eye-icon" onClick={togglePasswordVisibility}>
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </div>

@@ -14,7 +14,7 @@ import {
 
 import "./Settings.css";
 import { FaUserEdit } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 function Settings() {
   return (
     <div className="settings-page">
@@ -27,10 +27,10 @@ function Settings() {
 
         <div className="settings-list">
 
-          <div className="settings-item">
+          <Link to='/edit-profile' className="settings-link settings-item">
             <FiEdit3 />
-            <span>Edit True Profile</span>
-          </div>
+            <span> Edit True Profile</span>
+          </Link>
 
           <div className="settings-item">
             <FiEdit2 />

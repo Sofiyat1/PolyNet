@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import "./AddPostPage.css";
 import usePosts from "../hooks/usePosts";
-
 function AddPostPage() {
   const navigate = useNavigate();
   const [postText, setPostText] = useState("");
   const [mediaFiles, setMediaFiles] = useState([]);
   const [profile, setProfile] = useState(null)
-
+  const [loading, setLoading] = useState(false)
+  const { getPosts } = usePosts();
   useEffect(() => {
     getProfile();
   }, []);
@@ -35,7 +35,6 @@ function AddPostPage() {
 
   const [pendingIdentity, setPendingIdentity] = useState("");
 
-  const { addPost } = usePosts();
 
   const fileInputRef = useRef(null);
 
@@ -69,42 +68,76 @@ function AddPostPage() {
   };
 
   /* FINAL SUBMIT */
-  const handleFinalSubmit = () => {
-    const newPost = {
-      id: Date.now(),
-      identity: pendingIdentity,
-      content: postText,
-      media: mediaFiles,
 
-      user:
-        pendingIdentity === "standard"
-          ? `${profile.firstname} ${profile.lastname}`
-          : profile.decoy_name,
+  const handleFinalSubmit = async () => {
+    setLoading(true);
 
-      username:
-        pendingIdentity === "standard"
-          ? profile.username
-          : profile.decoy_username,
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-      avatar:
-        pendingIdentity === "standard"
-          ? profile.avatar_url
-          : profile.decoy_avatar_url,
-    };
+      if (!user) {
+        alert("Please login again");
+        return;
+      }
 
-    addPost(newPost);
+      // ==========================
+      // Upload media to Storage
+      // ==========================
+      let mediaUrl = null;
+      let mediaType = null;
 
-    /* RESET EVERYTHING */
-    setPostText("");
-    setMediaFiles([]);
-    setPendingIdentity("");
-    setShowConfirmModal(false);
-    setShowIdentityModal(false);
+      if (mediaFiles.length > 0) {
+        const file = mediaFiles[0].file;
 
-    // go home
-    setTimeout(() => {
+        const fileName = `${Date.now()}-${file.name}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("post_media")
+          .upload(fileName, file);
+
+        if (uploadError) throw uploadError;
+
+        const { data } = supabase.storage
+          .from("post-media")
+          .getPublicUrl(fileName);
+
+        mediaUrl = data.publicUrl;
+        mediaType = file.type;
+      }
+
+      // ==========================
+      // Save post to database
+      // ==========================
+      const { error } = await supabase
+        .from("Posts")
+        .insert({
+          user_id: user.id,
+          content: postText,
+          identity: pendingIdentity,
+          media_url: mediaUrl,
+          media_type: mediaType,
+        });
+
+      if (error) throw error;
+
+      await getPosts();
+
+      setPostText("");
+      setMediaFiles([]);
+      setPendingIdentity("");
+      setShowConfirmModal(false);
+      setShowIdentityModal(false);
+
       navigate("/homepage");
-    }, 800);
+
+    } catch (error) {
+      console.error(error);
+      alert("Couldn't publish post.");
+    } finally {
+      setLoading(false);
+    }
   };
   if (!profile) {
     return (

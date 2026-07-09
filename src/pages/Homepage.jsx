@@ -5,6 +5,7 @@ import { ViewerContext } from "../context/ViewerContext";
 
 function HomePage() {
   const { posts } = usePosts();
+
   const { viewer } = useContext(ViewerContext);
 
   // owner mode → sees everything

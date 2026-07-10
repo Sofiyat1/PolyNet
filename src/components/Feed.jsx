@@ -3,7 +3,7 @@ import PostCard from "./PostCard";
 
 function Feed({ posts }) {
   console.log('feed post', posts);
-  
+
   return (
     <div className="feed-container">
       {posts.length === 0 ? (
@@ -14,10 +14,6 @@ function Feed({ posts }) {
         posts.map((post) => (
           <PostCard
             key={post.id}
-            user={post.user}
-            content={post.content}
-            identity={post.identity}
-            media={post.media}
             user={
               post.identity === "standard"
                 ? `${post.Profiles?.firstname} ${post.Profiles?.lastname}`
@@ -28,6 +24,10 @@ function Feed({ posts }) {
                 ? post.Profiles?.avatar_url
                 : post.Profiles?.decoy_avatar_url
             }
+            content={post.content}
+            identity={post.identity}
+            mediaUrl={post.media_url}
+            mediaType={post.media_type}
           />
         ))
       )}

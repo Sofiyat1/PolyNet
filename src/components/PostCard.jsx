@@ -10,7 +10,10 @@ import {
 } from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
 
-function PostCard({ user, content, profilePic, media = [], identity }) {
+function PostCard({ user, content, profilePic,
+  mediaUrl,
+  mediaType
+  , identity }) {
   const [liked, setLiked] = useState(false);
   const [starred, setStarred] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -50,17 +53,21 @@ function PostCard({ user, content, profilePic, media = [], identity }) {
       <div className="post-content">{content}</div>
 
       {/* MEDIA */}
-      {media.length > 0 && (
+      {mediaUrl && (
         <div className="post-media">
-          {media.map((item, index) => (
-            <div key={index} className="post-media-item">
-              {item.type.startsWith("image") ? (
-                <img src={item.preview} className="post-image" />
-              ) : (
-                <video src={item.preview} controls className="post-video" />
-              )}
-            </div>
-          ))}
+          {mediaType?.startsWith("image") ? (
+            <img
+              src={mediaUrl}
+              alt="Post"
+              className="post-image"
+            />
+          ) : (
+            <video
+              src={mediaUrl}
+              controls
+              className="post-video"
+            />
+          )}
         </div>
       )}
 

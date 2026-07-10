@@ -100,7 +100,7 @@ function AddPostPage() {
         if (uploadError) throw uploadError;
 
         const { data } = supabase.storage
-          .from("post-media")
+          .from("post_media")
           .getPublicUrl(fileName);
 
         mediaUrl = data.publicUrl;

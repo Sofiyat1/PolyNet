@@ -73,7 +73,11 @@ const EditTrueProfile = () => {
 
             alert("Profile updated successfully!");
 
-            navigate("/profilepage");
+            navigate("/profilepage", {
+                state: {
+                    mode: 'standard',
+                }
+            });
         } catch (err) {
             console.log(err);
             alert("Something went wrong. Please try again.");

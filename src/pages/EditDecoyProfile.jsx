@@ -71,7 +71,12 @@ const EditDecoyProfile = () => {
 
             alert("Profile updated successfully!");
 
-            navigate("/profilepage");
+            navigate("/profilepage",{
+                state:{
+                    mode : 'decoy',
+                }
+            });
+
         } catch (err) {
             console.log(err);
             alert("Something went wrong. Please try again.");

@@ -11,13 +11,19 @@ import usePosts from "../hooks/usePosts";
 import PostCard from "../components/PostCard";
 
 import { ViewerContext } from "../context/ViewerContext";
-
+import { useLocation } from "react-router-dom";
 function ProfilePage() {
   const { viewer } = useContext(ViewerContext);
 
   const isViewerMode = !!viewer;
 
-  const [mode, setMode] = useState("standard");
+  const location = useLocation();
+
+const [mode, setMode] = useState(
+  location.state?.mode ||
+  sessionStorage.getItem("profileMode") ||
+  "standard"
+);
   const [animating, setAnimating] = useState(false);
   const [profile, setProfile] = useState(null);
   const { posts } = usePosts();
@@ -47,15 +53,20 @@ function ProfilePage() {
     setProfile(data);
   }
   const handleSwitch = () => {
-    if (isViewerMode) return; // lock toggle in viewer mode
+    if (isViewerMode) return;
+
+    const newMode = mode === "standard" ? "decoy" : "standard";
+
+    // Remember the user's last selected profile
+    sessionStorage.setItem("profileMode", newMode);
 
     setAnimating(true);
+
     setTimeout(() => {
-      setMode((prev) => (prev === "standard" ? "decoy" : "standard"));
+      setMode(newMode);
       setAnimating(false);
     }, 180);
   };
-
 
 
   const activeMode = isViewerMode ? viewer.access : mode;

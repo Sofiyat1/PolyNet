@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "../lib/supabase";
 import { useNavigate } from "react-router-dom";
+import { FiCamera } from "react-icons/fi";
+import usePosts from "../hooks/usePosts";
 import './EditTrueProfile.css';
 const EditTrueProfile = () => {
     const navigate = useNavigate();
@@ -10,7 +12,10 @@ const EditTrueProfile = () => {
         username: '',
         bio: '',
     })
+    const { getPosts } = usePosts();
     const [loading, setLoading] = useState(false)
+    const [avatar, setAvatar] = useState(null)
+    const fileInputRef = useRef(null)
     useEffect(() => {
         getProfile();
     }, [])
@@ -35,6 +40,8 @@ const EditTrueProfile = () => {
         setProfile(data);
     }
 
+
+
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -45,7 +52,30 @@ const EditTrueProfile = () => {
     };
 
     const handleSave = async () => {
+        let avatarUrl = profile.avatar_url;
+        if (avatar) {
+            const {
+                data: { user },
+            } = await supabase.auth.getUser();
+
+            const fileExt = avatar.name.split(".").pop();
+
+            const fileName = `standard/${user.id}-${Date.now()}.${fileExt}`;
+            const { error: uploadError } = await supabase.storage
+                .from("profile_pictures")
+                .upload(fileName, avatar);
+
+            if (uploadError) throw uploadError;
+
+            const { data } = supabase.storage
+                .from("profile_pictures")
+                .getPublicUrl(fileName);
+
+            avatarUrl = data.publicUrl;
+        }
         setLoading(true)
+        console.log("Saving profile...");
+
         try {
             const {
                 data: { user },
@@ -63,6 +93,7 @@ const EditTrueProfile = () => {
                     lastname: profile.lastname.trim(),
                     username: profile.username.trim(),
                     bio: profile.bio.trim(),
+                    avatar_url: avatarUrl,
                 })
                 .eq("id", user.id);
 
@@ -72,7 +103,8 @@ const EditTrueProfile = () => {
             }
 
             alert("Profile updated successfully!");
-
+            // Refresh the posts so the homepage gets the new profile info
+            await getPosts();
             navigate("/profilepage", {
                 state: {
                     mode: 'standard',
@@ -95,7 +127,46 @@ const EditTrueProfile = () => {
                 <p className="edit-subtitle">
                     Update your public profile information.
                 </p>
+                <div className="avatar-container">
 
+                    {avatar ? (
+                        <img
+                            src={URL.createObjectURL(avatar)}
+                            alt="Profile"
+                            className="profile-avatar"
+                        />
+                    ) : profile.avatar_url ? (
+                        <img
+                            src={profile.avatar_url}
+                            alt="Profile"
+                            className="profile-avatar"
+                        />
+                    ) : (
+                        <div className="profile-avatar avatar-placeholder">
+                            {(
+                                (profile.firstname?.charAt(0) || "") +
+                                (profile.lastname?.charAt(0) || "")
+                            ).toUpperCase()}
+                        </div>
+                    )}
+
+                    <button
+                        type="button"
+                        className="avatar-edit-btn"
+                        onClick={() => fileInputRef.current.click()}
+                    >
+                        <FiCamera />
+                    </button>
+
+                    <input
+                        type="file"
+                        hidden
+                        accept="image/*"
+                        ref={fileInputRef}
+                        onChange={(e) => setAvatar(e.target.files[0])}
+                    />
+
+                </div>
                 <div className="form-group">
                     <label htmlFor="firstname">First Name</label>
                     <input

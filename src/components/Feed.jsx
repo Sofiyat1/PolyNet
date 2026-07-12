@@ -2,7 +2,6 @@ import "./Feed.css";
 import PostCard from "./PostCard";
 
 function Feed({ posts }) {
-  console.log('feed post', posts);
 
   return (
     <div className="feed-container">

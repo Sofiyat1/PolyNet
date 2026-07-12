@@ -7,7 +7,6 @@ import slide2 from "../assets/slide2.png";
 import slide3 from "../assets/slide33.png";
 import slide4 from "../assets/slide4.jpg";
 import slide5 from "../assets/slide5.png";
-
 const slides = [
   {
     title: "One Profile. Two Realities.",

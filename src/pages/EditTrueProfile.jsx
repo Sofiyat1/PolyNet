@@ -74,7 +74,6 @@ const EditTrueProfile = () => {
             avatarUrl = data.publicUrl;
         }
         setLoading(true)
-        console.log("Saving profile...");
 
         try {
             const {
@@ -111,7 +110,6 @@ const EditTrueProfile = () => {
                 }
             });
         } catch (err) {
-            console.log(err);
             alert("Something went wrong. Please try again.");
         }
         finally {

@@ -30,7 +30,6 @@ import EditTrueProfile from "./pages/EditTrueProfile";
 import EditDecoyProfile from "./pages/EditDecoyProfile";
 
 function App() {
-  console.log(supabase);
   return (
 
     <Wrapper>

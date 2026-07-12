@@ -38,10 +38,6 @@ const Password = () => {
 
                 setSignupData(finalData);
 
-                // 👇 Add it here
-                // console.log("VITE_APP_URL:", import.meta.env.VITE_APP_URL);
-
-
                 const { data, error } = await supabase.auth.signUp({
                     email: finalData.email,
                     password: finalData.password,
@@ -57,8 +53,6 @@ const Password = () => {
                     },
                 });
 
-                console.log("Returned user:", data?.user);
-                console.log("User metadata:", data?.user?.user_metadata);
 
                 if (error) {
                     console.log(error.message);

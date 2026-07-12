@@ -18,7 +18,6 @@ const Login = () => {
         data: { session },
       } = await supabase.auth.getSession();
 
-      console.log("Session:", session);
 
       // if (session) {
       //   console.log("Redirecting...");
@@ -73,7 +72,6 @@ const Login = () => {
         navigate("/homepage");
 
       } catch (err) {
-        console.log(err);
         setLoginError("Something went wrong. Please try again.");
 
       } finally {

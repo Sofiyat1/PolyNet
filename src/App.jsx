@@ -18,7 +18,7 @@ import IdentityGuidePage from "./pages/IdentityGuidePage";
 import VerifyEmail from "./pages/VerifyEmail";
 import Wrapper from "./pages/context/Wrapper";
 
-import SignUp from "./pages/SignUp";
+import SignUp from "./pages/Signup";
 import Gender from "./pages/Gender";
 import Name from "./pages/Name";
 import Birthday from "./pages/Birthday";

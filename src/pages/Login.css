@@ -2,6 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  /* background: #DBDADA; */
 }
 
 .loginGen {
@@ -75,13 +76,15 @@ label {
   height: 48px;
   padding: 0 14px;
   font-size: 15px;
-
   border: 1px solid #d1d5db;
   border-radius: 10px;
   outline: none;
-
   background-color: #f9fafb;
   transition: 0.2s ease;
+}
+
+.inputBackground.input-error {
+  border: 1px solid #dc3545;
 }
 
 .inputBackground:focus {
@@ -123,6 +126,11 @@ button {
   border: 1px solid #242c74;
 }
 
+.signup:hover {
+  background-color: #242c74;
+  color: white;
+}
+
 .CreateAcc {
   margin-top: 100px;
 }
@@ -157,6 +165,21 @@ button {
 .LogInBtn {
   background-color: #242c74;
   color: white;
+}
+
+/* spinner */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {

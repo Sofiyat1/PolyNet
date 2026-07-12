@@ -17,6 +17,10 @@
   gap: 10px;
 }
 
+.settings-link {
+  text-decoration: none;
+  color: inherit;
+}
 .settings-section h3 {
   font-size: 14px;
   color: #666;

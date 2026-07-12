@@ -153,6 +153,17 @@ button {
   text-align: left;
 }
 
+.mobile-page .mobile-error {
+  color: #dc2626 !important;
+  font-size: 0.85rem;
+  font-weight: 500;
+  width: 100%;
+  max-width: 420px;
+  text-align: left;
+  margin-top: -8px;
+  margin-bottom: 4px;
+}
+
 /* phone wrapper */
 .phone-wrapper {
   display: flex;

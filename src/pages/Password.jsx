@@ -1,3 +1,8 @@
+import { supabase } from "../lib/supabase";
+
+import { useContext } from "react";
+import { SignUpContext } from "./context/context";
+
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -6,26 +11,78 @@ import '/src/pages/Password.css';
 import * as Yup from 'yup';
 const Password = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const { signupData, setSignupData } = useContext(SignUpContext);
+
     const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
             password: ''
         },
         validationSchema: Yup.object({
-            password: Yup.string().required('Password is required').min(6, "Password must be at least 6 characters long")
-                .matches(/[a-zA-Z]/, "Password must include at least one letter")
-                .matches(/[0-9!@#$%^&*]/, "Password must include at least one number or special character")
+            password: Yup.string()
+                .required("Password is required")
+                .min(6, "Password must be at least 6 characters long")
+                .matches(/[A-Za-z]/, "Password must contain at least one letter")
+                .matches(/[0-9]/, "Password must contain at least one number")
         }),
-        onSubmit: values => {
-            console.log(values);
-            navigate("/signup/mobilenumber");
+        onSubmit: async (values) => {
+            if (loading) return; // prevent double submit
+            setLoading(true);
+
+            try {
+                const finalData = {
+                    ...signupData,
+                    password: values.password,
+                };
+
+                setSignupData(finalData);
+
+                // 👇 Add it here
+                console.log("VITE_APP_URL:", import.meta.env.VITE_APP_URL);
+
+
+                const { data, error } = await supabase.auth.signUp({
+                    email: finalData.email,
+                    password: finalData.password,
+                    options: {
+                        emailRedirectTo: `${import.meta.env.VITE_APP_URL}/login`,
+                        data: {
+                            firstname: finalData.firstname,
+                            lastname: finalData.lastname,
+                            gender: finalData.gender,
+                            birthday: finalData.birthday,
+                            mobilenumber: finalData.mobilenumber,
+                        },
+                    },
+                });
+
+                console.log("Returned user:", data?.user);
+                console.log("User metadata:", data?.user?.user_metadata);
+
+                if (error) {
+                    console.log(error.message);
+                    alert(error.message)
+                    return;
+                }
+
+                navigate("/verify-email");
+
+            }
+            catch {
+                console.error(err)
+                alert(error.message)
+            }
+            finally {
+                setLoading(false);
+            }
         }
     })
     return (
         <div className="password-page">
             <h1>Create a password</h1>
             <p>
-                Create a password with at least 6 letters or numbers. It should be something others can't guess.
+                Create a password with at least 6 letters or numbers, including a letter and a number.
             </p>
             <form onSubmit={formik.handleSubmit} className="password-form">
                 <div className="password-field">
@@ -37,7 +94,9 @@ const Password = () => {
                             id="password"
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
-                            value={formik.values.password} className="signup-input"
+                            value={formik.values.password}
+                            className="signup-input"
+                            placeholder="Password"
                         />
                         <span
                             className="eye-icon"
@@ -58,8 +117,9 @@ const Password = () => {
                     </label>
                 </div>
 
-                <button type="submit" className="signup-button">Next</button>
-            </form>
+                <button type="submit" className="signup-button" disabled={loading}>
+                    {loading ? "Creating account..." : "Sign Up"}
+                </button>            </form>
         </div>
     )
 }

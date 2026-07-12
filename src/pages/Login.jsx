@@ -1,7 +1,8 @@
+import { supabase } from '../lib/supabase'
 import "./Login.css";
 import loginImage from "../assets/logo.png";
-import { useState, useContext } from "react";
-import { FaEye, FaEyeSlash,FaSpinner } from "react-icons/fa";
+import { useState, useContext, useEffect } from "react";
+import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import { FirstContext } from "./context/context";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
@@ -9,8 +10,24 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   let { showPassword, togglePasswordVisibility } = useContext(FirstContext)
+  const [loginError, setLoginError] = useState("");
   let navigate = useNavigate()
+  useEffect(() => {
+    const checkUser = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
+      console.log("Session:", session);
+
+      // if (session) {
+      //   console.log("Redirecting...");
+      //   navigate("/homepage");
+      // }
+    };
+
+    checkUser();
+  }, [navigate]);
   // form validation
   let formik = useFormik({
     initialValues: {
@@ -25,21 +42,45 @@ const Login = () => {
     })
     ,
     onSubmit: async (values) => {
-      setIsLoading(true);
 
       try {
-        console.log(values);
+        setLoginError("");
+        setIsLoading(true);
 
-        // simulate request or API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        // Login
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: values.email,
+          password: values.password,
+        });
+
+        if (error) {
+          switch (error.message) {
+            case "Invalid login credentials":
+              setLoginError("Incorrect email or password.");
+              break;
+
+            case "Email not confirmed":
+              setLoginError("Please verify your email before logging in.");
+              break;
+
+            default:
+              setLoginError("Unable to sign in. Please try again.");
+          }
+
+          return;
+        }
 
         navigate("/homepage");
-      } catch (error) {
-        console.log(error);
+
+      } catch (err) {
+        console.log(err);
+        setLoginError("Something went wrong. Please try again.");
+
       } finally {
         setIsLoading(false);
       }
     }
+
   })
   return (
     <div className="loginGen">
@@ -58,7 +99,9 @@ const Login = () => {
       <form action="" className="formGen" onSubmit={formik.handleSubmit}>
         <div className="formDiv">
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" placeholder="name@gmail.com" name='email' className="inputBackground" onChange={formik.handleChange} />
+          <input type="email" id="email" placeholder="name@gmail.com" name='email' onBlur={formik.handleBlur}
+            className="inputBackground" onChange={(e) => { setLoginError(''); formik.handleChange(e) }} value={formik.values.email}
+          />
           {formik.touched.email && formik.errors.email && (
             <p className="error">{formik.errors.email}</p>
           )}
@@ -73,18 +116,29 @@ const Login = () => {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password" name='password' onBlur={formik.handleBlur}
-              className="inputBackground" onChange={formik.handleChange} id="password"
+              className={`inputBackground ${loginError ? "input-error" : ""
+                }`} onChange={(e) => {
+                  setLoginError('');
+                  formik.handleChange(e)
+                }} id="password" value={formik.values.password}
             />
+            {/* formik vaidation error */}
             {formik.touched.password && formik.errors.password && (
               <p className="error">{formik.errors.password}</p>
             )}
+
+            {/* Supabase login error */}
+            {!formik.errors.password && loginError && (
+              <p className="error">{loginError}</p>
+            )}
+
             <div className="eye-icon" onClick={togglePasswordVisibility}>
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </div>
           </div>
         </div>
         <div className="btnLogin btn">
-          <button className="LogInBtn" type="submit" disabled={isLoading} >  {isLoading ? <FaSpinner/> : "Log in"}
+          <button className="LogInBtn" type="submit" disabled={isLoading} >  {isLoading ? <FaSpinner className='spinner' /> : "Log in"}
           </button>
           <p className="forgot" onClick={() => navigate('/forgot-password')}>
             Forgot Password?

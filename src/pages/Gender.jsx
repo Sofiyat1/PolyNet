@@ -1,9 +1,14 @@
+import { useContext } from "react";
+import { SignUpContext } from "./context/context";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import '/src/pages/Gender.css';
 const Gender = () => {
     const navigate = useNavigate();
+    const { signupData, setSignupData } = useContext(SignUpContext);
+    // console.log(signupData);
+
     const formik = useFormik({
         initialValues: {
             gender: ""
@@ -12,7 +17,10 @@ const Gender = () => {
             gender: Yup.string().required("Please select your gender")
         }),
         onSubmit: values => {
-            console.log(values);
+            setSignupData({
+                ...signupData,
+                gender: values.gender,
+            });
             navigate('/signup/birthday')
         }
     })

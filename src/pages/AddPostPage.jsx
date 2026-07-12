@@ -1,26 +1,46 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FiImage, FiVideo, FiX, FiLock, FiGlobe } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-
+import { supabase } from "../lib/supabase";
 import "./AddPostPage.css";
 import usePosts from "../hooks/usePosts";
-
 function AddPostPage() {
   const navigate = useNavigate();
   const [postText, setPostText] = useState("");
   const [mediaFiles, setMediaFiles] = useState([]);
+  const [profile, setProfile] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const { getPosts } = usePosts();
+  useEffect(() => {
+    getProfile();
+  }, []);
 
+  async function getProfile() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return;
+
+    const { data } = await supabase
+      .from("Profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    setProfile(data);
+  }
   const [showIdentityModal, setShowIdentityModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const [pendingIdentity, setPendingIdentity] = useState("");
 
-  const { addPost } = usePosts();
 
   const fileInputRef = useRef(null);
 
   /* MEDIA SELECT */
   const handleMediaSelect = (e) => {
+
     const files = Array.from(e.target.files);
 
     const mappedFiles = files.map((file) => ({
@@ -48,29 +68,85 @@ function AddPostPage() {
   };
 
   /* FINAL SUBMIT */
-  const handleFinalSubmit = () => {
-    const newPost = {
-      id: Date.now(),
-      user: "John Doe",
-      identity: pendingIdentity,
-      content: postText,
-      media: mediaFiles,
-    };
 
-    addPost(newPost);
+  const handleFinalSubmit = async () => {
+    setLoading(true);
 
-    /* RESET EVERYTHING */
-    setPostText("");
-    setMediaFiles([]);
-    setPendingIdentity("");
-    setShowConfirmModal(false);
-    setShowIdentityModal(false);
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-    // go home
-    setTimeout(() => {
+      if (!user) {
+        alert("Please login again");
+        return;
+      }
+
+      // ==========================
+      // Upload media to Storage
+      // ==========================
+      let mediaUrl = null;
+      let mediaType = null;
+
+      if (mediaFiles.length > 0) {
+        const file = mediaFiles[0].file;
+
+        const fileName = `${Date.now()}-${file.name}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("post_media")
+          .upload(fileName, file);
+
+        if (uploadError) throw uploadError;
+
+        const { data } = supabase.storage
+          .from("post_media")
+          .getPublicUrl(fileName);
+
+        mediaUrl = data.publicUrl;
+        mediaType = file.type;
+      }
+
+      // ==========================
+      // Save post to database
+      // ==========================
+      const { error } = await supabase
+        .from("Posts")
+        .insert({
+          user_id: user.id,
+          content: postText,
+          identity: pendingIdentity,
+          media_url: mediaUrl,
+          media_type: mediaType,
+        });
+
+      if (error) throw error;
+
+      await getPosts();
+
+      setPostText("");
+      setMediaFiles([]);
+      setPendingIdentity("");
+      setShowConfirmModal(false);
+      setShowIdentityModal(false);
+
       navigate("/homepage");
-    }, 800);
+
+    } catch (error) {
+      console.error(error);
+      alert("Couldn't publish post.");
+    } finally {
+      setLoading(false);
+    }
   };
+  if (!profile) {
+    return (
+      <div className="add-post-page">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
 
   return (
     <div className="add-post-page">
@@ -81,14 +157,27 @@ function AddPostPage() {
 
       {/* USER CARD */}
       <div className="post-user-card">
-        <div className="avatar" />
-        <div className="user-info">
-          <p className="username">John Doe</p>
-          <div className="identity-preview">
-            <span className="identity-warning">
-              Identity will be chosen before publishing
+        <div className="avatar">
+          {profile?.avatar_url ? (
+            <img src={profile.avatar_url} alt="Profile" />
+          ) : (
+            <span>
+              {(
+                (profile?.firstname?.charAt(0) || "") +
+                (profile?.lastname?.charAt(0) || "")
+              ).toUpperCase()}
             </span>
-          </div>
+          )}
+        </div>
+
+        <div className="user-info">
+          <p className="username">
+            {profile?.firstname} {profile?.lastname}
+          </p>
+
+          <span className="identity-warning">
+            Identity will be chosen before publishing
+          </span>
         </div>
       </div>
 

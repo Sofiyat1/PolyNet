@@ -1,0 +1,165 @@
+/* ==========================
+   Verify Email Page
+========================== */
+
+.verify-email-container {
+  min-height: 100vh;
+  width: 100%;
+  background: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.verify-email-card {
+  width: 100%;
+  max-width: 520px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.verify-icon {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  background: #eef2ff;
+  color: #242C74;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.8rem;
+}
+
+.verify-email-card h1 {
+  font-size: 2rem;
+  color: #222;
+  margin-bottom: 1rem;
+}
+
+.verify-text {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.spam-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #777;
+  margin-bottom: 2rem;
+}
+
+.back-btn {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 10px;
+  background: #242C74;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.back-btn:hover {
+  background: rgba(68, 54, 218, 0.89)
+}
+
+.back-btn:active {
+  transform: scale(0.98);
+}
+
+/* Tablet */
+
+@media (max-width: 768px) {
+  .verify-email-card {
+    padding: 2rem;
+    max-width: 450px;
+  }
+
+  .verify-email-card h1 {
+    font-size: 1.8rem;
+  }
+
+  .verify-icon {
+    width: 80px;
+    height: 80px;
+    font-size: 2.3rem;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .verify-email-container {
+    padding: 1rem;
+  }
+
+  .verify-email-card {
+    padding: 1.5rem;
+    border-radius: 14px;
+  }
+
+  .verify-email-card h1 {
+    font-size: 1.5rem;
+  }
+
+  .verify-text,
+  .spam-text {
+    font-size: 0.95rem;
+  }
+
+  .verify-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+  }
+
+  .back-btn {
+    font-size: 0.95rem;
+    padding: 0.85rem;
+  }
+}
+
+/* Small Phones */
+
+@media (max-width: 320px) {
+  .verify-email-card {
+    padding: 1.2rem;
+  }
+
+  .verify-email-card h1 {
+    font-size: 1.3rem;
+  }
+
+  .verify-text,
+  .spam-text {
+    font-size: 0.9rem;
+  }
+
+  .verify-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.8rem;
+  }
+}
+
+/* Large Screens */
+
+@media (min-width: 1200px) {
+  .verify-email-card {
+    max-width: 560px;
+  }
+
+  .verify-email-card h1 {
+    font-size: 2.2rem;
+  }
+}

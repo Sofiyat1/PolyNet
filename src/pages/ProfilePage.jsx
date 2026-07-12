@@ -1,4 +1,5 @@
-import { useContext, useState } from "react";
+import { supabase } from "../lib/supabase";
+import { useContext, useState, useEffect } from "react";
 import "./ProfilePage.css";
 
 import { FiShield } from "react-icons/fi";
@@ -10,50 +11,95 @@ import usePosts from "../hooks/usePosts";
 import PostCard from "../components/PostCard";
 
 import { ViewerContext } from "../context/ViewerContext";
-
+import { useLocation } from "react-router-dom";
 function ProfilePage() {
   const { viewer } = useContext(ViewerContext);
 
   const isViewerMode = !!viewer;
 
-  const [mode, setMode] = useState("standard");
-  const [animating, setAnimating] = useState(false);
+  const location = useLocation();
 
+const [mode, setMode] = useState(
+  location.state?.mode ||
+  sessionStorage.getItem("profileMode") ||
+  "standard"
+);
+  const [animating, setAnimating] = useState(false);
+  const [profile, setProfile] = useState(null);
   const { posts } = usePosts();
 
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  async function getProfile() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from("Profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setProfile(data);
+  }
   const handleSwitch = () => {
-    if (isViewerMode) return; // lock toggle in viewer mode
+    if (isViewerMode) return;
+
+    const newMode = mode === "standard" ? "decoy" : "standard";
+
+    // Remember the user's last selected profile
+    sessionStorage.setItem("profileMode", newMode);
 
     setAnimating(true);
+
     setTimeout(() => {
-      setMode((prev) => (prev === "standard" ? "decoy" : "standard"));
+      setMode(newMode);
       setAnimating(false);
     }, 180);
   };
 
-  const profileData = {
-    standard: {
-      name: "John Doe",
-      username: "@johndoe",
-      bio: "Building real connections.",
-      badge: "Verified Identity",
-    },
-    decoy: {
-      name: "Anonymous",
-      username: "@shadow",
-      bio: "Just passing through.",
-      badge: "Protected Identity",
-    },
-  };
 
-const activeMode = isViewerMode ? viewer.access : mode;
+  const activeMode = isViewerMode ? viewer.access : mode;
 
-const current = profileData[activeMode];
-  // viewer-aware filtering
+  const current =
+    activeMode === "standard"
+      ? {
+        name: `${profile?.firstname || ""} ${profile?.lastname || ""}`,
+        username: profile?.username
+          ? `@${profile.username}`
+          : "@username",
+        bio: profile?.bio || "No bio yet.",
+        badge: "Verified Identity",
+      }
+      : {
+        name: profile?.decoy_name || "Anonymous",
+        username: profile?.decoy_username
+          ? `@${profile.decoy_username}`
+          : "@anonymous",
+        bio: profile?.decoy_bio || "Protected identity.",
+        badge: "Protected Identity",
+      }  // viewer-aware filtering
   const visiblePosts = isViewerMode
     ? posts.filter((post) => post.identity === viewer.access)
     : posts.filter((post) => post.identity === activeMode);
 
+  if (!profile) {
+    return (
+      <div className="profile-page">
+        <p>Loading profile...</p>
+      </div>
+    );
+  }
   return (
     <div className="profile-page">
       {/* TOGGLE (owner only) */}
@@ -75,7 +121,28 @@ const current = profileData[activeMode];
       <div className={`profile-content ${animating ? "fade-out" : "fade-in"}`}>
         {/* HERO */}
         <div className={`profile-hero ${activeMode}`}>
-          <div className="hero-avatar" />
+          <div className="hero-avatar">
+            {activeMode === "standard" ? (
+              profile?.avatar_url ? (
+                <img src={profile.avatar_url} alt="Profile" />
+              ) : (
+                <span className="avatar-letter">
+                  {(
+                    (profile?.firstname?.charAt(0) || "") +
+                    (profile?.lastname?.charAt(0) || "")
+                  ).toUpperCase()}
+                </span>
+              )
+            ) : (
+              profile?.decoy_avatar_url ? (
+                <img src={profile.decoy_avatar_url} alt="Decoy Profile" />
+              ) : (
+                <span className="avatar-letter">
+                  {(profile?.decoy_name?.charAt(0) || "A").toUpperCase()}
+                </span>
+              )
+            )}
+          </div>
 
           <div className="hero-info">
             <div className="hero-name-row">
@@ -92,7 +159,9 @@ const current = profileData[activeMode];
 
             <p className="hero-bio">{current.bio}</p>
 
-            <div className={`identity-chip ${activeMode}`}>{current.badge}</div>
+            <div className={`identity-chip ${activeMode}`}>
+              {current.badge}
+            </div>
           </div>
         </div>
 
@@ -131,6 +200,9 @@ const current = profileData[activeMode];
                   user={post.user}
                   content={post.content}
                   media={post.media}
+                  avatar={post.avatar}
+                  username={post.username}
+                  identity={post.identity}
                 />
               ))
           )}

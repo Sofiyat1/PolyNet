@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
+import toast from 'react-hot-toast';
 import '/src/pages/Password.css';
 import * as Yup from 'yup';
 const Password = () => {
@@ -27,7 +28,7 @@ const Password = () => {
                 .matches(/[0-9]/, "Password must contain at least one number")
         }),
         onSubmit: async (values) => {
-            if (loading) return; // prevent double submit
+            if (loading) return;
             setLoading(true);
 
             try {
@@ -53,21 +54,34 @@ const Password = () => {
                     },
                 });
 
-
                 if (error) {
-                    console.log(error.message);
-                    alert(error.message)
+                    toast.error(error.message);
                     return;
                 }
 
+                // Account already exists
+                if (!data.user || data.user.identities?.length === 0) {
+                    toast.error(
+                        "An account with this email already exists. Please log in instead. If you haven't verified your email, check your inbox or request a new verification email."
+                    );
+                    return;
+                }
+
+                // New account created successfully
                 navigate("/verify-email");
 
-            }
-            catch {
-                console.error(err)
-                alert(error.message)
-            }
-            finally {
+            } catch (err) {
+                console.error(err);
+                toast.error(
+                    "An account with this email already exists. Please log in instead.",
+                    {
+                        duration: 5000,
+                    }
+                );
+                setTimeout(() => {
+                    navigate("/login");
+                }, 2000);
+            } finally {
                 setLoading(false);
             }
         }

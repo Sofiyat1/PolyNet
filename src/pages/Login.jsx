@@ -12,21 +12,19 @@ const Login = () => {
   let { showPassword, togglePasswordVisibility } = useContext(FirstContext)
   const [loginError, setLoginError] = useState("");
   let navigate = useNavigate()
-  useEffect(() => {
-    const checkUser = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+ useEffect(() => {
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((event, session) => {
+    console.log(event);
 
+    if (session) {
+      navigate("/homepage");
+    }
+  });
 
-      // if (session) {
-      //   console.log("Redirecting...");
-      //   navigate("/homepage");
-      // }
-    };
-
-    checkUser();
-  }, [navigate]);
+  return () => subscription.unsubscribe();
+}, [navigate]);
   // form validation
   let formik = useFormik({
     initialValues: {
@@ -72,6 +70,7 @@ const Login = () => {
         navigate("/homepage");
 
       } catch (err) {
+        console.log(err);
         setLoginError("Something went wrong. Please try again.");
 
       } finally {

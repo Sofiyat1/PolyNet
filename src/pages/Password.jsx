@@ -39,7 +39,7 @@ const Password = () => {
                 setSignupData(finalData);
 
                 // 👇 Add it here
-                console.log("VITE_APP_URL:", import.meta.env.VITE_APP_URL);
+                // console.log("VITE_APP_URL:", import.meta.env.VITE_APP_URL);
 
 
                 const { data, error } = await supabase.auth.signUp({

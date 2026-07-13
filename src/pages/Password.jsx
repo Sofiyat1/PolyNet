@@ -43,7 +43,9 @@ const Password = () => {
                     email: finalData.email,
                     password: finalData.password,
                     options: {
-                        emailRedirectTo: `${import.meta.env.VITE_APP_URL}/login`,
+                        // emailRedirectTo: `${import.meta.env.VITE_APP_URL}/login`,
+                        emailRedirectTo:
+                            `${VITE_APP_URL}/auth/callback`,
                         data: {
                             firstname: finalData.firstname,
                             lastname: finalData.lastname,

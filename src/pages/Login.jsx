@@ -7,24 +7,15 @@ import { FirstContext } from "./context/context";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   let { showPassword, togglePasswordVisibility } = useContext(FirstContext)
   const [loginError, setLoginError] = useState("");
   let navigate = useNavigate()
- useEffect(() => {
-  const {
-    data: { subscription },
-  } = supabase.auth.onAuthStateChange((event, session) => {
-    console.log(event);
-
-    if (session) {
-      navigate("/homepage");
-    }
-  });
-
-  return () => subscription.unsubscribe();
-}, [navigate]);
+  // resend button
+  const [showResend, setShowResend] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
   // form validation
   let formik = useFormik({
     initialValues: {
@@ -54,14 +45,17 @@ const Login = () => {
           switch (error.message) {
             case "Invalid login credentials":
               setLoginError("Incorrect email or password.");
+              setShowResend(false);
               break;
 
             case "Email not confirmed":
-              setLoginError("Please verify your email before logging in.");
+              setLoginError("Email not verified.");
+              setShowResend(true);
               break;
 
             default:
               setLoginError("Unable to sign in. Please try again.");
+              setShowResend(false);
           }
 
           return;
@@ -79,6 +73,32 @@ const Login = () => {
     }
 
   })
+
+  // resend function 
+  const handleResendVerification = async () => {
+    if (!formik.values.email) {
+      toast.error('Enter your Email first');
+      return;
+    }
+    setResendLoading(true);
+
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email: formik.values.email,
+      options: {
+        emailRedirectTo: `${import.meta.env.VITE_APP_URL}/login`,
+      },
+    });
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Verification email sent. Check your inbox.");
+      setShowResend(false);
+    }
+
+    setResendLoading(false);
+  };
   return (
     <div className="loginGen">
 
@@ -97,7 +117,7 @@ const Login = () => {
         <div className="formDiv">
           <label htmlFor="email">Email</label>
           <input type="email" id="email" placeholder="name@gmail.com" name='email' onBlur={formik.handleBlur}
-            className="inputBackground" onChange={(e) => { setLoginError(''); formik.handleChange(e) }} value={formik.values.email}
+            className="inputBackground" onChange={(e) => { setLoginError(''); setShowResend(false), formik.handleChange(e) }} value={formik.values.email}
           />
           {formik.touched.email && formik.errors.email && (
             <p className="error">{formik.errors.email}</p>
@@ -116,6 +136,7 @@ const Login = () => {
               className={`inputBackground ${loginError ? "input-error" : ""
                 }`} onChange={(e) => {
                   setLoginError('');
+                  setShowResend(false)
                   formik.handleChange(e)
                 }} id="password" value={formik.values.password}
             />
@@ -135,12 +156,17 @@ const Login = () => {
           </div>
         </div>
         <div className="btnLogin btn">
-          <button className="LogInBtn" type="submit" disabled={isLoading} >  {isLoading ? <FaSpinner className='spinner' /> : "Log in"}
+          <button className="LogInBtn" type="submit" disabled={isLoading || resendLoading} >  {isLoading ? <FaSpinner className='spinner' /> : "Log in"}
           </button>
           <p className="forgot" onClick={() => navigate('/forgot-password')}>
             Forgot Password?
           </p>
         </div>
+        {showResend &&
+          <button type='button' className='resend-btn' onClick={handleResendVerification} disabled={resendLoading}>
+            {resendLoading ? 'Sending...' : 'Resend verification Email'}
+          </button>
+        }
         <button type="button" className="CreateAcc signup" onClick={() => navigate('/signup')}>Create Account</button>
       </form>
     </div>

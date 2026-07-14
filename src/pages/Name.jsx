@@ -9,7 +9,6 @@ import '/src/index.css';
 const Name = () => {
     const navigate = useNavigate();
     const { signupData, setSignupData } = useContext(SignUpContext);
-    // console.log(signupData);
 
     let formik = useFormik({
         initialValues: {

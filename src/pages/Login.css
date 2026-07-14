@@ -172,6 +172,32 @@ button {
   animation: spin 1s linear infinite;
 }
 
+/* resend button styling */
+.resend-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+
+  background: transparent;
+  border: 1px solid #179c65;
+
+  color: #179c65;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.resend-btn:hover {
+  background: rgba(23, 156, 101, 0.08);
+}
+
+.resend-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);

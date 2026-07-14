@@ -7,7 +7,6 @@ import '/src/pages/Gender.css';
 const Gender = () => {
     const navigate = useNavigate();
     const { signupData, setSignupData } = useContext(SignUpContext);
-    // console.log(signupData);
 
     const formik = useFormik({
         initialValues: {

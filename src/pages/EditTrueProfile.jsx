@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { supabase } from "../lib/supabase";
 import { useNavigate } from "react-router-dom";
 import { FiCamera } from "react-icons/fi";
+import toast from 'react-hot-toast';
 import usePosts from "../hooks/usePosts";
 import './EditTrueProfile.css';
 const EditTrueProfile = () => {
@@ -81,7 +82,7 @@ const EditTrueProfile = () => {
             } = await supabase.auth.getUser();
 
             if (!user) {
-                alert("You need to log in again.");
+                toast.error("You need to log in again.");
                 return
             };
 
@@ -110,7 +111,7 @@ const EditTrueProfile = () => {
                 }
             });
         } catch (err) {
-            alert("Something went wrong. Please try again.");
+            toast.error("Something went wrong. Please try again.");
         }
         finally {
             setLoading(false)

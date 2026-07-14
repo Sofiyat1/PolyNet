@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { supabase } from "../lib/supabase";
 import { useNavigate } from "react-router-dom";
 import { FiCamera } from "react-icons/fi";
+import toast from 'react-hot-toast';
 import './EditTrueProfile.css';
 const EditDecoyProfile = () => {
     const navigate = useNavigate();
@@ -57,7 +58,7 @@ const EditDecoyProfile = () => {
             } = await supabase.auth.getUser();
 
             if (!user) {
-                alert("You need to log in again.");
+                toast.error("You need to log in again.");
                 return;
             }
 
@@ -93,7 +94,7 @@ const EditDecoyProfile = () => {
 
             if (error) throw error;
 
-            alert("Profile updated successfully!");
+            toast.success("Profile updated successfully!");
 
             navigate("/profilepage", {
                 state: {
@@ -102,7 +103,7 @@ const EditDecoyProfile = () => {
             });
         } catch (err) {
             console.error(err);
-            alert("Something went wrong.");
+            toast.error("Something went wrong.");
         } finally {
             setLoading(false);
         }

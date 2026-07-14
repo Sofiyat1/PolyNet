@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import { supabase } from "./lib/supabase";
 import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/Homepage";
 import ConnectionPage from "./pages/ConnectionPage";
@@ -28,9 +27,12 @@ import Email from "./pages/Email";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import EditTrueProfile from "./pages/EditTrueProfile";
 import EditDecoyProfile from "./pages/EditDecoyProfile";
+import AuthCallback from "./pages/AuthCallback";
+import AuthLayout from "./pages/AuthLayout";
+import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
-  console.log(supabase);
   return (
 
     <Wrapper>
@@ -41,16 +43,23 @@ function App() {
 
         {/* Auth */}
         <Route path="/login" element={<Login />} />
-
-        {/* Signup flow */}
-        <Route path="/signup" element={<SignUp />}>
-          <Route index element={<Name />} />
-          <Route path="gender" element={<Gender />} />
-          <Route path="birthday" element={<Birthday />} />
-          <Route path="mobilenumber" element={<MobileNumber />} />
-          <Route path="email" element={<Email />} />
-          <Route path="password" element={<Password />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route element={<AuthLayout />}>
+          {/* Signup flow */}
+          <Route path="/signup" element={<SignUp />}>
+            <Route index element={<Name />} />
+            <Route path="gender" element={<Gender />} />
+            <Route path="birthday" element={<Birthday />} />
+            <Route path="mobilenumber" element={<MobileNumber />} />
+            <Route path="email" element={<Email />} />
+            <Route path="password" element={<Password />} />
+          </Route>
+          <Route path='/forgot-password' element={<ForgetPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          {/* verify Email */}
+          <Route path="/verify-email" element={<VerifyEmail />} />
         </Route>
+
 
         {/* Static pages */}
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
@@ -74,8 +83,7 @@ function App() {
           <Route path="edit-profile" element={<EditTrueProfile />} />
           <Route path="edit-decoy-profile" element={<EditDecoyProfile />} />
         </Route>
-        {/* verify Email */}
-        <Route path="/verify-email" element={<VerifyEmail />} />
+
       </Routes>
     </Wrapper>
   );

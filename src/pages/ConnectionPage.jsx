@@ -1,183 +1,164 @@
-import { useState, useContext } from "react";
-import { FiLock, FiGlobe, FiXCircle } from "react-icons/fi";
+import { useState, useEffect, useContext } from "react";
+import { FiLock, FiGlobe, FiPlus, FiXCircle } from "react-icons/fi";
 import "./ConnectionPage.css";
 
-import { ConnectionContext } from "../context/ConnectionContext";
 import { NotificationContext } from "../context/NotificationContext";
 
 function ConnectionPage() {
-  const { connections, setConnections, requests, setRequests } =
-    useContext(ConnectionContext);
-
-  const [activeUser, setActiveUser] = useState(null);
-  const [selectedAccess, setSelectedAccess] = useState(null);
-
   const { addNotification } = useContext(NotificationContext);
 
-  const requestCount = requests.length;
-  const networkCount = connections.length;
+  // Incoming connection requests
+  const [requests, setRequests] = useState([]);
 
-  // ACCEPT REQUEST
-  const handleAccept = (req, access) => {
-    setConnections((prev) => [
-      ...prev,
-      {
-        id: req.id,
-        name: req.name,
-        access,
-      },
-    ]);
+  // Users available to connect with
+  const [users, setUsers] = useState([]);
 
-    setRequests((prev) => prev.filter((r) => r.id !== req.id));
+  useEffect(() => {
+    fetchRequests();
+    fetchUsers();
+  }, []);
+
+  // ============================
+  // TODO: BACKEND
+  // Fetch all pending requests
+  // where receiver = current user
+  // ============================
+  const fetchRequests = async () => {
+    // Backend developer will implement
+  };
+
+  // ============================
+  // TODO: BACKEND
+  // Fetch all users except:
+  // - current user
+  // - existing connections
+  // - pending requests
+  // ============================
+  const fetchUsers = async () => {
+    // Backend developer will implement
+  };
+
+  // SEND REQUEST
+  const sendRequest = async (user) => {
+    // TODO: Insert pending request into database
 
     addNotification({
       type: "connection",
-      message: `${req.name} was added as a ${access} connection`,
+      message: `Connection request sent to ${user.name}`,
       visibility: "owner",
     });
+
+    // Remove immediately from Find Connections
+    setUsers((prev) => prev.filter((u) => u.id !== user.id));
+  };
+
+  // ACCEPT REQUEST
+  const handleAccept = async (request, access) => {
+    // TODO:
+    // Update request to accepted
+    // Save selected access (standard / decoy)
+
+    addNotification({
+      type: "connection",
+      message: `${request.name} added as a ${access} connection`,
+      visibility: "owner",
+    });
+
+    setRequests((prev) => prev.filter((r) => r.id !== request.id));
   };
 
   // REJECT REQUEST
-  const handleReject = (id) => {
+  const handleReject = async (id) => {
+    // TODO:
+    // Delete request OR
+    // Update status to rejected
+
     setRequests((prev) => prev.filter((r) => r.id !== id));
-  };
-
-  // OPEN MODAL
-  const openModal = (conn) => {
-    setActiveUser(conn);
-    setSelectedAccess(conn.access);
-  };
-
-  // CONFIRM CHANGE
-  const confirmChange = () => {
-    setConnections((prev) =>
-      prev.map((c) =>
-        c.id === activeUser.id
-          ? {
-              ...c,
-              access: selectedAccess,
-            }
-          : c,
-      ),
-    );
-
-    addNotification({
-      type: "access",
-      message: `${activeUser.name} switched to ${selectedAccess} access`,
-      visibility: "owner",
-    });
-
-    setActiveUser(null);
-    setSelectedAccess(null);
   };
 
   return (
     <div className="connection-page">
-      {/* HEADER */}
       <div className="connection-header">
         <h2>Connections</h2>
       </div>
 
-      {/* REQUESTS */}
+      {/* Incoming Requests */}
+
       <section className="section">
-        <h3>Incoming Requests ({requestCount})</h3>
+        <h3>Incoming Requests ({requests.length})</h3>
 
-        {requests.map((req) => (
-          <div key={req.id} className="request-card">
-            <div className="row">
-              <div className="avatar" />
+        {requests.length === 0 ? (
+          <p className="empty-text">No pending requests.</p>
+        ) : (
+          requests.map((req) => (
+            <div key={req.id} className="request-card">
+              <div className="row">
+                <div className="avatar" />
 
-              <div className="text-block">
-                <p className="name">{req.name}</p>
-                <p className="msg">{req.message}</p>
-              </div>
-            </div>
-
-            <div className="btn-group">
-              <button
-                className="btn-decoy"
-                onClick={() => handleAccept(req, "decoy")}
-              >
-                <FiLock />
-                Decoy
-              </button>
-
-              <button
-                className="btn-standard"
-                onClick={() => handleAccept(req, "standard")}
-              >
-                <FiGlobe />
-                Standard
-              </button>
-
-              <button className="reject" onClick={() => handleReject(req.id)}>
-                <FiXCircle />
-                Reject
-              </button>
-            </div>
-          </div>
-        ))}
-      </section>
-
-      {/* CONNECTIONS */}
-      <section className="section">
-        <h3>Your Network ({networkCount})</h3>
-
-        {connections.map((conn) => (
-          <div key={conn.id} className="connection-row">
-            <div className="row">
-              <div className="avatar" />
-
-              <div className="text-block">
-                <div className="name-row">
-                  <p className="name">{conn.name}</p>
-
-                  <span className={`badge ${conn.access}`}>{conn.access}</span>
+                <div className="text-block">
+                  <p className="name">{req.name}</p>
+                  <p className="msg">Wants to connect with you.</p>
                 </div>
+              </div>
 
-                <p className="access-info">
-                  {conn.access === "decoy"
-                    ? "Sees only decoy posts"
-                    : "Sees only standard posts"}
-                </p>
+              <div className="btn-group">
+                <button
+                  className="btn-decoy"
+                  onClick={() => handleAccept(req, "decoy")}
+                >
+                  <FiLock />
+                  Decoy
+                </button>
 
-                <span className="change-link" onClick={() => openModal(conn)}>
-                  Change access
-                </span>
+                <button
+                  className="btn-standard"
+                  onClick={() => handleAccept(req, "standard")}
+                >
+                  <FiGlobe />
+                  Standard
+                </button>
+
+                <button className="reject" onClick={() => handleReject(req.id)}>
+                  <FiXCircle />
+                  Reject
+                </button>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </section>
 
-      {/* MODAL */}
-      {activeUser && (
-        <div className="modal-overlay" onClick={() => setActiveUser(null)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <h3>Change Access: {activeUser.name}</h3>
+      {/* Find Connections */}
 
-            <div className="btn-group">
-              <button
-                className={selectedAccess === "decoy" ? "active" : ""}
-                onClick={() => setSelectedAccess("decoy")}
-              >
-                Decoy
-              </button>
+      <section className="section">
+        <h3>Find Connections</h3>
 
-              <button
-                className={selectedAccess === "standard" ? "active" : ""}
-                onClick={() => setSelectedAccess("standard")}
-              >
-                Standard
+        {users.length === 0 ? (
+          <p className="empty-text">No users available to connect with.</p>
+        ) : (
+          users.map((user) => (
+            <div key={user.id} className="connection-row">
+              <div className="row">
+                <div className="avatar" />
+
+                <div className="text-block">
+                  <p className="name">{user.name}</p>
+
+                  <p className="msg">
+                    Connect and choose their access level when they are
+                    accepted.
+                  </p>
+                </div>
+              </div>
+
+              <button className="add-btn" onClick={() => sendRequest(user)}>
+                <FiPlus />
+                Add
               </button>
             </div>
-
-            <button className="confirm-btn" onClick={confirmChange}>
-              Confirm
-            </button>
-          </div>
-        </div>
-      )}
+          ))
+        )}
+      </section>
     </div>
   );
 }

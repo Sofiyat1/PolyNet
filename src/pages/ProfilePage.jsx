@@ -1,6 +1,10 @@
 import { supabase } from "../lib/supabase";
 import { useState, useEffect } from "react";
+
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 //import { useContext } from "react";
+
+import "./ConnectionPage.css";
 
 import "./ProfilePage.css";
 
@@ -27,6 +31,15 @@ function ProfilePage() {
   const [animating, setAnimating] = useState(false);
   const [profile, setProfile] = useState(null);
   const { posts } = usePosts();
+
+  // ==============================
+  // CONNECTIONS
+  // ==============================
+  const [connections, setConnections] = useState([]);
+  const [expandedUser, setExpandedUser] = useState(null);
+
+  const [activeUser, setActiveUser] = useState(null);
+  const [selectedAccess, setSelectedAccess] = useState(null);
 
   useEffect(() => {
     getProfile();
@@ -69,6 +82,42 @@ function ProfilePage() {
     }, 180);
   };
 
+  // ==============================
+  // CONNECTION ACTIONS
+  // ==============================
+
+  const toggleConnection = (id) => {
+    setExpandedUser((prev) => (prev === id ? null : id));
+  };
+
+  const openAccessModal = (conn) => {
+    setActiveUser(conn);
+    setSelectedAccess(conn.access);
+  };
+
+  const confirmAccessChange = () => {
+    // TODO:
+    // Backend developer updates the connection access in Supabase
+
+    setConnections((prev) =>
+      prev.map((conn) =>
+        conn.id === activeUser.id ? { ...conn, access: selectedAccess } : conn,
+      ),
+    );
+
+    setActiveUser(null);
+    setSelectedAccess(null);
+  };
+
+  const handleBlock = (conn) => {
+    // TODO:
+    // Backend developer:
+    // 1. Insert into BlockedUsers
+    // 2. Remove from Connections
+
+    console.log("Block user:", conn.name);
+  };
+
   const activeMode = mode;
 
   const current =
@@ -91,6 +140,9 @@ function ProfilePage() {
     ? posts.filter((post) => post.identity === viewer.access)
     : posts.filter((post) => post.identity === activeMode);*/
   const visiblePosts = posts.filter((post) => post.identity === activeMode);
+  const visibleConnections = connections.filter(
+  (conn) => conn.access === activeMode
+);
 
   if (!profile) {
     return (
@@ -169,6 +221,69 @@ function ProfilePage() {
           </p>
         </div>
 
+        {/* CONNECTIONS */}
+
+        <div className="profile-connections">
+          <div className="posts-header">
+            <h3>Your Connections</h3>
+
+            <span>
+              {visibleConnections.length} connection
+              {visibleConnections.length !== 1 ? "s" : ""}
+            </span>
+          </div>
+
+          {visibleConnections.length === 0 ? (
+            <div className="empty-profile-posts">
+              <p>No connections yet.</p>
+            </div>
+          ) : (
+            visibleConnections.map((conn) => (
+              <div key={conn.id} className="connection-card">
+                <div
+                  className="connection-header-row"
+                  onClick={() => toggleConnection(conn.id)}
+                >
+                  <div className="row">
+                    <div className="avatar" />
+
+                    <p className="name">{conn.name}</p>
+                  </div>
+
+                  <span>
+                    {expandedUser === conn.id ? (
+                      <FiChevronUp />
+                    ) : (
+                      <FiChevronDown />
+                    )}
+                  </span>
+                </div>
+
+                {expandedUser === conn.id && (
+                  <div className="connection-details">
+                    <p>
+                      <strong>Current Access:</strong> {conn.access}
+                    </p>
+
+                    <div className="action-buttons">
+                      <button onClick={() => openAccessModal(conn)}>
+                        Change Access
+                      </button>
+
+                      <button
+                        className="block-btn"
+                        onClick={() => handleBlock(conn)}
+                      >
+                        Block User
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+
         {/* POSTS */}
         <div className="profile-posts">
           <div className="posts-header">
@@ -201,6 +316,37 @@ function ProfilePage() {
           )}
         </div>
       </div>
+      {/* CHANGE ACCESS MODAL */}
+
+      {activeUser && (
+        <div className="modal-overlay" onClick={() => setActiveUser(null)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Change Access</h3>
+
+            <p>{activeUser.name}</p>
+
+            <div className="btn-group">
+              <button
+                className={selectedAccess === "decoy" ? "active" : ""}
+                onClick={() => setSelectedAccess("decoy")}
+              >
+                Decoy
+              </button>
+
+              <button
+                className={selectedAccess === "standard" ? "active" : ""}
+                onClick={() => setSelectedAccess("standard")}
+              >
+                Standard
+              </button>
+            </div>
+
+            <button className="confirm-btn" onClick={confirmAccessChange}>
+              Confirm
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

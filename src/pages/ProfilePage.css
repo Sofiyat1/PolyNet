@@ -308,3 +308,96 @@
 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
+
+
+
+/* =====================================
+   CONNECTIONS
+===================================== */
+
+.profile-connections {
+  margin-top: 20px;
+}
+
+.connection-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+  border: 1px solid #ececec;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.connection-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.connection-header-row .row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.connection-header-row .avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #d9d9d9;
+  flex-shrink: 0;
+}
+
+.connection-header-row .name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.connection-details {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+}
+
+.connection-details p {
+  margin: 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.action-buttons button {
+  flex: 1;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.action-buttons button:first-child {
+  background: #179c65;
+  color: white;
+}
+
+.action-buttons button:first-child:hover {
+  background: #148755;
+}
+
+.block-btn {
+  background: #e53935;
+  color: white;
+}
+
+.block-btn:hover {
+  background: #c62828;
+}

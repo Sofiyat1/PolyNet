@@ -1,0 +1,124 @@
+.blocked-page {
+  padding: 20px;
+  padding-bottom: 90px;
+}
+
+.blocked-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  color: #222;
+  font-size: 1.2rem;
+  background-color: transparent;
+}
+
+.blocked-header h2 {
+  font-size: 1.4rem;
+}
+
+.blocked-subtitle {
+  color: #666;
+  font-size: 0.92rem;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.blocked-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 14px;
+  border: 1px solid #ececec;
+}
+
+.blocked-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.blocked-avatar {
+  width: 50px;
+  height: 48px;
+  border-radius: 50%;
+  background: #179c65;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.blocked-info h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.blocked-info p {
+  margin-top: 3px;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.unblock-btn {
+  background: transparent;
+  color: #179c65;
+  border: 1px solid #179c65;
+  padding: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 20%;
+}
+
+.unblock-btn:hover {
+  background: #179c65;
+  color: white;
+}
+
+.empty-blocked {
+  text-align: center;
+  margin-top: 70px;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  color: #bbb;
+}
+
+.empty-blocked h3 {
+  margin-top: 15px;
+}
+
+.empty-blocked p {
+  color: #777;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cancel-btn,
+.confirm-btn {
+  flex: 1;
+  padding: 11px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+}
+
+.cancel-btn {
+  background: #ececec;
+}
+
+.confirm-btn {
+  background: #179c65;
+  color: white;
+}

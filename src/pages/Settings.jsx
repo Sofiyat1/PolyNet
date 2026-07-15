@@ -12,13 +12,20 @@ import {
   FiEdit3,
 } from "react-icons/fi";
 
+
 import "./Settings.css";
 import { FaUserEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 function Settings() {
+  // Temporary data
+// TODO: Replace with Supabase
+const blockedUsers = [
+  { id: 1 },
+  { id: 2 },
+  { id: 3 },
+];
   return (
     <div className="settings-page">
-
       <h2 className="settings-title">Settings</h2>
 
       {/* ACCOUNT */}
@@ -26,18 +33,18 @@ function Settings() {
         <h3>Account</h3>
 
         <div className="settings-list">
-
-          <Link to='/edit-profile' className="settings-link settings-item">
+          <Link to="/edit-profile" className="settings-link settings-item">
             <FiEdit3 />
             <span> Edit True Profile</span>
           </Link>
 
-
-          <Link className="settings-item settings-link" to='/edit-decoy-profile'>
+          <Link
+            className="settings-item settings-link"
+            to="/edit-decoy-profile"
+          >
             <FiEdit2 />
             <span>Edit Decoy Profile</span>
           </Link>
-
         </div>
       </section>
 
@@ -46,12 +53,10 @@ function Settings() {
         <h3>Privacy</h3>
 
         <div className="settings-list">
-
           <div className="settings-item">
             <FiLock />
             <span>Connection Rules</span>
           </div>
-
         </div>
       </section>
 
@@ -60,17 +65,15 @@ function Settings() {
         <h3>Connections</h3>
 
         <div className="settings-list">
-
           <div className="settings-item">
             <FiUsers />
             <span>Manage Connections</span>
           </div>
 
-          <div className="settings-item">
+          <Link to="/blocked-users" className="settings-item settings-link">
             <FiSlash />
-            <span>Blocked Users</span>
-          </div>
-
+            <span>Blocked Users ({blockedUsers.length})</span>
+          </Link>
         </div>
       </section>
 
@@ -93,7 +96,6 @@ function Settings() {
           <span>Logout</span>
         </div>
       </section>
-
     </div>
   );
 }

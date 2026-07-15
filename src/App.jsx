@@ -31,13 +31,12 @@ import AuthCallback from "./pages/AuthCallback";
 import AuthLayout from "./pages/AuthLayout";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
+import BlockedUsers from "./pages/BlockedUsers";
 
 function App() {
   return (
-
     <Wrapper>
       <Routes>
-
         {/* Landing page */}
         <Route path="/" element={<LandingPage />} />
 
@@ -54,12 +53,11 @@ function App() {
             <Route path="email" element={<Email />} />
             <Route path="password" element={<Password />} />
           </Route>
-          <Route path='/forgot-password' element={<ForgetPassword />} />
+          <Route path="/forgot-password" element={<ForgetPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           {/* verify Email */}
           <Route path="/verify-email" element={<VerifyEmail />} />
         </Route>
-
 
         {/* Static pages */}
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
@@ -82,8 +80,8 @@ function App() {
           <Route path="/addpostpage" element={<AddPostPage />} />
           <Route path="edit-profile" element={<EditTrueProfile />} />
           <Route path="edit-decoy-profile" element={<EditDecoyProfile />} />
+          <Route path="/blocked-users" element={<BlockedUsers />} />
         </Route>
-
       </Routes>
     </Wrapper>
   );

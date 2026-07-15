@@ -1,9 +1,14 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import "./Notification.css";
 import { NotificationContext } from "../context/NotificationContext";
 
 function Notification() {
-  const { notifications } = useContext(NotificationContext);
+  const { notifications, markAllRead } = useContext(NotificationContext);
+
+useEffect(() => {
+  markAllRead();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   return (
     <div className="notification-page">

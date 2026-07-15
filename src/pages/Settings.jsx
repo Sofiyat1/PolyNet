@@ -48,11 +48,6 @@ function Settings() {
         <div className="settings-list">
 
           <div className="settings-item">
-            <FiEye />
-            <span>Default Post Mode</span>
-          </div>
-
-          <div className="settings-item">
             <FiLock />
             <span>Connection Rules</span>
           </div>

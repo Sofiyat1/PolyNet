@@ -60,7 +60,7 @@ const Login = () => {
 
           return;
         }
-
+        toast.success("Login successful!");
         navigate("/homepage");
 
       } catch (err) {
@@ -86,8 +86,7 @@ const Login = () => {
       type: "signup",
       email: formik.values.email,
       options: {
-        emailRedirectTo: `${import.meta.env.VITE_APP_URL}/login`,
-      },
+emailRedirectTo: `${import.meta.env.VITE_APP_URL}/auth/callback`,      },
     });
 
     if (error) {

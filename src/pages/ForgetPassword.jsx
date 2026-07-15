@@ -1,12 +1,12 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../index.css"; // only if needed
+import { supabase } from "../lib/supabase";
+import toast from "react-hot-toast";
 const ForgetPassword = () => {
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
             email: "",

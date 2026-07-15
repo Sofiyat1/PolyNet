@@ -32,9 +32,7 @@ function ProfilePage() {
   const [profile, setProfile] = useState(null);
   const { posts } = usePosts();
 
-  // ==============================
   // CONNECTIONS
-  // ==============================
   const [connections, setConnections] = useState([]);
   const [expandedUser, setExpandedUser] = useState(null);
 
@@ -82,9 +80,7 @@ function ProfilePage() {
     }, 180);
   };
 
-  // ==============================
   // CONNECTION ACTIONS
-  // ==============================
 
   const toggleConnection = (id) => {
     setExpandedUser((prev) => (prev === id ? null : id));

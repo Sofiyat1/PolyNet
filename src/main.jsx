@@ -6,7 +6,7 @@ import "./index.css";
 import App from "./App.jsx";
 
 import PostProvider from "./providers/PostProvider.jsx";
-import ViewerProvider from "./providers/ViewerProvider.jsx";
+//import ViewerProvider from "./providers/ViewerProvider.jsx";
 import ConnectionProvider from "./providers/ConnectionProvider.jsx";
 import NotificationProvider from "./providers/NotificationProvider.jsx";
 
@@ -14,14 +14,14 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <NotificationProvider>
       <ConnectionProvider>
-        <ViewerProvider>
+        {/*<ViewerProvider>*/}
           <PostProvider>
             <BrowserRouter basename="/">
               <App />
               <Toaster position="top-center"/>
             </BrowserRouter> 
           </PostProvider>
-        </ViewerProvider>
+        {/*</ViewerProvider>*/}
       </ConnectionProvider>
     </NotificationProvider>
   </StrictMode>,

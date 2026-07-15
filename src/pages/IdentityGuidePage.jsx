@@ -102,7 +102,7 @@ function IdentityGuidePage() {
 
       {/* SIMULATION */}
       <section className="guide-section">
-        <h2>Viewer Simulation</h2>
+        {/*<h2>Viewer Simulation</h2>
 
         <div className="simulation-card">
           <p>
@@ -115,7 +115,7 @@ function IdentityGuidePage() {
             This allows visibility rules to be verified by switching between
             access levels.
           </p>
-        </div>
+        </div>*/}
 
         <div className="enter-app">
           <button className="enter-app-btn" onClick={() => navigate("/signup")}>

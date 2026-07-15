@@ -5,27 +5,28 @@ import { FiSettings, FiMenu, FiShield } from "react-icons/fi";
 import { FaCog } from "react-icons/fa";
 
 import { NavLink, Link } from "react-router-dom";
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect } from "react";
+//import { useContext } from "react";
 
-import { ViewerContext } from "../context/ViewerContext";
-import { ConnectionContext } from "../context/ConnectionContext";
+//import { ViewerContext } from "../context/ViewerContext";
+//import { ConnectionContext } from "../context/ConnectionContext";
 
 import { NotificationContext } from "../context/NotificationContext";
 
 function Navbar({ variant = "app", scrollRef }) {
   const [open, setOpen] = useState(false);
-  const [showSimMenu, setShowSimMenu] = useState(false);
+ // const [showSimMenu, setShowSimMenu] = useState(false);
   const [visible, setVisible] = useState(true);
 
   const menuRef = useRef(null);
-  const simRef = useRef(null);
+  //const simRef = useRef(null);
   const navRef = useRef(null);
 
-  const { viewer, setViewer } = useContext(ViewerContext);
-  const { connections } = useContext(ConnectionContext);
+  //const { viewer, setViewer } = useContext(ViewerContext);
+  //const { connections } = useContext(ConnectionContext);
 
   // CLOSE ON OUTSIDE CLICK (FIXED)
-  useEffect(() => {
+  /*useEffect(() => {
     function handleClickOutside(e) {
       const clickedSim = simRef.current?.contains(e.target);
       const clickedMenu = menuRef.current?.contains(e.target);
@@ -36,10 +37,10 @@ function Navbar({ variant = "app", scrollRef }) {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, []);*/
 
   // VIEWER MODE
-const { addNotification } =
+/*const { addNotification } =
   useContext(NotificationContext);
 
 const setViewerMode = (conn) => {
@@ -57,7 +58,7 @@ const setViewerMode = (conn) => {
   const exitViewer = () => {
     setViewer(null);
     setShowSimMenu(false);
-  };
+  };*/
 
   // SCROLL HIDE/SHOW
   useEffect(() => {
@@ -98,7 +99,7 @@ const setViewerMode = (conn) => {
       {/* RIGHT */}
       <div className="navbar-right">
         {/* SIMULATION TOOL */}
-        {variant !== "landing" && (
+        {/*{variant !== "landing" && (
           <div className="sim-wrapper" ref={simRef}>
             <FiShield
               size={20}
@@ -134,7 +135,7 @@ const setViewerMode = (conn) => {
               </div>
             )}
           </div>
-        )}
+        )}*/}
 
         {/* SETTINGS / MENU */}
         {variant === "landing" ? (

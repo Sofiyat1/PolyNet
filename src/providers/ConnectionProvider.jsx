@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ConnectionContext } from "../context/ConnectionContext";
 
 export default function ConnectionProvider({ children }) {
-  const [viewer, setViewer] = useState(null);
+  //const [viewer, setViewer] = useState(null);
 
   const [connections, setConnections] = useState([
     { id: 3, name: "Charlie", access: "standard" },
@@ -18,8 +18,8 @@ export default function ConnectionProvider({ children }) {
   return (
     <ConnectionContext.Provider
       value={{
-        viewer,
-        setViewer,
+        //viewer,
+        //setViewer,
         connections,
         setConnections,
         requests,

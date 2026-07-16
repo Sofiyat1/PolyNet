@@ -35,7 +35,7 @@ const blockedUsers = [
         <div className="settings-list">
           <Link to="/edit-profile" className="settings-link settings-item">
             <FiEdit3 />
-            <span> Edit True Profile</span>
+            <span> Edit Standard Profile</span>
           </Link>
 
           <Link

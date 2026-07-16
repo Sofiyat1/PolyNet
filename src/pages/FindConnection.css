@@ -31,9 +31,11 @@
   font-size: 12px;
   color: #777;
   line-height: 1.35;
-  width: 80%;
+  width: 50%;
 }
-
+.icon{
+    width: 30%;
+}
 .add-btn {
   display: flex;
   align-items: center;

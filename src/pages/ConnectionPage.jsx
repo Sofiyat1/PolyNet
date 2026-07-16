@@ -252,7 +252,7 @@ function ConnectionPage() {
               </div>
 
               <button className="add-btn" onClick={() => sendRequest(user)}>
-                <FiPlus />
+                <FiPlus className="icon" />
                 Add
               </button>
             </div>

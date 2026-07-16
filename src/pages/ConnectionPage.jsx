@@ -13,7 +13,7 @@ import {
   sendConnectionRequest,
   acceptRequest,
   rejectRequest,
-} from "../lib/connectionService";
+} from "../lib/ConnectionService";
 
 function ConnectionPage() {
   const { addNotification } = useContext(NotificationContext);
@@ -75,12 +75,6 @@ function ConnectionPage() {
     try {
       await sendConnectionRequest(user.id);
 
-      addNotification({
-        type: "connection",
-        message: `Connection request sent to ${user.name}`,
-        visibility: "owner",
-      });
-
       toast.success("Connection request sent.");
 
       setUsers((prev) =>
@@ -100,11 +94,6 @@ function ConnectionPage() {
     try {
       await acceptRequest(request.id, access);
 
-      addNotification({
-        type: "connection",
-        message: `${request.name} added as a ${access} connection`,
-        visibility: "owner",
-      });
 
       toast.success("Connection accepted.");
 

@@ -115,6 +115,18 @@ export const fetchUsers = async () => {
 export const sendConnectionRequest = async (receiverId) => {
   const user = await getCurrentUser();
 
+  if (!user) throw new Error("User not found.");
+
+  // Get sender's profile
+  const { data: profile, error: profileError } = await supabase
+    .from("Profiles")
+    .select("firstname, lastname")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError) throw profileError;
+
+  // Create connection request
   const { error } = await supabase.from("Connections").insert({
     sender_id: user.id,
     receiver_id: receiverId,
@@ -122,12 +134,37 @@ export const sendConnectionRequest = async (receiverId) => {
   });
 
   if (error) throw error;
+
+  // Create notification for receiver
+  const { error: notificationError } = await supabase
+    .from("Notifications")
+    .insert({
+      user_id: receiverId,
+      sender_id: user.id,
+      type: "connection",
+      message: `${profile.firstname} ${profile.lastname} sent you a connection request.`,
+      is_read: false,
+    });
+
+  if (notificationError) throw notificationError;
 };
 
 /**
  * Accept request
  */
 export const acceptRequest = async (requestId, accessLevel) => {
+  const user = await getCurrentUser();
+
+  // Get the connection request
+  const { data: connection, error: connectionError } = await supabase
+    .from("Connections")
+    .select("*")
+    .eq("id", requestId)
+    .single();
+
+  if (connectionError) throw connectionError;
+
+  // Update request
   const { error } = await supabase
     .from("Connections")
     .update({
@@ -137,16 +174,68 @@ export const acceptRequest = async (requestId, accessLevel) => {
     .eq("id", requestId);
 
   if (error) throw error;
+
+  // Get receiver's name
+  const { data: profile } = await supabase
+    .from("Profiles")
+    .select("firstname, lastname")
+    .eq("id", user.id)
+    .single();
+
+  // Notify sender
+  const { error: notificationError } = await supabase
+    .from("Notifications")
+    .insert({
+      user_id: connection.sender_id,
+      sender_id: user.id,
+      type: "connection",
+      message: `${profile.firstname} ${profile.lastname} accepted your connection request.`,
+      is_read: false,
+    });
+
+  if (notificationError) throw notificationError;
 };
 
 /**
  * Reject request
  */
 export const rejectRequest = async (requestId) => {
+  const user = await getCurrentUser();
+
+  // Get request first
+  const { data: connection, error: connectionError } = await supabase
+    .from("Connections")
+    .select("*")
+    .eq("id", requestId)
+    .single();
+
+  if (connectionError) throw connectionError;
+
+  // Delete request
   const { error } = await supabase
     .from("Connections")
     .delete()
     .eq("id", requestId);
 
   if (error) throw error;
+
+  // Get receiver profile
+  const { data: profile } = await supabase
+    .from("Profiles")
+    .select("firstname, lastname")
+    .eq("id", user.id)
+    .single();
+
+  // Notify sender
+  const { error: notificationError } = await supabase
+    .from("Notifications")
+    .insert({
+      user_id: connection.sender_id,
+      sender_id: user.id,
+      type: "connection",
+      message: `${profile.firstname} ${profile.lastname} declined your connection request.`,
+      is_read: false,
+    });
+
+  if (notificationError) throw notificationError;
 };

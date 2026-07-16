@@ -12,8 +12,10 @@ import { NotificationContext } from "../context/NotificationContext";
 function SubNavbar({ visible }) {
   const { notifications } = useContext(NotificationContext);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
-  return (
+  const unreadCount = notifications.filter(
+    (n) => !n.is_read
+  ).length;
+   return (
     <div className={`sub-navbar ${visible ? "" : "hide"}`}>
       <div className="sub-navbar-icons">
         <NavLink

@@ -1,0 +1,94 @@
+.request-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  border-radius: 14px;
+  background: #fff;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.row{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.avatar{
+  width:60px;
+  height:60px;
+}
+
+.avatar-image{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.avatar-placeholder{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#4a7cff;
+  color:white;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.text-block{
+  display:flex;
+  flex-direction:column;
+}
+
+.name{
+  font-weight:700;
+  margin:0;
+}
+
+.username{
+  color:gray;
+  margin:3px 0;
+}
+
+.msg{
+  color:#666;
+  font-size:14px;
+}
+
+.btn-group{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.btn-standard,
+.btn-decoy,
+.reject{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 14px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.btn-standard{
+  background:#0066ff;
+  color:white;
+}
+
+.btn-decoy{
+  background:#444;
+  color:white;
+}
+
+.reject{
+  background:#e53935;
+  color:white;
+}

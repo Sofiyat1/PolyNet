@@ -239,3 +239,50 @@ export const rejectRequest = async (requestId) => {
 
   if (notificationError) throw notificationError;
 };
+
+/**
+ * Fetch accepted connections
+ */
+export const fetchConnections = async () => {
+  const user = await getCurrentUser();
+
+  if (!user) return [];
+
+  const { data: connections, error } = await supabase
+    .from("Connections")
+    .select("*")
+    .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
+    .eq("status", "accepted");
+
+  if (error) throw error;
+
+  const formattedConnections = await Promise.all(
+    connections.map(async (connection) => {
+      const otherUserId =
+        connection.sender_id === user.id
+          ? connection.receiver_id
+          : connection.sender_id;
+
+      const { data: profile } = await supabase
+        .from("Profiles")
+        .select(`
+          firstname,
+          lastname,
+          username,
+          avatar_url
+        `)
+        .eq("id", otherUserId)
+        .single();
+
+      return {
+        id: connection.id,
+        name: `${profile?.firstname ?? ""} ${profile?.lastname ?? ""}`.trim(),
+        username: profile?.username,
+        avatar: profile?.avatar_url,
+        access: connection.access_level,
+      };
+    })
+  );
+
+  return formattedConnections;
+};

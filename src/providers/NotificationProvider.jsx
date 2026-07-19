@@ -5,13 +5,39 @@ import { supabase } from "../lib/supabase";
 function NotificationProvider({ children }) {
   const [notifications, setNotifications] = useState([]);
 
-  // Load notifications
-  useEffect(() => {
-    fetchNotifications();
+  // Fetch notifications
+  const fetchNotifications = async () => {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
+      if (!user) {
+        setNotifications([]);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("Notifications")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      setNotifications(data || []);
+    } catch (error) {
+      console.error("Failed to fetch notifications:", error);
+    }
+  };
+
+  // Load notifications + Realtime
+  useEffect(() => {
     let channel;
 
-    const subscribe = async () => {
+    const initialize = async () => {
+      await fetchNotifications();
+
       const {
         data: { user },
       } = await supabase.auth.getUser();
@@ -19,7 +45,7 @@ function NotificationProvider({ children }) {
       if (!user) return;
 
       channel = supabase
-        .channel(`notifications-${user.id}-${Date.now()}`)
+        .channel(`notifications-${user.id}`)
         .on(
           "postgres_changes",
           {
@@ -35,7 +61,7 @@ function NotificationProvider({ children }) {
         .subscribe();
     };
 
-    subscribe();
+    initialize();
 
     return () => {
       if (channel) {
@@ -44,71 +70,60 @@ function NotificationProvider({ children }) {
     };
   }, []);
 
-  const fetchNotifications = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) return;
-
-    const { data, error } = await supabase
-      .from("Notifications")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false });
-
-    if (!error && data) {
-      setNotifications(data);
-    }
-  };
-
   // Add notification
   const addNotification = async (notification) => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-    if (!user) return;
+      if (!user) return;
 
-    const { data, error } = await supabase
-      .from("Notifications")
-      .insert({
-        user_id: user.id,
-        sender_id: notification.sender_id || null,
-        type: notification.type,
-        message: notification.message,
-        is_read: false,
-      })
-      .select()
-      .single();
+      const { error } = await supabase
+        .from("Notifications")
+        .insert({
+          user_id: user.id,
+          sender_id: notification.sender_id || null,
+          type: notification.type,
+          message: notification.message,
+          is_read: false,
+        });
 
-    if (error) {
-      console.error(error);
-      return;
+      if (error) throw error;
+
+      // Don't update state here.
+      // The realtime subscription will receive the new notification.
+    } catch (error) {
+      console.error("Failed to add notification:", error);
     }
-
-    setNotifications((prev) => [data, ...prev]);
   };
 
   // Mark all notifications as read
   const markAllRead = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-    if (!user) return;
+      if (!user) return;
 
-    await supabase
-      .from("Notifications")
-      .update({ is_read: true })
-      .eq("user_id", user.id);
+      const { error } = await supabase
+        .from("Notifications")
+        .update({ is_read: true })
+        .eq("user_id", user.id)
+        .eq("is_read", false);
 
-    setNotifications((prev) =>
-      prev.map((n) => ({
-        ...n,
-        is_read: true,
-      }))
-    );
+      if (error) throw error;
+
+      setNotifications((prev) =>
+        prev.map((notification) => ({
+          ...notification,
+          is_read: true,
+        }))
+      );
+    } catch (error) {
+      console.error("Failed to mark notifications as read:", error);
+    }
   };
 
   return (

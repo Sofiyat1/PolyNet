@@ -1,18 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import "./Notification.css";
 import { NotificationContext } from "../context/NotificationContext";
-import { useContext } from "react";
+
 function Notification() {
-  const {
-    notifications,
-    markAllRead,
-  } = useContext(NotificationContext);
+  const { notifications, markAllRead } =
+    useContext(NotificationContext);
 
   useEffect(() => {
     markAllRead();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-
 
   return (
     <div className="notification-page">
@@ -24,18 +21,23 @@ function Notification() {
             No notifications yet
           </div>
         ) : (
-          notifications.map((notification) => (
+          notifications.map((notification, index) => (
             <div
-              key={notification.id}
-              className={`notification-card ${notification.is_read ? "read" : "unread"
-                }`}
+              key={notification.id || index}
+              className={`notification-card ${
+                notification.is_read ? "read" : "unread"
+              }`}
             >
               <p className="notification-message">
-                {notification.message}
+                {typeof notification.message === "string"
+                  ? notification.message
+                  : JSON.stringify(notification.message)}
               </p>
 
               <span className="notification-type">
-                {notification.type}
+                {typeof notification.type === "string"
+                  ? notification.type
+                  : "system"}
               </span>
             </div>
           ))

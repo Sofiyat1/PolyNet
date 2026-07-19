@@ -2,6 +2,7 @@ import { supabase } from "../lib/supabase";
 import { useState, useEffect } from "react";
 
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { fetchConnections } from "../lib/ConnectionService";
 //import { useContext } from "react";
 
 import "./ConnectionPage.css";
@@ -41,6 +42,7 @@ function ProfilePage() {
 
   useEffect(() => {
     getProfile();
+    loadConnections();
   }, []);
 
   async function getProfile() {
@@ -63,6 +65,15 @@ function ProfilePage() {
 
     setProfile(data);
   }
+
+  const loadConnections = async () => {
+  try {
+    const data = await fetchConnections();
+    setConnections(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const handleSwitch = () => {
     //if (isViewerMode) return;
@@ -241,10 +252,31 @@ function ProfilePage() {
                   onClick={() => toggleConnection(conn.id)}
                 >
                   <div className="row">
-                    <div className="avatar" />
+  {conn.avatar ? (
+    <img
+      src={conn.avatar}
+      alt={conn.name}
+      className="avatar"
+    />
+  ) : (
+    <div className="avatar avatar-fallback">
+      {conn.name
+        ?.split(" ")
+        .map((n) => n[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase()}
+    </div>
+  )}
 
-                    <p className="name">{conn.name}</p>
-                  </div>
+  <div className="text-block">
+    <p className="name">{conn.name}</p>
+
+    {conn.username && (
+      <p className="username">@{conn.username}</p>
+    )}
+  </div>
+</div>
 
                   <span>
                     {expandedUser === conn.id ? (

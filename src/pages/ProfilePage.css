@@ -335,6 +335,10 @@
   cursor: pointer;
 }
 
+.connection-header-row:hover {
+  opacity: 0.9;
+}
+
 .connection-header-row .row {
   display: flex;
   align-items: center;

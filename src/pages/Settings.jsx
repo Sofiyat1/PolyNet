@@ -18,34 +18,28 @@ import "./Settings.css";
 import { FaUserEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 function Settings() {
-
   const navigate = useNavigate();
   // logout function
 
   const handleLogout = async () => {
-    const confirmLogout = window.confirm(
-      "Are you sure you want to log out?"
-    );
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
 
     if (!confirmLogout) return;
 
-    const { error } = await supabase.auth.signOut();
+    navigate("/", { replace: true });
 
-    if (error) {
-      console.error("Logout failed:", error.message);
-      return;
-    }
+    setTimeout(async () => {
+      const { error } = await supabase.auth.signOut();
 
-    navigate("/login");
+      if (error) {
+        console.error("Logout failed:", error.message);
+      }
+    }, 50);
   };
 
   // Temporary data
   // TODO: Replace with Supabase
-  const blockedUsers = [
-    { id: 1 },
-    { id: 2 },
-    { id: 3 },
-  ];
+  const blockedUsers = [{ id: 1 }, { id: 2 }, { id: 3 }];
   return (
     <div className="settings-page">
       <h2 className="settings-title">Settings</h2>
@@ -113,10 +107,7 @@ function Settings() {
 
       {/* SESSION */}
       <section className="settings-section danger">
-        <div
-          className="settings-item logout"
-          onClick={handleLogout}
-        >
+        <div className="settings-item logout" onClick={handleLogout}>
           <FiLogOut />
           <span>Logout</span>
         </div>

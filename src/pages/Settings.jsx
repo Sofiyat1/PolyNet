@@ -39,7 +39,7 @@ function Settings() {
 
   // Temporary data
   // TODO: Replace with Supabase
-  const blockedUsers = [{ id: 1 }, { id: 2 }, { id: 3 }];
+  const blockedUsers = [];
   return (
     <div className="settings-page">
       <h2 className="settings-title">Settings</h2>

@@ -8,7 +8,7 @@ function BlockedUsers() {
   // TEMPORARY DATA
   // TODO: Replace with Supabase
   const [blockedUsers, setBlockedUsers] = useState([
-    {
+   /* {
       id: 1,
       name: "Alice Johnson",
       username: "@alice",
@@ -22,7 +22,7 @@ function BlockedUsers() {
       id: 3,
       name: "Sarah Williams",
       username: "@sarah",
-    },
+    },*/
   ]);
 
   const [selectedUser, setSelectedUser] = useState(null);

@@ -9,11 +9,11 @@ import {
   FiStar,
 } from "react-icons/fi";
 import { FaHeart, FaStar } from "react-icons/fa";
-
+import { formatDistanceToNow } from 'date-fns';
 function PostCard({ user, content, profilePic,
   mediaUrl,
   mediaType
-  , identity }) {
+  , identity, createdAt }) {
   const [liked, setLiked] = useState(false);
   const [starred, setStarred] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -41,7 +41,15 @@ function PostCard({ user, content, profilePic,
         )}
 
         <div className="post-user-info">
-          <span className="post-user">{user}</span>
+          <div className="post-user-header">
+            <span className="post-user">{user}</span>
+
+            <span className="post-time">
+              {formatDistanceToNow(new Date(createdAt), {
+                addSuffix: true,
+              })}
+            </span>
+          </div>
 
           <span className={`post-identity ${identity}`}>
             {identity === "decoy" ? "Decoy" : "Standard"}

@@ -67,13 +67,13 @@ function ProfilePage() {
   }
 
   const loadConnections = async () => {
-  try {
-    const data = await fetchConnections();
-    setConnections(data);
-  } catch (error) {
-    console.error(error);
-  }
-};
+    try {
+      const data = await fetchConnections();
+      setConnections(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleSwitch = () => {
     //if (isViewerMode) return;
@@ -130,26 +130,36 @@ function ProfilePage() {
   const current =
     activeMode === "standard"
       ? {
-          name: `${profile?.firstname || ""} ${profile?.lastname || ""}`,
-          username: profile?.username ? `@${profile.username}` : "@username",
-          bio: profile?.bio || "No bio yet.",
-          badge: "Verified Identity",
-        }
+        name: `${profile?.firstname || ""} ${profile?.lastname || ""}`,
+        username: profile?.username ? `@${profile.username}` : "@username",
+        bio: profile?.bio || "No bio yet.",
+        badge: "Verified Identity",
+      }
       : {
-          name: profile?.decoy_name || "Anonymous",
-          username: profile?.decoy_username
-            ? `@${profile.decoy_username}`
-            : "@anonymous",
-          bio: profile?.decoy_bio || "Protected identity.",
-          badge: "Protected Identity",
-        }; // viewer-aware filtering
-  /*const visiblePosts = isViewerMode
-    ? posts.filter((post) => post.identity === viewer.access)
-    : posts.filter((post) => post.identity === activeMode);*/
-  const visiblePosts = posts.filter((post) => post.identity === activeMode);
+        name: profile?.decoy_name || "Anonymous",
+        username: profile?.decoy_username
+          ? `@${profile.decoy_username}`
+          : "@anonymous",
+        bio: profile?.decoy_bio || "Protected identity.",
+        badge: "Protected Identity",
+      };
+
+
+  const visiblePosts = posts.filter((post) => {
+    return (
+      post.user_id === profile?.id &&
+      post.identity === activeMode
+    );
+  });
+  if (visiblePosts.length > 0) {
+    console.log(visiblePosts[0]);
+    console.log("Media URL:", visiblePosts[0].media_url);
+    console.log("Media Type:", visiblePosts[0].media_type);
+  }
+
   const visibleConnections = connections.filter(
-  (conn) => conn.access === activeMode
-);
+    (conn) => conn.access === activeMode
+  );
 
   if (!profile) {
     return (
@@ -221,11 +231,7 @@ function ProfilePage() {
         {/* INSIGHT (owner only) */}
 
         <div className="profile-insight-card">
-          <p>
-            {mode === "standard"
-              ? "This is your public-facing identity shown to trusted connections."
-              : "This is your protected identity shown only to selected connections."}
-          </p>
+
         </div>
 
         {/* CONNECTIONS */}
@@ -252,31 +258,31 @@ function ProfilePage() {
                   onClick={() => toggleConnection(conn.id)}
                 >
                   <div className="row">
-  {conn.avatar ? (
-    <img
-      src={conn.avatar}
-      alt={conn.name}
-      className="avatar"
-    />
-  ) : (
-    <div className="avatar avatar-fallback">
-      {conn.name
-        ?.split(" ")
-        .map((n) => n[0])
-        .join("")
-        .slice(0, 2)
-        .toUpperCase()}
-    </div>
-  )}
+                    {conn.avatar ? (
+                      <img
+                        src={conn.avatar}
+                        alt={conn.name}
+                        className="avatar"
+                      />
+                    ) : (
+                      <div className="avatar avatar-fallback">
+                        {conn.name
+                          ?.split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .slice(0, 2)
+                          .toUpperCase()}
+                      </div>
+                    )}
 
-  <div className="text-block">
-    <p className="name">{conn.name}</p>
+                    <div className="text-block">
+                      <p className="name">{conn.name}</p>
 
-    {conn.username && (
-      <p className="username">@{conn.username}</p>
-    )}
-  </div>
-</div>
+                      {conn.username && (
+                        <p className="username">@{conn.username}</p>
+                      )}
+                    </div>
+                  </div>
 
                   <span>
                     {expandedUser === conn.id ? (
@@ -327,20 +333,27 @@ function ProfilePage() {
               <p>No posts yet.</p>
             </div>
           ) : (
-            visiblePosts
-              .slice()
-              .reverse()
-              .map((post) => (
-                <PostCard
-                  key={post.id}
-                  user={post.user}
-                  content={post.content}
-                  media={post.media}
-                  avatar={post.avatar}
-                  username={post.username}
-                  identity={post.identity}
-                />
-              ))
+            visiblePosts.slice().reverse().map((post) => (
+              <PostCard
+                key={post.id}
+                user={
+                  post.identity === "standard"
+                    ? `${post.Profiles?.firstname} ${post.Profiles?.lastname}`
+                    : post.Profiles?.decoy_name
+                }
+                content={post.content}
+                profilePic={
+                  post.identity === "standard"
+                    ? post.Profiles?.avatar_url
+                    : post.Profiles?.decoy_avatar_url
+                }
+                mediaUrl={post.media_url}
+                mediaType={post.media_type}
+                identity={post.identity}
+                createdAt={post.created_at}
+
+              />
+            ))
           )}
         </div>
       </div>

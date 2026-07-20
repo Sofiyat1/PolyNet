@@ -50,6 +50,7 @@ const EditDecoyProfile = () => {
 
 
     const handleSave = async () => {
+        if (loading) return;
         setLoading(true);
 
         try {
@@ -85,9 +86,9 @@ const EditDecoyProfile = () => {
             const { error } = await supabase
                 .from("Profiles")
                 .update({
-                    decoy_name: profile.decoy_name.trim(),
-                    decoy_username: profile.decoy_username.trim(),
-                    decoy_bio: profile.decoy_bio.trim(),
+                    decoy_name: profile.decoy_name?.trim() || "",
+                    decoy_username: profile.decoy_username?.trim() || "",
+                    decoy_bio: profile.decoy_bio?.trim() || "",
                     decoy_avatar_url: avatarUrl,
                 })
                 .eq("id", user.id);

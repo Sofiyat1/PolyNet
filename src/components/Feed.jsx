@@ -1,8 +1,17 @@
 import "./Feed.css";
 import PostCard from "./PostCard";
+import usePosts from "../hooks/usePosts";
 
 function Feed({ posts }) {
+  const { loadingPosts } = usePosts();
 
+  if (loadingPosts) {
+  return (
+    <div className="feed-container">
+      <p className="loading-feed">Loading posts...</p>
+    </div>
+  );
+}
   return (
     <div className="feed-container">
       {posts.length === 0 ? (

@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabase";
 
 function PostProvider({ children }) {
   const [posts, setPosts] = useState([]);
+  const [loadingPosts, setLoadingPosts] = useState(true);
 
   useEffect(() => {
     getPosts();
@@ -21,6 +22,8 @@ function PostProvider({ children }) {
   }, []);
 
   async function getPosts() {
+    setLoadingPosts(true);
+
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -49,14 +52,16 @@ function PostProvider({ children }) {
 
     if (error) {
       console.error(error);
+      setLoadingPosts(false);
       return;
     }
 
     setPosts(data);
+    setLoadingPosts(false);
   }
 
   return (
-    <PostContext.Provider value={{ posts, getPosts }}>
+    <PostContext.Provider value={{ posts, getPosts, loadingPosts }}>
       {children}
     </PostContext.Provider>
   );

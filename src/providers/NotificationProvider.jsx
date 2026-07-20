@@ -43,7 +43,7 @@ function NotificationProvider({ children }) {
       } = await supabase.auth.getUser();
 
       if (!user) return;
-
+      console.log("Creating notification channel...");
       channel = supabase
         .channel(`notifications-${user.id}`)
         .on(
@@ -64,6 +64,8 @@ function NotificationProvider({ children }) {
     initialize();
 
     return () => {
+      console.log("Removing notification channel...");
+
       if (channel) {
         supabase.removeChannel(channel);
       }

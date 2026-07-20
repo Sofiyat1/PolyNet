@@ -82,13 +82,12 @@
 
 /* MEDIA WRAPPER */
 
-  .post-media {
+.post-media {
   width: 100%;
   overflow: hidden;
   border-radius: 16px;
   background: #f5f5f5;
 }
-
 
 /* MEDIA ITEM */
 /* .post-media-item {
@@ -178,4 +177,21 @@
 
 .active-save {
   color: #f4b400;
+}
+
+/* time user make the post styling*/
+.post-user-info {
+  flex: 1;
+}
+
+.post-user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-time {
+  font-size: 12px;
+  color: #777;
+  white-space: nowrap;
 }

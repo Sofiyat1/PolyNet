@@ -11,7 +11,7 @@ import ConnectionProvider from "./providers/ConnectionProvider.jsx";
 import NotificationProvider from "./providers/NotificationProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <NotificationProvider>
       <ConnectionProvider>
         {/*<ViewerProvider>*/}
@@ -24,5 +24,5 @@ createRoot(document.getElementById("root")).render(
         {/*</ViewerProvider>*/}
       </ConnectionProvider>
     </NotificationProvider>
-  </StrictMode>,
+  // </StrictMode>,
 );

@@ -27,6 +27,8 @@ function Feed({ posts }) {
             identity={post.identity}
             mediaUrl={post.media_url}
             mediaType={post.media_type}
+            createdAt={post.created_at}
+
           />
         ))
       )}

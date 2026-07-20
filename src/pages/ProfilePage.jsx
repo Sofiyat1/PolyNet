@@ -2,7 +2,10 @@ import { supabase } from "../lib/supabase";
 import { useState, useEffect } from "react";
 
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
-import { fetchConnections } from "../lib/ConnectionService";
+import {
+  fetchConnections,
+  updateConnectionAccess,
+} from "../lib/ConnectionService";
 //import { useContext } from "react";
 
 import "./ConnectionPage.css";
@@ -102,19 +105,31 @@ function ProfilePage() {
     setSelectedAccess(conn.access);
   };
 
-  const confirmAccessChange = () => {
-    // TODO:
-    // Backend developer updates the connection access in Supabase
+const confirmAccessChange = async () => {
+  try {
+    await updateConnectionAccess(
+      activeUser.id,
+      selectedAccess
+    );
 
     setConnections((prev) =>
       prev.map((conn) =>
-        conn.id === activeUser.id ? { ...conn, access: selectedAccess } : conn,
-      ),
+        conn.id === activeUser.id
+          ? {
+              ...conn,
+              access: selectedAccess,
+            }
+          : conn
+      )
     );
 
     setActiveUser(null);
     setSelectedAccess(null);
-  };
+  } catch (error) {
+    console.error(error);
+    alert("Couldn't update access.");
+  }
+};
 
   const handleBlock = (conn) => {
     // TODO:

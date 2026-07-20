@@ -286,3 +286,20 @@ export const fetchConnections = async () => {
 
   return formattedConnections;
 };
+
+/**
+ * Update a connection's access level
+ */
+export const updateConnectionAccess = async (
+  connectionId,
+  accessLevel
+) => {
+  const { error } = await supabase
+    .from("Connections")
+    .update({
+      access_level: accessLevel,
+    })
+    .eq("id", connectionId);
+
+  if (error) throw error;
+};

@@ -81,10 +81,10 @@ function Settings() {
         <h3>Connections</h3>
 
         <div className="settings-list">
-          <div className="settings-item">
+          <Link to="/manage-connections" className="settings-item settings-link">
             <FiUsers />
             <span>Manage Connections</span>
-          </div>
+          </Link>
 
           <Link to="/blocked-users" className="settings-item settings-link">
             <FiSlash />
@@ -98,11 +98,10 @@ function Settings() {
         <h3>Appearance</h3>
 
         <div className="settings-list">
-          <div className="settings-item">
+            <Link to="/theme" className="settings-item settings-link">
             <FiMoon />
-            <span>Theme</span>
+            <span>Theme</span></Link>
           </div>
-        </div>
       </section>
 
       {/* SESSION */}

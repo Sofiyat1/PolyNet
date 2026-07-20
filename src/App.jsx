@@ -32,6 +32,8 @@ import AuthLayout from "./pages/AuthLayout";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
 import BlockedUsers from "./pages/BlockedUsers";
+import Theme from "./pages/Theme";
+import ManageConnections from "./pages/ManageConnections";
 
 function App() {
   return (
@@ -81,6 +83,8 @@ function App() {
           <Route path="edit-profile" element={<EditTrueProfile />} />
           <Route path="edit-decoy-profile" element={<EditDecoyProfile />} />
           <Route path="/blocked-users" element={<BlockedUsers />} />
+          <Route path="/theme" element={<Theme />} />
+          <Route path="/manage-connections" element={<ManageConnections />} />
         </Route>
       </Routes>
     </Wrapper>

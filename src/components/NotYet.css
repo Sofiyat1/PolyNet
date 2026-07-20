@@ -1,0 +1,53 @@
+.notyet-page {
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  background: #f7f8fa;
+  box-sizing: border-box;
+}
+
+.notyet-icon {
+  font-size: 64px;
+  color: #179c65;
+}
+
+.notyet-page h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #041122;
+  font-weight: 700;
+}
+
+.notyet-page p {
+  margin: 0;
+  max-width: 320px;
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.notyet-page button {
+  margin-top: 12px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  background: #179c65;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.notyet-page button:hover {
+  background: #148554;
+}
+
+.notyet-page button:active {
+  transform: scale(0.97);
+}

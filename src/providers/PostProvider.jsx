@@ -1,16 +1,38 @@
 import { useState, useEffect } from "react";
 import PostContext from "../context/PostContext";
 import { supabase } from "../lib/supabase";
+
 function PostProvider({ children }) {
   const [posts, setPosts] = useState([]);
+
   useEffect(() => {
     getPosts();
-  }, [])
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        getPosts();
+      } else {
+        setPosts([]);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   async function getPosts() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      setPosts([]);
+      return;
+    }
     const { data, error } = await supabase
       .from("Posts")
-      .select(`
+      .select(
+        `
     *,
     Profiles !Posts_user_id_fkey (
       firstname,
@@ -21,12 +43,12 @@ function PostProvider({ children }) {
       decoy_username,
       decoy_avatar_url
     )
-  `)
+  `,
+      )
       .order("created_at", { ascending: false });
 
     if (error) {
-      console.error('Error',error);
-      console.error('data',data);
+      console.error(error);
       return;
     }
 

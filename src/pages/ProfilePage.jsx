@@ -2,16 +2,17 @@ import { supabase } from "../lib/supabase";
 import { useState, useEffect } from "react";
 
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
-import {
-  fetchConnections,
-  updateConnectionAccess,
-} from "../lib/ConnectionService";
+
 //import { useContext } from "react";
 
 import "./ConnectionPage.css";
 
 import "./ProfilePage.css";
-
+import {
+  fetchConnections,
+  updateConnectionAccess,
+  blockUser,
+} from "../lib/ConnectionService.js";
 import { FiShield } from "react-icons/fi";
 import { MdVerifiedUser } from "react-icons/md";
 
@@ -105,39 +106,51 @@ function ProfilePage() {
     setSelectedAccess(conn.access);
   };
 
-const confirmAccessChange = async () => {
-  try {
-    await updateConnectionAccess(
-      activeUser.id,
-      selectedAccess
-    );
+  const confirmAccessChange = async () => {
+    try {
+      await updateConnectionAccess(
+        activeUser.id,
+        selectedAccess
+      );
 
-    setConnections((prev) =>
-      prev.map((conn) =>
-        conn.id === activeUser.id
-          ? {
+      setConnections((prev) =>
+        prev.map((conn) =>
+          conn.id === activeUser.id
+            ? {
               ...conn,
               access: selectedAccess,
             }
-          : conn
-      )
+            : conn
+        )
+      );
+
+      setActiveUser(null);
+      setSelectedAccess(null);
+    } catch (error) {
+      console.error(error);
+      alert("Couldn't update access.");
+    }
+  };
+
+  const handleBlock = async (conn) => {
+    const confirmBlock = window.confirm(
+      `Block ${conn.name}?`
     );
 
-    setActiveUser(null);
-    setSelectedAccess(null);
-  } catch (error) {
-    console.error(error);
-    alert("Couldn't update access.");
-  }
-};
+    if (!confirmBlock) return;
 
-  const handleBlock = (conn) => {
-    // TODO:
-    // Backend developer:
-    // 1. Insert into BlockedUsers
-    // 2. Remove from Connections
+    try {
+      await blockUser(conn);
 
-    console.log("Block user:", conn.name);
+      setConnections((prev) =>
+        prev.filter((c) => c.id !== conn.id)
+      );
+
+      alert("User blocked successfully.");
+    } catch (error) {
+      console.error(error);
+      alert("Unable to block user.");
+    }
   };
 
   const activeMode = mode;

@@ -69,10 +69,10 @@ function Settings() {
         <h3>Privacy</h3>
 
         <div className="settings-list">
-          <div className="settings-item">
+          <Link to="/connection-rules" className="settings-item settings-link">
             <FiLock />
             <span>Connection Rules</span>
-          </div>
+          </Link>
         </div>
       </section>
 

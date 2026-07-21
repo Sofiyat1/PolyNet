@@ -34,6 +34,7 @@ import ResetPassword from "./pages/ResetPassword";
 import BlockedUsers from "./pages/BlockedUsers";
 import Theme from "./pages/Theme";
 import ManageConnections from "./pages/ManageConnections";
+import ConnectionRules from "./pages/ConnectionRules";
 
 function App() {
   return (
@@ -85,6 +86,7 @@ function App() {
           <Route path="/blocked-users" element={<BlockedUsers />} />
           <Route path="/theme" element={<Theme />} />
           <Route path="/manage-connections" element={<ManageConnections />} />
+          <Route path="/connection-rules" element={<ConnectionRules />} />
         </Route>
       </Routes>
     </Wrapper>

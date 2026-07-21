@@ -265,23 +265,30 @@ export const fetchConnections = async () => {
 
       const { data: profile } = await supabase
         .from("Profiles")
-        .select(`
+        .select(
+          `
           firstname,
           lastname,
           username,
           avatar_url
-        `)
+        `,
+        )
         .eq("id", otherUserId)
         .single();
 
       return {
         id: connection.id,
+
+        sender_id: connection.sender_id,
+        receiver_id: connection.receiver_id,
+
         name: `${profile?.firstname ?? ""} ${profile?.lastname ?? ""}`.trim(),
         username: profile?.username,
         avatar: profile?.avatar_url,
+
         access: connection.access_level,
       };
-    })
+    }),
   );
 
   return formattedConnections;
@@ -290,16 +297,86 @@ export const fetchConnections = async () => {
 /**
  * Update a connection's access level
  */
-export const updateConnectionAccess = async (
-  connectionId,
-  accessLevel
-) => {
+export const updateConnectionAccess = async (connectionId, accessLevel) => {
   const { error } = await supabase
     .from("Connections")
     .update({
       access_level: accessLevel,
     })
     .eq("id", connectionId);
+
+  if (error) throw error;
+};
+
+/**
+ * Block a connected user
+ */
+export const blockUser = async (connection) => {
+  const user = await getCurrentUser();
+
+  if (!user) throw new Error("User not found.");
+
+  // Determine who is being blocked
+  const blockedId =
+    connection.sender_id === user.id
+      ? connection.receiver_id
+      : connection.sender_id;
+
+  // Save block
+  const { error: blockError } = await supabase.from("BlockedUsers").insert({
+    blocker_id: user.id,
+    blocked_id: blockedId,
+  });
+
+  if (blockError) throw blockError;
+
+  // Remove connection
+  const { error: connectionError } = await supabase
+    .from("Connections")
+    .delete()
+    .eq("id", connection.id);
+
+  if (connectionError) throw connectionError;
+};
+
+export const fetchBlockedUsers = async () => {
+  const user = await getCurrentUser();
+
+  if (!user) return [];
+
+  const { data, error } = await supabase
+    .from("BlockedUsers")
+    .select("*")
+    .eq("blocker_id", user.id);
+
+  if (error) throw error;
+
+  const blockedUsers = await Promise.all(
+    data.map(async (block) => {
+      const { data: profile } = await supabase
+        .from("Profiles")
+        .select("firstname, lastname, username, avatar_url")
+        .eq("id", block.blocked_id)
+        .single();
+
+      return {
+        id: block.id,
+        blocked_id: block.blocked_id,
+        name: `${profile?.firstname ?? ""} ${profile?.lastname ?? ""}`.trim(),
+        username: profile?.username,
+        avatar: profile?.avatar_url,
+      };
+    })
+  );
+
+  return blockedUsers;
+};
+
+export const unblockUser = async (blockId) => {
+  const { error } = await supabase
+    .from("BlockedUsers")
+    .delete()
+    .eq("id", blockId);
 
   if (error) throw error;
 };

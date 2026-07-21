@@ -1,43 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiSlash, FiArrowLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
-
+import {
+  fetchBlockedUsers,
+  unblockUser,
+} from "../lib/ConnectionService";
 import "./BlockedUsers.css";
 
 function BlockedUsers() {
   // TEMPORARY DATA
   // TODO: Replace with Supabase
-  const [blockedUsers, setBlockedUsers] = useState([
-   /* {
-      id: 1,
-      name: "Alice Johnson",
-      username: "@alice",
-    },
-    {
-      id: 2,
-      name: "David Brown",
-      username: "@david",
-    },
-    {
-      id: 3,
-      name: "Sarah Williams",
-      username: "@sarah",
-    },*/
-  ]);
+  const [blockedUsers, setBlockedUsers] = useState([]);
+
+  useEffect(() => {
+    loadBlockedUsers();
+  }, []);
+
+  const loadBlockedUsers = async () => {
+    try {
+      const data = await fetchBlockedUsers();
+      setBlockedUsers(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const confirmUnblock = () => {
+const confirmUnblock = async () => {
+  try {
+    await unblockUser(selectedUser.id);
+
     setBlockedUsers((prev) =>
       prev.filter((user) => user.id !== selectedUser.id)
     );
 
     setSelectedUser(null);
-
-    // TODO:
-    // Backend developer:
-    // Delete from BlockedUsers table
-  };
+  } catch (error) {
+    console.error(error);
+    alert("Unable to unblock user.");
+  }
+};
 
   return (
     <div className="blocked-page">

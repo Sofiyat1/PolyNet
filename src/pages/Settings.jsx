@@ -17,10 +17,25 @@ import { useNavigate } from "react-router-dom";
 import "./Settings.css";
 import { FaUserEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { fetchBlockedUsers } from "../lib/ConnectionService";
 function Settings() {
   const navigate = useNavigate();
   // logout function
+  const [blockedUsers, setBlockedUsers] = useState([]);
 
+  useEffect(() => {
+    loadBlockedUsers();
+  }, []);
+
+  const loadBlockedUsers = async () => {
+    try {
+      const data = await fetchBlockedUsers();
+      setBlockedUsers(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleLogout = async () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
 
@@ -39,7 +54,6 @@ function Settings() {
 
   // Temporary data
   // TODO: Replace with Supabase
-  const blockedUsers = [];
   return (
     <div className="settings-page">
       <h2 className="settings-title">Settings</h2>
@@ -98,10 +112,10 @@ function Settings() {
         <h3>Appearance</h3>
 
         <div className="settings-list">
-            <Link to="/theme" className="settings-item settings-link">
+          <Link to="/theme" className="settings-item settings-link">
             <FiMoon />
             <span>Theme</span></Link>
-          </div>
+        </div>
       </section>
 
       {/* SESSION */}

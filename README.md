@@ -1,20 +1,3 @@
- ## 📌 Portfolio Note
-
-This repository is a fork of the original **PolyNet** project, developed collaboratively as part of my Computer Science final-year project.
-
- ### My Contributions
-> - Frontend development with React.js
-> - User authentication integration using Supabase
-> - Standard & Decoy profile implementation
-> - Profile and Settings pages
-> - UI styling and responsiveness
-> - Bug fixing and testing
-> - Project documentation and report writing
-
-> This fork is included in my GitHub profile to showcase my contributions to the project while preserving the original work of the team.
-
-
-
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
